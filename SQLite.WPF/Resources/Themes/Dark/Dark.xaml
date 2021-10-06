@@ -22,7 +22,7 @@
     <!-- Global base styles -->
     <Style TargetType="{x:Type Window}">
         <Setter Property="Background" Value="{StaticResource ApplicationBackground}" />
-        <Setter Property="Icon" Value="Resources/Icons/Logo_32x32.png" />
+        <Setter Property="Icon" Value="/SQLite.WPF;component/Resources/Icons/Logo_32x32.png" />
     </Style>
 
     
