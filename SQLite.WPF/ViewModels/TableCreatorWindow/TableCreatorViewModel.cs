@@ -1,6 +1,5 @@
 ﻿using log4net;
 
-using SQLiteKei.Commands;
 using SQLiteKei.DataAccess.Database;
 using SQLiteKei.DataAccess.QueryBuilders;
 using SQLiteKei.Helpers;
@@ -13,6 +12,8 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using log = SQLiteKei.Helpers.Log;
+using System.Windows.Input;
+using ReactiveUI;
 
 namespace SQLiteKei.ViewModels.TableCreatorWindow
 {
@@ -20,6 +21,31 @@ namespace SQLiteKei.ViewModels.TableCreatorWindow
     {
 
         private DatabaseSelectItem selectedDatabase;
+        private string tableName;
+        private string sqlStatement;
+        private bool isValidTableDefinition;
+        private readonly ICommand addColumnCommand;
+        private readonly ICommand createCommand;
+
+
+        public TableCreatorViewModel()
+        {
+            Databases = new List<DatabaseSelectItem>();
+            ColumnDefinitions = new ObservableCollection<ColumnDefinitionItem>();
+            ForeignKeyDefinitions = new ObservableCollection<ForeignKeyDefinitionItem>();
+
+            ColumnDefinitions.CollectionChanged += CollectionContentChanged;
+            ForeignKeyDefinitions.CollectionChanged += CollectionContentChanged;
+
+            addColumnCommand = ReactiveCommand.Create(AddColumnDefinition);
+            addForeignKeyCommand = ReactiveCommand.Create(AddForeignKeyDefinition);
+            createCommand = ReactiveCommand.Create(Create);
+        }
+
+
+        public ICommand CreateCommand => createCommand;
+
+
         public DatabaseSelectItem SelectedDatabase
         {
             get { return selectedDatabase; }
@@ -40,7 +66,6 @@ namespace SQLiteKei.ViewModels.TableCreatorWindow
 
         public ObservableCollection<ForeignKeyDefinitionItem> ForeignKeyDefinitions { get; set; }
 
-        private string tableName;
         public string TableName
         {
             get { return tableName; }
@@ -52,14 +77,12 @@ namespace SQLiteKei.ViewModels.TableCreatorWindow
             }
         }
 
-        private string sqlStatement;
         public string SqlStatement
         {
             get { return sqlStatement; }
             set { sqlStatement = value; NotifyPropertyChanged("SqlStatement"); }
         }
 
-        private bool isValidTableDefinition;
         public bool IsValidTableDefinition
         {
             get { return isValidTableDefinition; }
@@ -73,19 +96,7 @@ namespace SQLiteKei.ViewModels.TableCreatorWindow
             set { statusInfo = value; NotifyPropertyChanged("StatusInfo"); }
         }
 
-        public TableCreatorViewModel()
-        {
-            Databases = new List<DatabaseSelectItem>();
-            ColumnDefinitions = new ObservableCollection<ColumnDefinitionItem>();
-            ForeignKeyDefinitions = new ObservableCollection<ForeignKeyDefinitionItem>();
 
-            ColumnDefinitions.CollectionChanged += CollectionContentChanged;
-            ForeignKeyDefinitions.CollectionChanged += CollectionContentChanged;
-
-            addColumnCommand = new DelegateCommand(AddColumnDefinition);
-            addForeignKeyCommand = new DelegateCommand(AddForeignKeyDefinition);
-            createCommand = new DelegateCommand(Create);
-        }
 
         private void CollectionContentChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -173,9 +184,8 @@ namespace SQLiteKei.ViewModels.TableCreatorWindow
             ColumnDefinitions.Add(new ColumnDefinitionItem());
         }
 
-        private readonly DelegateCommand addColumnCommand;
 
-        public DelegateCommand AddColumnCommand { get { return addColumnCommand; } }
+        public ICommand AddColumnCommand => addColumnCommand;
 
         public void AddForeignKeyDefinition()
         {
@@ -194,9 +204,9 @@ namespace SQLiteKei.ViewModels.TableCreatorWindow
             ForeignKeyDefinitions.Add(foreignKeyDefinition);
         }
 
-        private readonly DelegateCommand addForeignKeyCommand;
+        private readonly ICommand addForeignKeyCommand;
 
-        public DelegateCommand AddForeignKeyCommand { get { return addForeignKeyCommand; } }
+        public ICommand AddForeignKeyCommand { get { return addForeignKeyCommand; } }
 
         private void Create()
         {
@@ -229,8 +239,6 @@ namespace SQLiteKei.ViewModels.TableCreatorWindow
             }
         }
 
-        private readonly DelegateCommand createCommand;
 
-        public DelegateCommand CreateCommand { get { return createCommand; } }
     }
 }

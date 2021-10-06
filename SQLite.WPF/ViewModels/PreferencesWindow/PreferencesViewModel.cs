@@ -4,8 +4,9 @@ using SQLiteKei.Helpers;
 
 using System.Collections.Generic;
 using System;
-using SQLiteKei.Commands;
 using log = SQLiteKei.Helpers.Log;
+using System.Windows.Input;
+using ReactiveUI;
 
 namespace SQLiteKei.ViewModels.PreferencesWindow
 {
@@ -17,7 +18,7 @@ namespace SQLiteKei.ViewModels.PreferencesWindow
         //private readonly ILog log = Log.GetLogger();
         private string selectedLanguage;
         private string selectedTheme;
-        private readonly DelegateCommand applySettingsCommand;
+        private readonly ICommand applySettingsCommand;
 
 
         public PreferencesViewModel()
@@ -33,7 +34,7 @@ namespace SQLiteKei.ViewModels.PreferencesWindow
                 "Dark", "Light"
             };
 
-            applySettingsCommand = new DelegateCommand(ApplySettings);
+            applySettingsCommand = ReactiveCommand.Create(ApplySettings);
         }
 
         public List<string> AvailableLanguages { get; set; }
@@ -52,7 +53,7 @@ namespace SQLiteKei.ViewModels.PreferencesWindow
 
         public List<string> AvailableThemes { get; set; }
 
-        public DelegateCommand ApplySettingsCommand { get { return applySettingsCommand; } }
+        public ICommand ApplySettingsCommand => applySettingsCommand;
 
         public string SelectedLanguage
         {

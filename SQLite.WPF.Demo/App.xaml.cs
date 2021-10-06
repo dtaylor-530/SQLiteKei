@@ -1,14 +1,8 @@
 ﻿using Autofac;
-using log4net;
 using SQLiteKei.Helpers;
 using SQLiteKei.Views;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using log = SQLiteKei.Helpers.Log;
@@ -20,8 +14,7 @@ namespace SQLite.WPF.Demo
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
-    {
- 
+    { 
         public App()
         {
             var builder = new ContainerBuilder();

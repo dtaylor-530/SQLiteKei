@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using SQLiteKei.DataAccess.Exceptions;
-using SQLiteKei.DataAccess.Helpers;
 using SQLiteKei.DataAccess.Models;
 using SQLiteKei.DataAccess.QueryBuilders;
 

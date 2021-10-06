@@ -1,10 +1,5 @@
 ﻿using Autofac;
 using SQLiteKei.ViewModels.MainWindow;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SQLite.WPF.Meta
 {
