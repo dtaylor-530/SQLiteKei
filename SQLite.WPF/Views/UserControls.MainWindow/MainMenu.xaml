@@ -1,0 +1,25 @@
+﻿<Menu x:Class="SQLite.WPF.Views.UserControls.MainWindow.MainMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+           xmlns:localisation="clr-namespace:SQLite.WPF.Resources.Localisation" 
+      Background="{DynamicResource ApplicationBackground}"
+             mc:Ignorable="d" >
+
+    <MenuItem Header="{x:Static localisation:Resources.MenuItemHeader_File}">
+            <MenuItem Header="{x:Static localisation:Resources.MenuItemHeader_NewDatabase}" Click="CreateNewDatabase"/>
+            <MenuItem Header="{x:Static localisation:Resources.MenuItemHeader_OpenDatabase}" Click="OpenDatabase"/>
+            <Separator Background="Magenta"/>
+            <MenuItem Header="{x:Static localisation:Resources.MenuItemHeader_Exit}" Click="MenuItem_Exit_Click"/>
+        </MenuItem>
+        <MenuItem Header="{x:Static localisation:Resources.MenuItemHeader_Tools}">
+            <MenuItem Header="{x:Static localisation:Resources.MenuItemHeader_QueryEditor}" Click="OpenQueryEditor"/>
+            <MenuItem Header="{x:Static localisation:Resources.MenuItemHeader_Preferences}" Click="OpenPreferences"/>
+        </MenuItem>
+        <MenuItem Header="{x:Static localisation:Resources.MenuItemHeader_Help}">
+            <MenuItem Header="{x:Static localisation:Resources.MenuItemHeader_Documentation}" Click="OpenDocumentation"/>
+            <MenuItem Header="{x:Static localisation:Resources.MenuItemHeader_About}" Click="OpenAbout"/>
+        </MenuItem>
+    </Menu>
+
