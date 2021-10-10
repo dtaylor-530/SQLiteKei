@@ -10,12 +10,14 @@ namespace SQLite.ViewModel.Infrastructure.Service
         private readonly ILocaliser localiser;
         private readonly IMessageBoxService messageBoxService;
         private readonly TreeService treeService;
+        private readonly StatusService statusService;
 
-        public TableService(ILocaliser localiser, IMessageBoxService messageBoxService, TreeService treeService)
+        public TableService(ILocaliser localiser, IMessageBoxService messageBoxService, TreeService treeService, StatusService statusService)
         {
             this.localiser = localiser;
             this.messageBoxService = messageBoxService;
             this.treeService = treeService;
+            this.statusService = statusService;
         }
 
         public bool DeleteTable(TableItem tableItem)
@@ -40,6 +42,73 @@ namespace SQLite.ViewModel.Infrastructure.Service
                 Error("Failed to delete table '" + tableItem.DisplayName + "'.", ex);
                 return false;
             }
+        }
+
+        public void EmptyTable(TableItem tableItem)
+        {
+            var message = localiser["MessageBox_EmptyTable", tableItem.DisplayName];
+            var messageTitle = localiser["MessageBoxTitle_EmptyTable"];
+            var result = messageBoxService.ShowMessage(new(message, messageTitle, MessageBoxButton.YesNo, MessageBoxImage.Warning));
+
+            if (result != true)
+                return;
+
+            using (var tableHandler = new TableHandler(tableItem.DatabasePath))
+            {
+                try
+                {
+                    tableHandler.EmptyTable(tableItem.DisplayName);
+                }
+                catch (Exception ex)
+                {
+                    Error("Failed to empty table" + tableItem.DisplayName, ex);
+                    statusService.OnNext(ex.Message);
+                }
+
+            }
+
+        }
+
+        public void ReindexTable(TableItem tableItem)
+        {
+            var message = localiser["MessageBox_ReindexTable", tableItem.DisplayName];
+            var messageTitle = localiser["MessageBoxTitle_ReindexTable"];
+            var result = messageBoxService.ShowMessage(new(message, messageTitle, MessageBoxButton.YesNo, MessageBoxImage.Question));
+
+            if (result != true) return;
+
+            using (var tableHandler = new TableHandler(tableItem.DatabasePath))
+            {
+                try
+                {
+                    tableHandler.ReindexTable(tableItem.DisplayName);
+                }
+                catch (Exception ex)
+                {
+                    Error("Failed to empty table" + tableItem.DisplayName, ex);
+                    statusService.OnNext(ex.Message);
+                }
+            }
+        }
+
+        public void RenameTable(TableItem tableItem, string newName)
+        {
+            if (string.IsNullOrWhiteSpace(tableItem.DisplayName))
+            {
+                return;
+            }
+            try
+            {
+                using (var tableHandler = new TableHandler(tableItem.DatabasePath))
+                {
+                    tableHandler.RenameTable(tableItem.DisplayName, newName);
+                }
+            }
+            catch
+            {
+                //TODO decide what should happen in this case
+            }
+            return;
         }
     }
 }

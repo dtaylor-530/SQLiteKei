@@ -1,4 +1,4 @@
-﻿namespace SQLiteKei.ViewModels.MainTabControl.Tables
+﻿namespace SQLite.ViewModel.Infrastructure.Model
 {
     public class ColumnDataItem
     {

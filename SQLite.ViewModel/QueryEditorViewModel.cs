@@ -70,7 +70,8 @@ namespace SQLite.ViewModel
                 return;
             }
 
-            if (string.IsNullOrEmpty(SqlStatement)) return;
+            if (string.IsNullOrEmpty(SqlStatement))
+                return;
 
             if (string.IsNullOrEmpty(selectedText))
             {
@@ -85,20 +86,17 @@ namespace SQLite.ViewModel
             {
 
                 using var dbHandler = new DatabaseHandler(selectedDatabase.DatabasePath);
-
                 try
                 {
                     if (SqlStatement.StartsWith("SELECT", StringComparison.CurrentCultureIgnoreCase))
                     {
                         var queryResult = dbHandler.ExecuteReader(sqlStatement);
-
                         DataView = queryResult.DefaultView;
                         StatusInfo = string.Format("Rows returned: {0}", queryResult.Rows.Count);
                     }
                     else
                     {
                         var commandResult = dbHandler.ExecuteNonQuery(sqlStatement);
-
                         StatusInfo = string.Format("Rows affected: {0}", commandResult);
                     }
                 }

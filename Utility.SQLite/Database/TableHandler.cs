@@ -1,12 +1,12 @@
 ﻿//using log4net;
 using SQLiteKei.DataAccess.Database;
 using SQLiteKei.DataAccess.Exceptions;
-using SQLiteKei.DataAccess.Models;
 using SQLiteKei.DataAccess.QueryBuilders;
 using System.Data;
 using System.Data.SQLite;
 using Utility.Database;
 using Utility.SQLite.Helpers;
+using Utility.SQLite.Models;
 
 namespace Utility.SQLite.Database;
 

@@ -16,40 +16,33 @@ namespace SQLite.WPF.Infrastructure
         {
         }
 
-        public void SetFilter(string value)
-        {
-            this.searchString = value;
-        }
+        public void SetFilter(string value) => this.searchString = value;
 
-        public void Refresh()
-        {
-            dataGridCollection.Refresh();
-        }
+        public void Refresh() => dataGridCollection.Refresh();
 
         public void SetSource(DataTable dataTable)
         {
             dataGridCollection = new ListCollectionView(dataTable.DefaultView);
             if (dataGridCollection.CanFilter)
                 dataGridCollection.Filter = Filter;
+
+            bool Filter(object obj)
+            {
+                if (string.IsNullOrEmpty(searchString))
+                {
+                    return true;
+                }
+
+                if (obj is DataRowView { Row: { } row })
+                {
+                    return row.ItemArray
+                        .Select(entry => entry?.ToString())
+                        .Any(value => value?.Contains(searchString, StringComparison.OrdinalIgnoreCase) == true);
+                }
+                throw new Exception("40099095jfrfdfddf");
+            }
         }
 
         public IEnumerable Collection => dataGridCollection;
-
-        private bool Filter(object obj)
-        {
-            if (string.IsNullOrEmpty(searchString))
-            {
-                return true;
-            }
-
-            if (obj is DataRowView { Row: { } row })
-            {
-                return row.ItemArray
-                    .Select(entry => entry?.ToString())
-                    .Any(value => value?.Contains(searchString, StringComparison.OrdinalIgnoreCase) == true);
-            }
-            throw new Exception("40099095jfrfdfddf");
-        }
-
     }
 }

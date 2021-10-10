@@ -44,10 +44,10 @@ public class TabsFactory
             yield return new HeaderContent(
                 localiser["TabHeader_GeneralTable", tableItem.DisplayName],
                 factory.Build<TableGeneralViewModel>(new TableGeneralConfiguration(tableItem.DisplayName, tableItem.DatabasePath)));
+
             yield return new HeaderContent(
                 localiser["TabHeader_TableRecords"],
                 factory.Build<TableRecordsViewModel>(new TableRecordsConfiguration(tableItem.DisplayName, tableItem.DatabasePath)));
-
         }
 
         IEnumerable<HeaderContent> DefaultTabs() => Array.Empty<HeaderContent>();

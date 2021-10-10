@@ -6,7 +6,6 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Utility.Database;
-using Utility.SQLite.Database;
 using static SQLite.Common.Log;
 
 namespace SQLite.ViewModel
@@ -81,6 +80,7 @@ namespace SQLite.ViewModel
             var selectQuery = viewModelFactory.Build<SelectQueryViewModel>(new SelectQueryConfiguration(configuration.TableName, configuration.ConnectionPath));
             bool? vb = windowService.ShowWindow(new("GDFGDFG", selectQuery, ResizeMode.NoResize, Show.ShowDialog));
 
+            // Todo fix WindowService so that the result is meaningful
             //if (vb == true)
             //{
             statusService.OnNext(string.Empty);
@@ -94,22 +94,26 @@ namespace SQLite.ViewModel
             Info("Executing select query from SelectQuery window.\n" + selectQuery);
             try
             {
-                var dbHandler = new DatabaseHandler(treeService.SelectedItem.DatabasePath);
-                var resultTable = dbHandler.ExecuteReader(selectQuery);
+                var resultTable = treeService.ToDataTable(selectQuery);
                 listCollectionService.SetSource(resultTable);
                 statusService.OnNext(string.Format("Rows returned: {0}", resultTable.Rows.Count));
             }
             catch (Exception ex)
             {
                 Error("Select query failed.", ex);
-                var oneLineMessage = Regex.Replace(ex.Message, @"\n", " ");
-                oneLineMessage = Regex.Replace(oneLineMessage, @"\t|\r", "");
-                oneLineMessage = oneLineMessage.Replace("SQL logic error or missing database ", "SQL Error - ");
-
-                statusService.OnNext(oneLineMessage);
+                statusService.OnNext(ErrorMessage(ex));
             }
 
             this.RaisePropertyChanged(nameof(Collection));
+
+            static string ErrorMessage(Exception ex)
+            {
+                var oneLineMessage = Regex.Replace(ex.Message, @"\n", " ");
+                oneLineMessage = Regex.Replace(oneLineMessage, @"\t|\r", "");
+                oneLineMessage = oneLineMessage.Replace("SQL logic error or missing database ", "SQL Error - ");
+                return oneLineMessage;
+            }
+
         }
 
         public ICommand SelectCommand { get; }

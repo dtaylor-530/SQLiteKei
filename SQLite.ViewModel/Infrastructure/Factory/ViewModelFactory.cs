@@ -2,9 +2,6 @@
 
 namespace SQLite.ViewModel.Infrastructure.Factory
 {
-
-
-
     public class ViewModelFactory
     {
 

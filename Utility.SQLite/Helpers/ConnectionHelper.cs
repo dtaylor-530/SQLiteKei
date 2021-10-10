@@ -1,7 +1,7 @@
-﻿using SQLiteKei.DataAccess.Models;
-using System.Data;
+﻿using System.Data;
 using Utility.Database;
 using Utility.SQLite.Database;
+using Utility.SQLite.Models;
 
 namespace Utility.SQLite.Helpers
 {
@@ -13,20 +13,18 @@ namespace Utility.SQLite.Helpers
         public static IEnumerable<Column> Columns(this DataTable resultTable)
         {
             foreach (DataRow row in resultTable.Rows)
-            {
-                yield return new Column
-                {
-                    Id = Convert.ToInt32(row.ItemArray[0]),
-                    Name = (string)row.ItemArray[1],
-                    DataType = (string)row.ItemArray[2],
-                    IsNotNullable = Convert.ToBoolean(row.ItemArray[3]),
-                    DefaultValue = row.ItemArray[4],
-                    IsPrimary = Convert.ToBoolean(row.ItemArray[5])
-                };
-            }
+                yield return Map(row);
         }
 
-
+        private static Column Map(DataRow row) => new Column
+        {
+            Id = Convert.ToInt32(row.ItemArray[0]),
+            Name = (string)row.ItemArray[1],
+            DataType = (string)row.ItemArray[2],
+            IsNotNullable = Convert.ToBoolean(row.ItemArray[3]),
+            DefaultValue = row.ItemArray[4],
+            IsPrimary = Convert.ToBoolean(row.ItemArray[5])
+        };
 
         public static IReadOnlyCollection<TableInformation> TablesInformation(ConnectionPath FilePath)
         {
@@ -47,7 +45,6 @@ namespace Utility.SQLite.Helpers
             }
         }
 
-
         //public static IReadOnlyCollection<TableInformation> TablesInformation(TableHandler dbHandler)
         //{
         //    List<TableInformation> list = new();
@@ -56,7 +53,6 @@ namespace Utility.SQLite.Helpers
         //        {
         //        list.Add(Converter.MapToColumnData(column));
         //        }
-
 
         //}
     }

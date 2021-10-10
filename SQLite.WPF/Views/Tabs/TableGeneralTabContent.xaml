@@ -26,7 +26,7 @@
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBox Style="{DynamicResource SelectableLabelTextBox}" FontWeight="Bold" Text="{Binding TableNameKey, Mode=OneTime}"/>
-                    <TextBox Style="{DynamicResource SelectableLabelTextBox}" IsReadOnly="False" Text="{Binding TableName, Mode=OneTime}" />
+                    <TextBox Style="{DynamicResource SelectableLabelTextBox}" IsReadOnly="False" Text="{Binding TableName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"  />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBox Style="{DynamicResource SelectableLabelTextBox}" FontWeight="Bold" Text="{Binding ColumnsKey, Mode=OneTime}" />

@@ -1,17 +1,17 @@
-﻿namespace SQLiteKei.DataAccess.Models
+﻿namespace Utility.SQLite.Models
 {
     public class Column
     {
-        public int Id { get; set; }
+        public int Id { get; init; }
 
-        public string Name { get; set; }
+        public string Name { get; init; }
 
-        public string DataType { get; set; }
+        public string DataType { get; init; }
 
-        public bool IsNotNullable { get; set; }
+        public bool IsNotNullable { get; init; }
 
-        public object DefaultValue { get; set; }
+        public object DefaultValue { get; init; }
 
-        public bool IsPrimary { get; set; }
+        public bool IsPrimary { get; init; }
     }
 }

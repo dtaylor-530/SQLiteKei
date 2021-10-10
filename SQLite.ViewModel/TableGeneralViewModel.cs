@@ -1,14 +1,11 @@
 ﻿using ReactiveUI;
-using SQLite.Common;
 using SQLite.Common.Contracts;
+using SQLite.ViewModel.Infrastructure.Model;
 using SQLite.ViewModel.Infrastructure.Service;
-using SQLiteKei.DataAccess.Models;
-using SQLiteKei.ViewModels.MainTabControl.Tables;
 using System.Windows.Input;
 using Utility.Database;
 using Utility.SQLite.Database;
 using Utility.SQLite.Helpers;
-using static SQLite.Common.Log;
 
 namespace SQLite.ViewModel
 {
@@ -32,41 +29,34 @@ namespace SQLite.ViewModel
         private string tableName;
         private readonly ConnectionPath connectionPath;
         private readonly ILocaliser localiser;
-        private readonly IMessageBoxService messageBoxService;
-        private readonly StatusService statusService;
+        private readonly TableService tableService;
         private readonly List<ColumnDataItem> columnData = new();
 
         public TableGeneralViewModel(
             TableGeneralConfiguration tableGeneralConfiguration,
             ILocaliser localiser,
-            IMessageBoxService messageBoxService,
-            StatusService statusService)
+            TableService tableService)
         {
             this.tableName = tableGeneralConfiguration.TableName;
             this.connectionPath = tableGeneralConfiguration.ConnectionPath;
             this.localiser = localiser;
-            this.messageBoxService = messageBoxService;
-            this.statusService = statusService;
+            this.tableService = tableService;
             EmptyTableCommand = ReactiveCommand.Create(EmptyTable);
             ReindexTableCommand = ReactiveCommand.Create(ReindexTable);
 
-            Initialize(tableGeneralConfiguration.ConnectionPath);
-
-            void Initialize(ConnectionPath connectionPath)
+            using (var dbHandler = new TableHandler(tableGeneralConfiguration.ConnectionPath))
             {
-                using (var dbHandler = new TableHandler(connectionPath))
-                {
-                    TableCreateStatement = dbHandler.CreateStatement(TableName);
-                    RowCount = dbHandler.RowCount(TableName);
-                    var columns = dbHandler.DataTable(TableName).Columns().ToArray();
-                    ColumnCount = columns.Length;
+                TableCreateStatement = dbHandler.CreateStatement(TableName);
+                RowCount = dbHandler.RowCount(TableName);
+                var columns = dbHandler.DataTable(TableName).Columns().ToArray();
+                ColumnCount = columns.Length;
 
-                    foreach (var column in columns)
-                    {
-                        columnData.Add(Converter.MapToColumnData(column));
-                    }
+                foreach (var column in columns)
+                {
+                    columnData.Add(MapperService.MapToColumnData(column));
                 }
             }
+
         }
 
         public ICommand EmptyTableCommand { get; }
@@ -78,97 +68,23 @@ namespace SQLite.ViewModel
             set => this.RaiseAndSetIfChanged(ref rowCount, value);
         }
 
-        public int ColumnCount { get; private set; }
+        public int ColumnCount { get; }
 
-        public string TableCreateStatement { get; private set; }
+        public string TableCreateStatement { get; }
 
         public IReadOnlyCollection<ColumnDataItem> ColumnData => columnData;
 
-        public string TableName => tableName;
-
-        private string NewMethod(string value)
+        public string TableName
         {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return value;
-            }
-            try
-            {
-                using (var tableHandler = new TableHandler(connectionPath))
-                {
-                    tableHandler.RenameTable(tableName, value);
-                }
-            }
-            catch
-            {
-                //TODO decide what should happen in this case
-            }
-            return value;
+            get => tableName;
+            set => tableService.RenameTable(new TableItem(tableName, connectionPath), tableName = value);
         }
 
-        class Converter
-        {
-            public static ColumnDataItem MapToColumnData(Column column)
-            {
-                return new ColumnDataItem
-                {
-                    Name = column.Name,
-                    DataType = column.DataType,
-                    IsNotNullable = column.IsNotNullable,
-                    IsPrimary = column.IsPrimary,
-                    DefaultValue = column.DefaultValue
-                };
-            }
-        }
-        public void EmptyTable()
-        {
+        public void EmptyTable() => tableService.EmptyTable(new TableItem(tableName, connectionPath));
 
-            void EmptyTable(string tableName)
-            {
-                var message = localiser["MessageBox_EmptyTable", tableName];
-                var messageTitle = localiser["MessageBoxTitle_EmptyTable"];
-                var result = messageBoxService.ShowMessage(new(message, messageTitle, MessageBoxButton.YesNo, MessageBoxImage.Warning));
+        public void ReindexTable() => ReindexTable(tableService);
 
-                if (result != true)
-                    return;
-
-                using (var tableHandler = new TableHandler(connectionPath))
-                {
-                    try
-                    {
-                        tableHandler.EmptyTable(tableName);
-                    }
-                    catch (Exception ex)
-                    {
-                        Error("Failed to empty table" + tableName, ex);
-                        statusService.OnNext(ex.Message);
-                    }
-
-                }
-            }
-        }
-
-        public void ReindexTable()
-        {
-            var message = localiser["MessageBox_ReindexTable", tableName];
-            var messageTitle = localiser["MessageBoxTitle_ReindexTable"];
-            var result = messageBoxService.ShowMessage(new(message, messageTitle, MessageBoxButton.YesNo, MessageBoxImage.Question));
-
-            if (result != true) return;
-
-            using (var tableHandler = new TableHandler(connectionPath))
-            {
-                try
-                {
-                    tableHandler.ReindexTable(tableName);
-                }
-                catch (Exception ex)
-                {
-                    Error("Failed to empty table" + tableName, ex);
-                    statusService.OnNext(ex.Message);
-                }
-            }
-        }
+        public void ReindexTable(TableService tableService) => tableService.ReindexTable(new TableItem(tableName, connectionPath));
 
         public string AboutKey => localiser["TabContent_GroupBoxHeader_About"];
         public string TableNameKey => localiser["TableGeneralTab_TableName"];

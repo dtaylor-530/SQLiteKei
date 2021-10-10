@@ -1,11 +1,26 @@
 ﻿using ReactiveUI;
 using SQLite.Common.Contracts;
 using System.Collections.ObjectModel;
+using System.Data;
+using Utility.Database;
 using Utility.SQLite.Database;
 using static SQLite.Common.Log;
 
 namespace SQLite.ViewModel.Infrastructure.Service
 {
+    public static class TreeServiceHelper
+    {
+        public static ConnectionPath CurrentDatabasePath(this TreeService treeService)
+        {
+            return treeService.SelectedItem.DatabasePath;
+        }
+
+        public static DataTable ToDataTable(this TreeService treeService, string selectQuery)
+        {
+            return new DatabaseHandler(treeService.CurrentDatabasePath()).ExecuteReader(selectQuery);
+        }
+    }
+
     public class TreeService : ReactiveObject
     {
         private readonly ITreeRepository treeSaveHelper;

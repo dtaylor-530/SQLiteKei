@@ -25,10 +25,8 @@ namespace SQLite.WPF.Demo
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             Fatal("An unhandled exception was thrown and a message is shown to the user.", e.Exception);
-
             new UnhandledExceptionWindow().ShowDialog();
             e.Handled = true;
-
             Current.Shutdown();
         }
 
@@ -37,6 +35,7 @@ namespace SQLite.WPF.Demo
             //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(SQLite.Data.Settings.Default.UILanguage);
             base.OnStartup(e);
 
+            // registeration can't take place in the constructor
             WPF.Meta.BootStrapper.RegisterViews();
 
             Information();
