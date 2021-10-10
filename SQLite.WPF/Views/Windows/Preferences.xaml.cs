@@ -1,8 +1,6 @@
-﻿using SQLiteKei.ViewModels.PreferencesWindow;
+﻿using System.Windows;
 
-using System.Windows;
-
-namespace SQLiteKei.Views
+namespace SQLite.Views
 {
     /// <summary>
     /// Interaction logic for Preferences.xaml
@@ -11,7 +9,6 @@ namespace SQLiteKei.Views
     {
         public Preferences()
         {
-            DataContext = new PreferencesViewModel();
             InitializeComponent();
         }
 

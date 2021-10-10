@@ -1,12 +1,12 @@
-﻿<Window x:Name="Window" x:Class="SQLiteKei.Views.QueryEditor"
+﻿<Window x:Name="Window" x:Class="SQLite.Views.QueryEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:localisation="clr-namespace:SQLite.WPF.Resources.Localisation"
-        xmlns:cmodel="clr-namespace:SQLiteKei.ViewModels.Common"
+        xmlns:vm="clr-namespace:SQLite.ViewModel;assembly=SQLite.ViewModel"
         mc:Ignorable="d"
-        Title="{x:Static localisation:Resources.WindowTitle_QueryEditor}"
+        d:DataContext="{d:DesignInstance vm:QueryEditorViewModel}"
+        Title="{Binding Title, Mode=OneTime}"
         Height="500" Width="400" MinHeight="500" MinWidth="400">
     <Grid>
         <Grid.RowDefinitions>
@@ -17,29 +17,45 @@
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" Height="25">
-            <Label Content="{x:Static localisation:Resources.QueryEditor_Label_Database}" />
-            <ComboBox x:Name="DatabaseComboBox" Width="150" Height="20" ItemsSource="{Binding Databases}">
+            <Label Content="{Binding DatabaseKey}" />
+            <ComboBox x:Name="DatabaseComboBox" Width="150" Height="20" ItemsSource="{Binding Databases}" SelectedItem="{Binding SelectedDatabase}">
                 <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type cmodel:DatabaseSelectItem}">
-                        <TextBlock Text="{Binding DatabaseName}" VerticalAlignment="Center" ToolTip="{Binding DatabasePath}"></TextBlock>
+                    <DataTemplate DataType="{x:Type vm:DatabaseSelectItem}">
+                        <TextBlock
+                            Text="{Binding DatabaseName}"
+                            VerticalAlignment="Center"
+                            ToolTip="{Binding DatabasePath}"></TextBlock>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <TextBox x:Name="QueryBox"  VerticalAlignment="Stretch" Text="{Binding SqlStatement, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" Margin="5 0 5 5" IsInactiveSelectionHighlightEnabled="True"></TextBox>
+            <TextBox x:Name="QueryBox"  VerticalAlignment="Stretch"
+                     Text="{Binding SqlStatement, UpdateSourceTrigger=PropertyChanged}"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     Margin="5 0 5 5"
+                     IsInactiveSelectionHighlightEnabled="True"/>
         </ScrollViewer>
-        <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" Background="#3F3F46"/>
-        <DataGrid x:Name="QueryGrid" Grid.Row="3" HeadersVisibility="Column"></DataGrid>
+        <GridSplitter Grid.Row="2"
+                      HorizontalAlignment="Stretch"
+                      ResizeDirection="Rows"
+                      ResizeBehavior="PreviousAndNext"
+                      Background="#3F3F46"/>
+        <DataGrid x:Name="QueryGrid" Grid.Row="3" HeadersVisibility="Column" ItemsSource="{Binding DataView}"></DataGrid>
         <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Style="{StaticResource ButtonDark}" Grid.Column="0" Margin="5 3" Padding="5 0" Content="{x:Static localisation:Resources.ButtonText_Execute}" Click="Execute" />
-            <TextBox Grid.Column="1" Style="{StaticResource SelectableLabelTextBox}" Text="{Binding StatusInfo}"></TextBox>
-            <Button Style="{StaticResource ButtonDark}" Grid.Column="2" Margin="5 3" Padding="5 0" Content="{x:Static localisation:Resources.ButtonText_Cancel}" IsCancel="True" />
+            <Button Style="{DynamicResource ButtonDark}" Grid.Column="0" Margin="5 3" Padding="5 0"
+                   Command="{Binding ExecuteCommand}"
+                    Content="{Binding ExecuteKey}"/>
+            <TextBox Grid.Column="1" Style="{DynamicResource SelectableLabelTextBox}"
+                     Text="{Binding StatusInfo}"></TextBox>
+            <Button Style="{DynamicResource ButtonDark}" Grid.Column="2" Margin="5 3" Padding="5 0"
+                    Content="{Binding CancelKey}" IsCancel="True" />
         </Grid>
     </Grid>
 </Window>

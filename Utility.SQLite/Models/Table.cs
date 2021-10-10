@@ -1,11 +1,11 @@
-﻿namespace SQLiteKei.DataAccess.Models
+﻿namespace Utility.SQLite.Models
 {
     public class Table
     {
-        public string DatabaseName { get; set; }
+        public string DatabaseName { get; init; }
 
-        public string Name { get; set; }
+        public string Name { get; init; }
 
-        public string CreateStatement { get; set; }
+        public string CreateStatement { get; init; }
     }
 }

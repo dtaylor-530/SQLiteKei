@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="SQLite.Views.UserControls.DatabaseGeneralTabContent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:SQLite.ViewModel;assembly=SQLite.ViewModel"
+             xmlns:sys="clr-namespace:System;assembly=netstandard"
+             xmlns:conv="clr-namespace:SQLite.WPF.Infrastructure.Converter"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance  vm:DatabaseGeneralViewModel}"
+             HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <FrameworkElement.Resources>
+        <sys:Boolean x:Key="True">True</sys:Boolean>
+        <sys:Boolean x:Key="False">False</sys:Boolean>
+    </FrameworkElement.Resources>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="50" Height="Auto"></RowDefinition>
+            <RowDefinition MinHeight="50"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0" Header="{Binding Header, Mode=OneTime}" Margin="5" Width="Auto" Height="Auto">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Style="{DynamicResource SelectableLabelTextBox}" FontWeight="Bold" Text="{Binding DatabaseNameKey, Mode=OneTime}" />
+                    <TextBox Style="{DynamicResource SelectableLabelTextBox}" Text="{Binding Name, Mode=OneTime}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Style="{DynamicResource SelectableLabelTextBox}" FontWeight="Bold" Text="{Binding DatabasePathKey, Mode=OneTime}" />
+                    <TextBox Style="{DynamicResource SelectableLabelTextBox}" Text="{Binding FilePath, Mode=OneTime}"/>
+                    <TextBox Style="{DynamicResource SelectableLabelTextBox}" FontWeight="Bold" Text="{Binding FileSizeKey, Mode=OneTime}" />
+                    <TextBox Style="{DynamicResource SelectableLabelTextBox}" Text="{Binding FileSize, Mode=OneTime}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Style="{DynamicResource SelectableLabelTextBox}" FontWeight="Bold" Text="{Binding TablesKey, Mode=OneTime}" />
+                    <TextBox Style="{DynamicResource SelectableLabelTextBox}" Text="{Binding TableCount, Mode=OneTime}" />
+                    <TextBox Style="{DynamicResource SelectableLabelTextBox}" FontWeight="Bold" Text="{Binding RecordsKey, Mode=OneTime}" />
+                    <TextBox Style="{DynamicResource SelectableLabelTextBox}" Text="{Binding RowCount, Mode=OneTime}"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Grid.Row="1" Header="{Binding TablesKey}" Margin="5, 0, 5, 5" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="Auto">
+            <Grid Visibility="{Binding TableOverviewData.Count, Converter={x:Static conv:CountToVisibilityConverter.Instance}, ConverterParameter={StaticResource False}}">
+                <DataGrid x:Name="TableDataGrid" Grid.Column = "0" HorizontalAlignment="Left" Margin="5"
+                          ItemsSource="{Binding TableOverviewData, Mode=OneTime}" 
+                          VerticalAlignment="Top"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True" HeadersVisibility="Column">
+                <DataGrid.Columns>
+                        <DataGridTextColumn Header="{Binding TableNameKey, Mode=OneTime}" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="{Binding TableColumnsKey, Mode=OneTime}" Binding="{Binding ColumnCount}"/>
+                        <DataGridTextColumn Header="{Binding TableRecordsKey, Mode=OneTime}" Binding="{Binding RowCount}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Label x:Name="NoTablesFoundLabel" Content="{Binding NoTablesFoundKey}" 
+                   Visibility="{Binding TableOverviewData.Count, Converter={x:Static conv:CountToVisibilityConverter.Instance}, ConverterParameter={StaticResource True}}"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="DemiBold"/>
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</UserControl>

@@ -1,162 +1,158 @@
 ﻿//using log4net;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
+using SQLiteKei.DataAccess.Database;
 using SQLiteKei.DataAccess.Exceptions;
 using SQLiteKei.DataAccess.Models;
 using SQLiteKei.DataAccess.QueryBuilders;
+using System.Data;
+using System.Data.SQLite;
+using Utility.Database;
+using Utility.SQLite.Helpers;
 
-namespace SQLiteKei.DataAccess.Database
+namespace Utility.SQLite.Database;
+
+public class TableHandler : DisposableDbHandler
 {
-    public class TableHandler : DisposableDbHandler
+    public TableHandler(ConnectionPath databasePath) : base(databasePath)
     {
-       // private ILog logger = LogHelper.GetLogger();
+    }
 
-        public TableHandler(string databasePath) : base(databasePath)
+    /// <summary>
+    /// Gets the column meta data for the specified table.
+    /// </summary>
+    /// <param name="tableName">Name of the table.</param>
+    /// <returns></returns>
+    public Column[] Columns(string tableName)
+    {
+        using var command = Connection.CreateCommand();
+        command.CommandText = "PRAGMA table_info('" + tableName + "');";
+        var resultTable = new DataTable();
+        resultTable.Load(command.ExecuteReader());
+        return resultTable.Columns().ToArray();
+    }
+
+    /// <summary>
+    /// Gets the column meta data for the specified table.
+    /// </summary>
+    /// <param name="tableName">Name of the table.</param>
+    /// <returns></returns>
+    public DataTable DataTable(string tableName)
+    {
+        using (var command = Connection.CreateCommand())
         {
+            command.CommandText = "PRAGMA table_info('" + tableName + "');";
+            var resultTable = new DataTable();
+            resultTable.Load(command.ExecuteReader());
+            return resultTable;
         }
+    }
 
-        /// <summary>
-        /// Gets the column meta data for the specified table.
-        /// </summary>
-        /// <param name="tableName">Name of the table.</param>
-        /// <returns></returns>
-        public List<Column> GetColumns(string tableName)
+    /// <summary>
+    /// Gets the create statement for the specified table.
+    /// </summary>
+    /// <param name="tableName">Name of the table.</param>
+    /// <returns></returns>
+    /// <exception cref="TableNotFoundException">Could not find table: {tableName}</exception>
+    public string CreateStatement(string tableName)
+    {
+        var tables = Connection.GetSchema("Tables").AsEnumerable();
+
+        foreach (var table in tables)
         {
-            var columns = new List<Column>();
-
-            using (var command = connection.CreateCommand())
+            if (table.ItemArray[2].Equals(tableName))
             {
-                command.CommandText = "PRAGMA table_info('" + tableName + "');";
-
-                var resultTable = new DataTable();
-                resultTable.Load(command.ExecuteReader());
-
-                foreach (DataRow row in resultTable.Rows)
-                {
-                    columns.Add(new Column
-                    {
-                        Id = Convert.ToInt32(row.ItemArray[0]),
-                        Name = (string)row.ItemArray[1],
-                        DataType = (string)row.ItemArray[2],
-                        IsNotNullable = Convert.ToBoolean(row.ItemArray[3]),
-                        DefaultValue = row.ItemArray[4],
-                        IsPrimary = Convert.ToBoolean(row.ItemArray[5])
-                    });
-                }
-            }
-            return columns;
-        }
-
-        /// <summary>
-        /// Gets the create statement for the specified table.
-        /// </summary>
-        /// <param name="tableName">Name of the table.</param>
-        /// <returns></returns>
-        /// <exception cref="TableNotFoundException">Could not find table: {tableName}</exception>
-        public string GetCreateStatement(string tableName)
-        {
-            var tables = connection.GetSchema("Tables").AsEnumerable();
-
-            foreach (var table in tables)
-            {
-                if (table.ItemArray[2].Equals(tableName))
-                {
-                    return table.ItemArray[6].ToString();
-                }
-            }
-
-            //logger.Error("Could not find table '" + tableName + "'");
-            throw new TableNotFoundException(tableName);
-        }
-
-        /// <summary>
-        /// Gets the row count for the specified table.
-        /// </summary>
-        /// <param name="tableName">Name of the table.</param>
-        /// <returns></returns>
-        public long GetRowCount(string tableName)
-        {
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = QueryBuilder
-                .Select("count(*)")
-                .From("'" + tableName + "'")
-                .Build();
-
-                return Convert.ToInt64(command.ExecuteScalar());
+                return table.ItemArray[6].ToString();
             }
         }
 
-        /// <summary>
-        /// Drops the specified table from the given database. Sends a plain command to the database without any further error handling.
-        /// </summary>
-        /// <param name="tableName">Name of the table.</param>
-        public void DropTable(string tableName)
+        //Error("Could not find table '" + tableName + "'");
+        throw new TableNotFoundException(tableName);
+    }
+
+    /// <summary>
+    /// Gets the row count for the specified table.
+    /// </summary>
+    /// <param name="tableName">Name of the table.</param>
+    /// <returns></returns>
+    public long RowCount(string tableName)
+    {
+        using (var command = Connection.CreateCommand())
         {
-            using (var command = connection.CreateCommand())
+            command.CommandText = QueryBuilder
+            .Select("count(*)")
+            .From("'" + tableName + "'")
+            .Build();
+
+            return Convert.ToInt64(command.ExecuteScalar());
+        }
+    }
+
+    /// <summary>
+    /// Drops the specified table from the given database. Sends a plain command to the database without any further error handling.
+    /// </summary>
+    /// <param name="tableName">Name of the table.</param>
+    public void DropTable(string tableName)
+    {
+        using (var command = Connection.CreateCommand())
+        {
+            command.CommandText = QueryBuilder.Drop(tableName).Build();
+            command.ExecuteNonQuery();
+            //  Info("Dropped table '" + tableName + "'.");
+        }
+    }
+
+    /// <summary>
+    /// Renames the specified table.
+    /// </summary>
+    /// <param name="oldName">The old name.</param>
+    /// <param name="newName">The new name.</param>
+    public void RenameTable(string oldName, string newName)
+    {
+        using (var command = Connection.CreateCommand())
+        {
+            command.CommandText = "ALTER TABLE '" + oldName + "' RENAME TO '" + newName + "'";
+            command.ExecuteNonQuery();
+            // Info("Renamed table '" + oldName + "' to '" + newName + "'.");
+        }
+    }
+
+    /// <summary>
+    /// Deletes all rows from the specified table.
+    /// </summary>
+    /// <param name="tableName">Name of the table.</param>
+    public void EmptyTable(string tableName)
+    {
+        using (var command = Connection.CreateCommand())
+        {
+            command.CommandText = string.Format("DELETE FROM {0}", tableName);
+
+            try
             {
-                command.CommandText = QueryBuilder.Drop(tableName).Build();
                 command.ExecuteNonQuery();
-               // logger.Info("Dropped table '" + tableName + "'.");
+                //   Info("Emptied table '" + tableName + "'.");
             }
-        }
-
-        /// <summary>
-        /// Renames the specified table.
-        /// </summary>
-        /// <param name="oldName">The old name.</param>
-        /// <param name="newName">The new name.</param>
-        public void RenameTable(string oldName, string newName)
-        {
-            using (var command = connection.CreateCommand())
+            catch (SQLiteException ex)
             {
-                command.CommandText = "ALTER TABLE '" + oldName + "' RENAME TO '" + newName + "'";
-                command.ExecuteNonQuery();
-               // logger.Info("Renamed table '" + oldName + "' to '" + newName + "'.");
-            }
-        }
-
-        /// <summary>
-        /// Deletes all rows from the specified table.
-        /// </summary>
-        /// <param name="tableName">Name of the table.</param>
-        public void EmptyTable(string tableName)
-        {
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = string.Format("DELETE FROM {0}", tableName);
-
-                try
+                if (ex.Message.Contains("no such table"))
                 {
-                    command.ExecuteNonQuery();
-                   // logger.Info("Emptied table '" + tableName + "'.");
+                    //    Info("Could not empty table '" + tableName + "'. No such table found.");
+                    throw new TableNotFoundException(tableName);
                 }
-                catch(SQLiteException ex)
-                {
-                    if(ex.Message.Contains("no such table"))
-                    {
-                        //logger.Info("Could not empty table '" + tableName + "'. No such table found.");
-                        throw new TableNotFoundException(tableName);
-                    }
-                    throw;
-                }
+                throw;
             }
         }
+    }
 
-        /// <summary>
-        /// Reindexes the specified table.
-        /// </summary>
-        /// <param name="tableName"></param>
-        public void ReindexTable(string tableName)
+    /// <summary>
+    /// Reindexes the specified table.
+    /// </summary>
+    /// <param name="tableName"></param>
+    public void ReindexTable(string tableName)
+    {
+        using (var command = Connection.CreateCommand())
         {
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = string.Format("REINDEX '{0}'", tableName);
-                command.ExecuteNonQuery();
-               // logger.Info("Reindexed table '" + tableName + "'.");
-            }
+            command.CommandText = string.Format("REINDEX '{0}'", tableName);
+            command.ExecuteNonQuery();
+            // logger.Info("Reindexed table '" + tableName + "'.");
         }
     }
 }

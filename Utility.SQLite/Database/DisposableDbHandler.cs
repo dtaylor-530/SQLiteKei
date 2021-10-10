@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SQLite;
+using Utility.Database;
 
 namespace SQLiteKei.DataAccess.Database
 {
@@ -8,27 +9,30 @@ namespace SQLiteKei.DataAccess.Database
     /// </summary>
     public abstract class DisposableDbHandler : IDisposable
     {
-        protected SQLiteConnection connection;
-
-        protected DisposableDbHandler(string databasePath)
+        protected DisposableDbHandler(ConnectionPath connectionPath)
         {
-            InitializeConnection(databasePath);
+            Connection = InitializeConnection(connectionPath);
+            ConnectionPath = connectionPath;
         }
 
-        private void InitializeConnection(string databasePath)
+        protected SQLiteConnection Connection { get; }
+        protected ConnectionPath ConnectionPath { get; }
+
+        private SQLiteConnection InitializeConnection(ConnectionPath connectionPath)
         {
-            connection = new SQLiteConnection(databasePath)
+            var connection = new SQLiteConnection
             {
-                ConnectionString = string.Format("Data Source={0}", databasePath)
-            };
-
+                ConnectionString = string.Format("Data Source={0}", connectionPath.Path)
+            };       
+            
             connection.Open();
+            return connection;
         }
 
-        public void Dispose()
-        {
-            connection.Close();
-            connection.Dispose();
-        }
+    public void Dispose()
+    {
+        Connection.Close();
+        Connection.Dispose();
     }
+}
 }

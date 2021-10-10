@@ -1,6 +1,4 @@
-﻿using Splat;
-using SQLiteKei.ViewModels.MainWindow;
-
+﻿using SQLite.ViewModel;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,45 +6,28 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace SQLiteKei.Views
+namespace SQLite.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow
     {
-        private readonly MainWindowViewModel viewModel = Locator.Current.GetService<MainWindowViewModel>();
 
         public MainWindow()
         {
-            DataContext = viewModel;
             KeyDown += new KeyEventHandler(Window_KeyDown);
-            this.viewModel.TabItems.CollectionChanged += TabItems_CollectionChanged;
             InitializeComponent();
-
-        }
-
-        private void TabItems_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.OldItems != null)
-                foreach (var item in e.OldItems)
-                    MainTabControl.Items.Remove(item);
-
-            if (e.NewItems != null)
-                foreach (var item in e.NewItems)
-                    MainTabControl.Items.Add(item);
         }
 
         protected override void OnClosed(EventArgs e)
         {
-            viewModel.SaveTree();
+            (this.DataContext as MainWindowViewModel).Close();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
         }
-
-
 
         #region TreeViewRightClickEvent
         /// <summary>

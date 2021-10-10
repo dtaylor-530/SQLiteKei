@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SQLite.Data\SQLite.Data.csproj" />
     <ProjectReference Include="..\SQLite.WPF\SQLite.WPF.csproj" />
   </ItemGroup>
 

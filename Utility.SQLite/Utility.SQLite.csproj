@@ -9,4 +9,8 @@
     <PackageReference Include="System.Data.SQLite" Version="1.0.115" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Utility.Database\Utility.Database.csproj" />
+  </ItemGroup>
+
 </Project>

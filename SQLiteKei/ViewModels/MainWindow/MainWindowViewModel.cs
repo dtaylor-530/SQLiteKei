@@ -1,5 +1,4 @@
-﻿using System.Data.SqlClient;
-using log4net;
+﻿using log4net;
 using SQLiteKei.DataAccess.Database;
 using SQLiteKei.Helpers;
 using SQLiteKei.Helpers.Interfaces;
@@ -7,10 +6,9 @@ using SQLiteKei.ViewModels.Base;
 using SQLiteKei.ViewModels.DBTreeView;
 using SQLiteKei.ViewModels.DBTreeView.Base;
 using SQLiteKei.ViewModels.DBTreeView.Mapping;
-
 using System;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
@@ -44,7 +42,7 @@ namespace SQLiteKei.ViewModels.MainWindow
 
         public void OpenDatabase(string databasePath)
         {
-            if (TreeViewItems.Any(x => x.DatabasePath.Equals(databasePath))) 
+            if (TreeViewItems.Any(x => x.DatabasePath.Equals(databasePath)))
                 return;
 
             var schemaMapper = new SchemaToViewModelMapper();

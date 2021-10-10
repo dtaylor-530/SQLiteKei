@@ -1,232 +1,194 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="ViewModels\MainTabControl\indexes\**" />
-    <Compile Remove="ViewModels\MainTabControl\views\**" />
-    <EmbeddedResource Remove="ViewModels\MainTabControl\indexes\**" />
-    <EmbeddedResource Remove="ViewModels\MainTabControl\views\**" />
-    <None Remove="ViewModels\MainTabControl\indexes\**" />
-    <None Remove="ViewModels\MainTabControl\views\**" />
-    <Page Remove="ViewModels\MainTabControl\indexes\**" />
-    <Page Remove="ViewModels\MainTabControl\views\**" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Resources\Icons\Database_Close.png" />
-    <None Remove="Resources\Icons\Database_Delete.png" />
-    <None Remove="Resources\Icons\Database_New.png" />
-    <None Remove="Resources\Icons\Database_Open.png" />
-    <None Remove="Resources\Icons\Logo_128x128.png" />
-    <None Remove="Resources\Icons\Logo_16x16.png" />
-    <None Remove="Resources\Icons\Logo_256x256.png" />
-    <None Remove="Resources\Icons\Logo_32x32.png" />
-    <None Remove="Resources\Icons\Logo_64x64.png" />
-    <None Remove="Resources\Icons\Placeholder.png" />
-    <None Remove="Resources\Icons\Refresh.png" />
-    <None Remove="Resources\Icons\SQL_Statement.png" />
-    <None Remove="Resources\Icons\Table_New.png" />
-    <None Remove="Resources\Icons\TreeItem_Database.png" />
-    <None Remove="Resources\Icons\TreeItem_Folder.png" />
-    <None Remove="Resources\Icons\TreeItem_Index.png" />
-    <None Remove="Resources\Icons\TreeItem_Table.png" />
-    <None Remove="Resources\Icons\TreeItem_Trigger.png" />
-    <None Remove="Resources\Icons\TreeItem_View.png" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <Page Remove="Resources\Themes\Dark\Dark.xaml" />
-    <Page Remove="Resources\Themes\Dark\Dark_Button.xaml" />
-    <Page Remove="Resources\Themes\Dark\Dark_ComboBox.xaml" />
-    <Page Remove="Resources\Themes\Dark\Dark_DataGrid.xaml" />
-    <Page Remove="Resources\Themes\Dark\Dark_GroupBox.xaml" />
-    <Page Remove="Resources\Themes\Dark\Dark_Menu.xaml" />
-    <Page Remove="Resources\Themes\Dark\Dark_ScrollBar.xaml" />
-    <Page Remove="Resources\Themes\Dark\Dark_TabControl.xaml" />
-    <Page Remove="Resources\Themes\Dark\Dark_TextBox.xaml" />
-    <Page Remove="Resources\Themes\Dark\Dark_TreeView.xaml" />
-    <Page Remove="Resources\Themes\Light\Light.xaml" />
-    <Page Remove="Resources\Themes\Light\Light_Button.xaml" />
-    <Page Remove="Resources\Themes\Light\Light_ComboBox.xaml" />
-    <Page Remove="Resources\Themes\Light\Light_DataGrid.xaml" />
-    <Page Remove="Resources\Themes\Light\Light_GroupBox.xaml" />
-    <Page Remove="Resources\Themes\Light\Light_Menu.xaml" />
-    <Page Remove="Resources\Themes\Light\Light_ScrollBar.xaml" />
-    <Page Remove="Resources\Themes\Light\Light_TabControl.xaml" />
-    <Page Remove="Resources\Themes\Light\Light_TextBox.xaml" />
-    <Page Remove="Resources\Themes\Light\Light_TreeView.xaml" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SQLite.ViewModel\SQLite.ViewModel.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Themes\Dark\Dark.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Themes\Light\Light.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.37" />
+		<PackageReference Include="ReactiveUI.WPF" Version="16.2.6" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Utility.SQLite\Utility.SQLite.csproj" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.12" />
-    <PackageReference Include="ReactiveUI.WPF" Version="16.2.6" />
-    <PackageReference Include="Splat.Autofac" Version="9.5.20" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Resources\Icons\Database_Close.png" />
+		<None Remove="Resources\Icons\Database_Delete.png" />
+		<None Remove="Resources\Icons\Database_New.png" />
+		<None Remove="Resources\Icons\Database_Open.png" />
+		<None Remove="Resources\Icons\Logo_128x128.png" />
+		<None Remove="Resources\Icons\Logo_16x16.png" />
+		<None Remove="Resources\Icons\Logo_256x256.png" />
+		<None Remove="Resources\Icons\Logo_32x32.png" />
+		<None Remove="Resources\Icons\Logo_64x64.png" />
+		<None Remove="Resources\Icons\Placeholder.png" />
+		<None Remove="Resources\Icons\Refresh.png" />
+		<None Remove="Resources\Icons\SQL_Statement.png" />
+		<None Remove="Resources\Icons\Table_New.png" />
+		<None Remove="Resources\Icons\TreeItem_Database.png" />
+		<None Remove="Resources\Icons\TreeItem_Folder.png" />
+		<None Remove="Resources\Icons\TreeItem_Index.png" />
+		<None Remove="Resources\Icons\TreeItem_Table.png" />
+		<None Remove="Resources\Icons\TreeItem_Trigger.png" />
+		<None Remove="Resources\Icons\TreeItem_View.png" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Database_Close.png" />
-    <Resource Include="Resources\Icons\Database_Delete.png" />
-    <Resource Include="Resources\Icons\Database_New.png" />
-    <Resource Include="Resources\Icons\Database_Open.png" />
-    <Resource Include="Resources\Icons\Logo_128x128.png" />
-    <Resource Include="Resources\Icons\Logo_16x16.png" />
-    <Resource Include="Resources\Icons\Logo_256x256.png" />
-    <Resource Include="Resources\Icons\Logo_32x32.png" />
-    <Resource Include="Resources\Icons\Logo_64x64.png" />
-    <Resource Include="Resources\Icons\Placeholder.png" />
-    <Resource Include="Resources\Icons\Refresh.png" />
-    <Resource Include="Resources\Icons\SQL_Statement.png" />
-    <Resource Include="Resources\Icons\Table_New.png" />
-    <Resource Include="Resources\Icons\TreeItem_Database.png" />
-    <Resource Include="Resources\Icons\TreeItem_Folder.png" />
-    <Resource Include="Resources\Icons\TreeItem_Index.png" />
-    <Resource Include="Resources\Icons\TreeItem_Table.png" />
-    <Resource Include="Resources\Icons\TreeItem_Trigger.png" />
-    <Resource Include="Resources\Icons\TreeItem_View.png" />
-    <Resource Include="Resources\Themes\Dark\Dark_Button.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Dark\Dark_ComboBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Dark\Dark_DataGrid.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Dark\Dark_GroupBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Dark\Dark_Menu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Dark\Dark_ScrollBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Dark\Dark_TabControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Dark\Dark_TextBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Dark\Dark_TreeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Light\Light_Button.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Light\Light_ComboBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Light\Light_DataGrid.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Light\Light_GroupBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Light\Light_Menu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Light\Light_ScrollBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Light\Light_TabControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Light\Light_TextBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Resources\Themes\Light\Light_TreeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-  </ItemGroup>
+	<ItemGroup>
+		<Page Remove="Resources\UIThemes\Dark\Dark.Embedded.xaml" />
+		<Page Remove="Resources\UIThemes\Dark\Dark.xaml" />
+		<Page Remove="Resources\UIThemes\Dark\Dark_Button.xaml" />
+		<Page Remove="Resources\UIThemes\Dark\Dark_ComboBox.xaml" />
+		<Page Remove="Resources\UIThemes\Dark\Dark_DataGrid.xaml" />
+		<Page Remove="Resources\UIThemes\Dark\Dark_GroupBox.xaml" />
+		<Page Remove="Resources\UIThemes\Dark\Dark_Menu.xaml" />
+		<Page Remove="Resources\UIThemes\Dark\Dark_ScrollBar.xaml" />
+		<Page Remove="Resources\UIThemes\Dark\Dark_TabControl.xaml" />
+		<Page Remove="Resources\UIThemes\Dark\Dark_TextBox.xaml" />
+		<Page Remove="Resources\UIThemes\Dark\Dark_TreeView.xaml" />
+		<Page Remove="Resources\UIThemes\Light\Light.Embedded.xaml" />
+		<Page Remove="Resources\UIThemes\Light\Light.xaml" />
+		<Page Remove="Resources\UIThemes\Light\Light_Button.xaml" />
+		<Page Remove="Resources\UIThemes\Light\Light_ComboBox.xaml" />
+		<Page Remove="Resources\UIThemes\Light\Light_DataGrid.xaml" />
+		<Page Remove="Resources\UIThemes\Light\Light_GroupBox.xaml" />
+		<Page Remove="Resources\UIThemes\Light\Light_Menu.xaml" />
+		<Page Remove="Resources\UIThemes\Light\Light_ScrollBar.xaml" />
+		<Page Remove="Resources\UIThemes\Light\Light_TabControl.xaml" />
+		<Page Remove="Resources\UIThemes\Light\Light_TextBox.xaml" />
+		<Page Remove="Resources\UIThemes\Light\Light_TreeView.xaml" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Resources\Localisation\Resources.de-DE.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Resources\Localisation\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Resources\Localisation\Resources.en-GB.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Windows\MainWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\UIThemes\Dark\Dark.Embedded.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Resources\UIThemes\Light\Light.Embedded.xaml">
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:Compile</Generator>
+	  </EmbeddedResource>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\Localisation\Resources.de-DE.resx">
-      <LastGenOutput>Resources.de-DE.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Localisation\Resources.en-GB.resx">
-      <LastGenOutput>Resources.en-GB.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Localisation\Resources.resx">
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<Resource Include="Resources\UIThemes\Dark\Dark.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Light\Light.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="Resources\Icons\Database_Close.png" />
+		<Resource Include="Resources\Icons\Database_Delete.png" />
+		<Resource Include="Resources\Icons\Database_New.png" />
+		<Resource Include="Resources\Icons\Database_Open.png" />
+		<Resource Include="Resources\Icons\Logo_128x128.png" />
+		<Resource Include="Resources\Icons\Logo_16x16.png" />
+		<Resource Include="Resources\Icons\Logo_256x256.png" />
+		<Resource Include="Resources\Icons\Logo_32x32.png" />
+		<Resource Include="Resources\Icons\Logo_64x64.png" />
+		<Resource Include="Resources\Icons\Placeholder.png" />
+		<Resource Include="Resources\Icons\Refresh.png" />
+		<Resource Include="Resources\Icons\SQL_Statement.png" />
+		<Resource Include="Resources\Icons\Table_New.png" />
+		<Resource Include="Resources\Icons\TreeItem_Database.png" />
+		<Resource Include="Resources\Icons\TreeItem_Folder.png" />
+		<Resource Include="Resources\Icons\TreeItem_Index.png" />
+		<Resource Include="Resources\Icons\TreeItem_Table.png" />
+		<Resource Include="Resources\Icons\TreeItem_Trigger.png" />
+		<Resource Include="Resources\Icons\TreeItem_View.png" />
+		<Resource Include="Resources\UIThemes\Dark\Dark_Button.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Dark\Dark_ComboBox.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Dark\Dark_DataGrid.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Dark\Dark_GroupBox.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Dark\Dark_Menu.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Dark\Dark_ScrollBar.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Dark\Dark_TabControl.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Dark\Dark_TextBox.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Dark\Dark_TreeView.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Light\Light_Button.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Light\Light_ComboBox.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Light\Light_DataGrid.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Light\Light_GroupBox.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Light\Light_Menu.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Light\Light_ScrollBar.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Light\Light_TabControl.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Light\Light_TextBox.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+		<Resource Include="Resources\UIThemes\Light\Light_TreeView.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Resource>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="Settings.settings">
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-      <Generator>SettingsSingleFileGenerator</Generator>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Views\Windows\MainWindow.xaml.cs">
+			<SubType>Code</SubType>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Page Update="Views\Windows\MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
+	<ItemGroup>
+		<Page Update="Views\Windows\MainWindow.xaml">
+			<SubType>Designer</SubType>
+		</Page>
+	</ItemGroup>
 
 </Project>

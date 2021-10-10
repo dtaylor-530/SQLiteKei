@@ -3,12 +3,9 @@ using SQLiteKei.ViewModels.DBTreeView.Base;
 using SQLiteKei.ViewModels.MainTabControl.Databases;
 using SQLiteKei.ViewModels.MainTabControl.Tables;
 using SQLiteKei.Views.UserControls;
-
+using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
-using System;
-
-
 
 namespace SQLiteKei.Helpers
 {

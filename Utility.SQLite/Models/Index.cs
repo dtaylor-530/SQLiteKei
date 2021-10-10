@@ -1,7 +1,6 @@
-﻿namespace SQLiteKei.DataAccess.Models
+﻿namespace Utility.SQLite.Models;
+
+public class Index
 {
-    public class Index
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; init; }
 }
