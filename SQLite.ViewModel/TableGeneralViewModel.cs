@@ -1,11 +1,10 @@
 ﻿using ReactiveUI;
 using SQLite.Common.Contracts;
-using SQLite.ViewModel.Infrastructure.Model;
 using SQLite.ViewModel.Infrastructure.Service;
 using System.Windows.Input;
 using Utility.Database;
 using Utility.SQLite.Database;
-using Utility.SQLite.Helpers;
+using Utility.SQLite.Models;
 
 namespace SQLite.ViewModel
 {
@@ -25,12 +24,10 @@ namespace SQLite.ViewModel
 
     public class TableGeneralViewModel : ReactiveObject
     {
-        private long rowCount;
         private string tableName;
         private readonly ConnectionPath connectionPath;
         private readonly ILocaliser localiser;
         private readonly TableService tableService;
-        private readonly List<ColumnDataItem> columnData = new();
 
         public TableGeneralViewModel(
             TableGeneralConfiguration tableGeneralConfiguration,
@@ -44,35 +41,26 @@ namespace SQLite.ViewModel
             EmptyTableCommand = ReactiveCommand.Create(EmptyTable);
             ReindexTableCommand = ReactiveCommand.Create(ReindexTable);
 
-            using (var dbHandler = new TableHandler(tableGeneralConfiguration.ConnectionPath))
+            using (var dbHandler = new TableHandler(tableGeneralConfiguration.ConnectionPath, TableName))
             {
-                TableCreateStatement = dbHandler.CreateStatement(TableName);
-                RowCount = dbHandler.RowCount(TableName);
-                var columns = dbHandler.DataTable(TableName).Columns().ToArray();
-                ColumnCount = columns.Length;
-
-                foreach (var column in columns)
-                {
-                    columnData.Add(MapperService.MapToColumnData(column));
-                }
+                (string a, long b, Column[] c, int d) = dbHandler.General;
+                TableCreateStatement = a;
+                RowCount = b;
+                ColumnData = c;
+                ColumnCount = d;
             }
-
         }
 
         public ICommand EmptyTableCommand { get; }
         public ICommand ReindexTableCommand { get; }
 
-        public long RowCount
-        {
-            get => rowCount;
-            set => this.RaiseAndSetIfChanged(ref rowCount, value);
-        }
+        public long RowCount { get; }
 
         public int ColumnCount { get; }
 
         public string TableCreateStatement { get; }
 
-        public IReadOnlyCollection<ColumnDataItem> ColumnData => columnData;
+        public IReadOnlyCollection<Column> ColumnData { get; }
 
         public string TableName
         {

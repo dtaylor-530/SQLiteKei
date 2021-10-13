@@ -94,7 +94,7 @@ namespace SQLite.ViewModel
             Info("Executing select query from SelectQuery window.\n" + selectQuery);
             try
             {
-                var resultTable = treeService.ToDataTable(selectQuery);
+                var resultTable = treeService.SelectCurrentToDataTable(selectQuery);
                 listCollectionService.SetSource(resultTable);
                 statusService.OnNext(string.Format("Rows returned: {0}", resultTable.Rows.Count));
             }

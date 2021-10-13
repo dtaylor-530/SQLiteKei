@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using DynamicData;
+using ReactiveUI;
 using SQLite.Common.Contracts;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -15,10 +16,20 @@ namespace SQLite.ViewModel.Infrastructure.Service
             return treeService.SelectedItem.DatabasePath;
         }
 
-        public static DataTable ToDataTable(this TreeService treeService, string selectQuery)
+        public static DataTable SelectCurrentToDataTable(this TreeService treeService, string selectQuery)
         {
-            return new DatabaseHandler(treeService.CurrentDatabasePath()).ExecuteReader(selectQuery);
+            return new DatabaseHandler(treeService.CurrentDatabasePath()).ExecuteAndLoadDataTable(selectQuery);
         }
+
+        public static IReadOnlyCollection<dynamic> SelectCurrentAsRows(this TreeService treeService, string selectQuery)
+        {
+            return new DatabaseHandler(treeService.CurrentDatabasePath()).ExecuteDynamicQuery(selectQuery);
+        }
+        public static IReadOnlyCollection<T> SelectCurrentAsRows<T>(this TreeService treeService, string selectQuery)
+        {
+            return new DatabaseHandler(treeService.CurrentDatabasePath()).ExecuteQuery<T>(selectQuery);
+        }
+
     }
 
     public class TreeService : ReactiveObject
@@ -49,13 +60,17 @@ namespace SQLite.ViewModel.Infrastructure.Service
         public void RefreshTree()
         {
             Info("Refreshing the database tree.");
-            var databasePaths = TreeViewItems.Select(x => x.DatabasePath).ToList();
+            var databasePaths = TreeViewItems.Select(x => x.DatabasePath).ToArray();
             TreeViewItems.Clear();
+            TreeViewItems.AddRange(RecrateItems(databasePaths));
+        }
 
-            using var databaseHandler = new DatabaseHandler(SelectedItem.DatabasePath);
+        private IEnumerable<DatabaseItem> RecrateItems(ConnectionPath[] databasePaths)
+        {
             foreach (var path in databasePaths)
             {
-                TreeViewItems.Add(SchemaToViewModelMapper.MapSchemaToViewModel(localiser, databaseHandler));
+                using var databaseHandler = new DatabaseHandler(path);
+                yield return SchemaToViewModelMapper.Map(localiser, databaseHandler);
             }
         }
 

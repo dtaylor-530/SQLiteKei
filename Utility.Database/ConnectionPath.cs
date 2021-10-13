@@ -1,11 +1,17 @@
-﻿namespace Utility.Database;
+﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
+namespace Utility.Database;
+
+[DataContract()]
 public record ConnectionPath(string Path)
 {
+    [JsonIgnore]
     public string Directory => System.IO.Path.GetDirectoryName(Path);
+    [JsonIgnore]
     public FileInfo AsFileInfo => new FileInfo(Path);
+    [JsonIgnore]
     public string Size => GetSize(AsFileInfo.Length);
-
 
     private static string GetSize(long value)
     {

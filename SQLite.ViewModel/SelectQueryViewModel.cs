@@ -70,9 +70,9 @@ namespace SQLite.ViewModel
 
             void InitializeItems()
             {
-                using (var tableHandler = new TableHandler(connectionPath))
+                using (var tableHandler = new TableHandler(connectionPath, tableName))
                 {
-                    var columns = tableHandler.DataTable(tableName).Columns();
+                    var columns = tableHandler.DataTable.Columns();
 
                     foreach (var column in columns)
                     {
@@ -199,10 +199,10 @@ namespace SQLite.ViewModel
         void AddOrderStatement()
         {
 
-            using (TableHandler? tableHandler = new(connectionPath))
+            using (TableHandler? tableHandler = new(connectionPath, tableName))
             {
                 var orderItem = new OrderItem();
-                var columns = tableHandler.DataTable(tableName).Columns();
+                var columns = tableHandler.DataTable.Columns();
 
                 foreach (var column in columns)
                 {

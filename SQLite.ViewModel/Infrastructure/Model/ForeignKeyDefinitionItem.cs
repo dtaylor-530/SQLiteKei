@@ -1,5 +1,4 @@
-﻿
-using ReactiveUI;
+﻿using ReactiveUI;
 using System.Collections.ObjectModel;
 using Utility.Database;
 using Utility.SQLite.Database;
@@ -43,9 +42,9 @@ namespace SQLite.ViewModel
         {
             if (string.IsNullOrEmpty(SelectedDatabasePath.Path)) return;
 
-            using (var tableHandler = new TableHandler(SelectedDatabasePath))
+            using (var tableHandler = new TableHandler(SelectedDatabasePath, selectedTable))
             {
-                var columns = tableHandler.DataTable(selectedTable).Columns();
+                var columns = tableHandler.DataTable.Columns();
                 {
                     ReferencableColumns.Clear();
 

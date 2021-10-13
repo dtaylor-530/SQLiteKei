@@ -30,9 +30,9 @@ namespace SQLite.ViewModel.Infrastructure.Service
 
             try
             {
-                using (var tableHandler = new TableHandler(tableItem.DatabasePath))
+                using (var tableHandler = new TableHandler(tableItem.DatabasePath, tableItem.DisplayName))
                 {
-                    tableHandler.DropTable(tableItem.DisplayName);
+                    tableHandler.DropTable();
                     treeService.RemoveItemFromTree(tableItem);
                     return true;
                 }
@@ -53,11 +53,11 @@ namespace SQLite.ViewModel.Infrastructure.Service
             if (result != true)
                 return;
 
-            using (var tableHandler = new TableHandler(tableItem.DatabasePath))
+            using (var tableHandler = new TableHandler(tableItem.DatabasePath, tableItem.DisplayName))
             {
                 try
                 {
-                    tableHandler.EmptyTable(tableItem.DisplayName);
+                    tableHandler.EmptyTable();
                 }
                 catch (Exception ex)
                 {
@@ -77,11 +77,11 @@ namespace SQLite.ViewModel.Infrastructure.Service
 
             if (result != true) return;
 
-            using (var tableHandler = new TableHandler(tableItem.DatabasePath))
+            using (var tableHandler = new TableHandler(tableItem.DatabasePath, tableItem.DisplayName))
             {
                 try
                 {
-                    tableHandler.ReindexTable(tableItem.DisplayName);
+                    tableHandler.ReindexTable();
                 }
                 catch (Exception ex)
                 {
@@ -99,9 +99,9 @@ namespace SQLite.ViewModel.Infrastructure.Service
             }
             try
             {
-                using (var tableHandler = new TableHandler(tableItem.DatabasePath))
+                using (var tableHandler = new TableHandler(tableItem.DatabasePath, tableItem.DisplayName))
                 {
-                    tableHandler.RenameTable(tableItem.DisplayName, newName);
+                    tableHandler.RenameTable(newName);
                 }
             }
             catch

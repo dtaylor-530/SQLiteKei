@@ -4,6 +4,7 @@ using SQLite.Views;
 using SQLite.Views.UserControls;
 using SQLite.WPF.Infrastructure;
 using SQLite.WPF.Infrastructure.IKriv.Windows.Mvvm;
+using SQLite.WPF.Views.Tabs;
 
 namespace SQLite.WPF.Meta
 {
@@ -28,6 +29,7 @@ namespace SQLite.WPF.Meta
 
             manager.RegisterDataTemplate<TableGeneralViewModel, TableGeneralTab>();
             manager.RegisterDataTemplate<TableRecordsViewModel, TableRecordsTab>();
+            manager.RegisterDataTemplate<TableChartViewModel, TableChartTab>();
             manager.RegisterDataTemplate<DatabaseGeneralViewModel, DatabaseGeneralTab>();
             manager.RegisterDataTemplate<AboutViewModel, About>();
             manager.RegisterDataTemplate<SelectQueryViewModel, SelectQueryUserControl>();

@@ -33,7 +33,7 @@ namespace SQLite.ViewModel.Infrastructure.Service
 
             using (DatabaseHandler handler = new DatabaseHandler(new ConnectionPath(databasePath)))
             {
-                DatabaseItem databaseItem = SchemaToViewModelMapper.MapSchemaToViewModel(localiser, handler);
+                DatabaseItem databaseItem = SchemaToViewModelMapper.Map(localiser, handler);
                 treeService.TreeViewItems.Add(databaseItem);
                 Info("Opened database '" + databaseItem.DisplayName + "'.");
             }

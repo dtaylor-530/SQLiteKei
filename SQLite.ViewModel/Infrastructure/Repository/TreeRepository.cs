@@ -1,6 +1,6 @@
 ﻿using SQLite.Common.Contracts;
 using System.Collections.ObjectModel;
-using System.Xml.Serialization;
+using System.Text.Json;
 using Utility.Database;
 using Utility.SQLite.Database;
 using static SQLite.Common.Log;
@@ -19,28 +19,22 @@ public class TreeRepository : ITreeRepository
     public void Save(IReadOnlyCollection<TreeItem> tree)
     {
         var targetPath = GetSaveLocationPath();
-        var targetDirectory = Path.GetDirectoryName(targetPath);
-
-        if (!Directory.Exists(targetDirectory))
-        {
-            Directory.CreateDirectory(targetDirectory);
-        }
-
         var rootItemDatabasePaths = tree.Select(x => x.DatabasePath).ToList();
-        var xmlSerializer = new XmlSerializer(typeof(List<string>));
 
-        using (var streamWriter = new StreamWriter(targetPath))
+        try
         {
-            try
-            {
-                xmlSerializer.Serialize(streamWriter, rootItemDatabasePaths);
-                Info("Successfully saved database tree.");
-            }
-            catch (Exception ex)
-            {
-                Error("Unable to save database tree.", ex);
-            }
+            //JsonSerializer.Serialize(streamWriter, rootItemDatabasePaths, typeof(List<ConnectionPath>));
+
+            string json = JsonSerializer.Serialize(rootItemDatabasePaths);
+            File.WriteAllText(targetPath, json);
+            //xmlSerializer.Serialize(streamWriter, rootItemDatabasePaths);
+            Info("Successfully saved database tree.");
         }
+        catch (Exception ex)
+        {
+            Error("Unable to save database tree.", ex);
+        }
+
     }
 
     public IReadOnlyCollection<TreeItem> Load()
@@ -70,16 +64,18 @@ public class TreeRepository : ITreeRepository
         {
             Info("Restoring recently used databases...");
 
-            var databasePaths = new XmlSerializer(typeof(List<string>)).Deserialize(streamReader) as List<string>;
+            //var databasePaths = new XmlSerializer(typeof(List<string>)).Deserialize(streamReader) as List<string>;
+            var json = streamReader.ReadToEnd();
+            List<ConnectionPath> databasePaths = JsonSerializer.Deserialize<List<ConnectionPath>>(json);
             var schemaMapper = new SchemaToViewModelMapper();
 
-            foreach (var path in databasePaths)
+            foreach (var path in databasePaths.Select(a => a.Path))
             {
                 if (File.Exists(path))
                 {
                     using (var databaseHandler = new DatabaseHandler(new ConnectionPath(path)))
                     {
-                        var rootItem = SchemaToViewModelMapper.MapSchemaToViewModel(localiser, databaseHandler);
+                        var rootItem = SchemaToViewModelMapper.Map(localiser, databaseHandler);
                         yield return rootItem;
                     }
                 }
@@ -93,8 +89,10 @@ public class TreeRepository : ITreeRepository
 
     private static string GetSaveLocationPath()
     {
-        var roamingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        //var roamingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        //return Path.Combine(roamingDirectory, "SQLiteKei", "TreeView.xml");
 
-        return Path.Combine(roamingDirectory, "SQLiteKei", "TreeView.xml");
+        var directory = Directory.CreateDirectory("../../../Data");
+        return Path.Combine(directory.FullName, "TreeView.json");
     }
 }

@@ -9,6 +9,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Windows;
+using Utility.Chart;
 
 namespace Utility.WPF.Chart
 {
@@ -24,17 +25,13 @@ namespace Utility.WPF.Chart
         public ColumnSelections ColumnSelections { get; }
     }
 
-    public record SeriesPair(string ColumnX, string ColumnY);
-
-    public record ColumnSelections(IReadOnlyCollection<SeriesPair> Collection);
-
     public partial class ColumnSelectionsGrid
     {
         public static readonly RoutedEvent ColumnsSelectionChangedEvent =
             EventManager.RegisterRoutedEvent("ColumnsSelectionChanged", RoutingStrategy.Bubble, typeof(ColumnsSelectionsChangedHandler), typeof(ColumnSelectionsGrid));
 
         public static readonly DependencyProperty ColumnSelectionsProperty =
-            DependencyProperty.Register("ColumnSelections", typeof(IReadOnlyCollection<SeriesPair>), typeof(ColumnSelectionsGrid), new PropertyMetadata(null));
+            DependencyProperty.Register("ColumnSelections", typeof(IEnumerable), typeof(ColumnSelectionsGrid), new PropertyMetadata(null));
 
         public static readonly DependencyProperty ColumnDetailsProperty =
             DependencyProperty.Register("ColumnDetails", typeof(IEnumerable), typeof(ColumnSelectionsGrid), new PropertyMetadata(null));
@@ -45,7 +42,7 @@ namespace Utility.WPF.Chart
         public ColumnSelectionsGrid()
         {
             this.InitializeComponent();
-            CompositeDisposable? disposables = null;
+            IDisposable? disposable = null;
             this.WhenAnyValue(a => a.ColumnDetails)
                 .WhereNotNull()
                 .CombineLatest(this.WhenAnyValue(a => a.ColumnPropertyKey)
@@ -62,19 +59,9 @@ namespace Utility.WPF.Chart
                     else
                         columnNames = coll;
 
-                    List<Column> columns = new();
-
-                    disposables?.Dispose();
-                    disposables = new();
-                    ReplaySubject<Column> replaySubject = new();
-                    foreach (var name in columnNames)
-                    {
-                        var col = new Column(name);
-                        columns.Add(col);
-                        col.WhenAny((a) => a.X, a => a.Y, (a, b) => a.Sender)
-                        .Subscribe(replaySubject)
-                         .DisposeWith(disposables);
-                    }
+                    disposable?.Dispose();
+                    this.DataGrid.ItemsSource = BuildColumns(columnNames, out var replaySubject, out var dis);
+                    disposable = dis;
 
                     replaySubject
                       .ToObservableChangeSet(a => a.Name)
@@ -82,23 +69,43 @@ namespace Utility.WPF.Chart
                         .Where(a => a.Count > 0)
                         .Subscribe(a =>
                         {
-                            if (a.Count(a => a.X) > 1)
-                                return;
-                            if (a.SingleOrDefault(a => a.X) is not { } singleX)
-                                return;
-                            var cs = new ColumnSelections(a.Where(c => c.Y).Select(a => new SeriesPair(singleX.Name, a.Name)).ToArray());
-                            ColumnSelections = cs.Collection;
-                            this.RaiseEvent(new ColumnsSelectionsChangedEventArgs(ColumnsSelectionChangedEvent, this, cs));
+                            SetColumnSelections(a);
                         });
-
-                    this.DataGrid.ItemsSource = columns;
                 });
+
+            void SetColumnSelections(IReadOnlyCollection<Column> a)
+            {
+                if (a.Count(a => a.X) > 1)
+                    return;
+                if (a.SingleOrDefault(a => a.X) is not { } singleX)
+                    return;
+                var cs = new ColumnSelections(a.Where(c => c.Y).Select(a => new SeriesPair(singleX.Name, a.Name)).ToArray());
+                ColumnSelections = cs.Collection;
+                this.RaiseEvent(new ColumnsSelectionsChangedEventArgs(ColumnsSelectionChangedEvent, this, cs));
+            }
+
+            static List<Column> BuildColumns(IEnumerable<string> columnNames, out ReplaySubject<Column> replaySubject, out IDisposable disposable)
+            {
+                List<Column> columns = new();
+                CompositeDisposable disposables = new();
+                replaySubject = new();
+                foreach (var name in columnNames)
+                {
+                    var col = new Column(name);
+                    columns.Add(col);
+                    col.WhenAny((a) => a.X, a => a.Y, (a, b) => a.Sender)
+                    .Subscribe(replaySubject)
+                     .DisposeWith(disposables);
+                }
+                disposable = disposables;
+                return columns;
+            }
         }
 
         #region properties
-        public IReadOnlyCollection<SeriesPair> ColumnSelections
+        public IEnumerable ColumnSelections
         {
-            get { return (IReadOnlyCollection<SeriesPair>)GetValue(ColumnSelectionsProperty); }
+            get { return (IEnumerable)GetValue(ColumnSelectionsProperty); }
             set { SetValue(ColumnSelectionsProperty, value); }
         }
 

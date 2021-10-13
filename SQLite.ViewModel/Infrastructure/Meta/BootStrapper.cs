@@ -38,6 +38,7 @@ namespace SQLite.ViewModel.Meta
             foreach (var type in new[] {
                 typeof(TableGeneralViewModel),
                 typeof(TableRecordsViewModel),
+                typeof(TableChartViewModel),
                 typeof(DatabaseGeneralViewModel),
                 typeof(TableCreatorViewModel),
                 typeof(SelectQueryViewModel),

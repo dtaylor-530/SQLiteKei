@@ -48,6 +48,10 @@ public class TabsFactory
             yield return new HeaderContent(
                 localiser["TabHeader_TableRecords"],
                 factory.Build<TableRecordsViewModel>(new TableRecordsConfiguration(tableItem.DisplayName, tableItem.DatabasePath)));
+
+            yield return new HeaderContent(
+                "chart",
+                factory.Build<TableChartViewModel>(new TableChartConfiguration(tableItem.DisplayName, tableItem.DatabasePath)));
         }
 
         IEnumerable<HeaderContent> DefaultTabs() => Array.Empty<HeaderContent>();

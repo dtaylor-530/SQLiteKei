@@ -32,15 +32,14 @@ namespace Utility.SQLite.Helpers
             {
                 var tables = dbHandler.Tables;
                 List<TableInformation> ti = new();
-                using (var tableHandler = new TableHandler(FilePath))
-                    foreach (var table in tables)
-                    {
-                        var tableRowCount = tableHandler.RowCount(table.Name);
-                        var columns = tableHandler.Columns(table.Name);
-                        ti.Add(new(columns.Length,
-                            table.Name,
-                             tableRowCount));
-                    }
+
+                foreach (var table in tables)
+                {
+                    using var tableHandler = new TableHandler(FilePath, table.Name);
+                    var tableRowCount = tableHandler.RowCount;
+                    var columns = tableHandler.Columns;
+                    ti.Add(new(columns.Length, table.Name, tableRowCount));
+                }
                 return ti;
             }
         }

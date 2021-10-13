@@ -1,4 +1,5 @@
-﻿using SQLiteKei.DataAccess.Database;
+﻿using Dapper;
+using SQLiteKei.DataAccess.Database;
 using SQLiteKei.DataAccess.Models;
 using System.Data;
 using Utility.Database;
@@ -27,7 +28,7 @@ namespace Utility.SQLite.Database
         /// Returns information about all tables in the current database.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Table> Tables => from row in GetSchema("Tables")
+        public IEnumerable<Table> Tables => from row in SchemaRows("Tables")
                                             select new Table
                                             {
                                                 DatabaseName = row.ItemArray[0].ToString(),
@@ -39,7 +40,7 @@ namespace Utility.SQLite.Database
         /// Returns information about all views in the current database.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<View> Views => from row in GetSchema("Views")
+        public IEnumerable<View> Views => from row in SchemaRows("Views")
                                           select new View
                                           {
                                               Name = row.ItemArray[2].ToString()
@@ -49,7 +50,7 @@ namespace Utility.SQLite.Database
         /// Returns information about all indexes in the current database.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Models.Index> Indexes => from row in GetSchema("Indexes")
+        public IEnumerable<Models.Index> Indexes => from row in SchemaRows("Indexes")
                                                     let indexName = row.ItemArray[5].ToString()
                                                     where !indexName.Contains("_PK_")
                                                     select new Models.Index
@@ -61,13 +62,13 @@ namespace Utility.SQLite.Database
         /// Returns information about all triggers in the current database.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Trigger> Triggers => from row in GetSchema("Triggers")
+        public IEnumerable<Trigger> Triggers => from row in SchemaRows("Triggers")
                                                 select new Trigger
                                                 {
                                                     Name = row.ItemArray[2].ToString()
                                                 };
 
-        private IEnumerable<DataRow> GetSchema(string collectionName)
+        private IEnumerable<DataRow> SchemaRows(string collectionName)
         {
             return Connection.GetSchema(collectionName).AsEnumerable();
         }
@@ -77,7 +78,28 @@ namespace Utility.SQLite.Database
         /// </summary>
         /// <param name="query">The query.</param>
         /// <returns></returns>
-        public DataTable ExecuteReader(string sql)
+        public IReadOnlyCollection<dynamic> ExecuteDynamicQuery(string sql)
+        {
+            var rows = Connection.Query(sql).AsList();
+            return rows;
+        }
+
+
+        /// <summary>
+        /// Executes the specified sql and returns a DataTable with the results.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        /// <returns></returns>
+        public IReadOnlyCollection<T> ExecuteQuery<T>(string sql)
+        {
+            var rows = Connection.Query<T>(sql).AsList();
+            return rows;
+        }
+
+        /// <summary>
+        /// Executes the specified sql
+        /// </summary>
+        public DataTable ExecuteAndLoadDataTable(string sql)
         {
             using (var command = Connection.CreateCommand())
             {

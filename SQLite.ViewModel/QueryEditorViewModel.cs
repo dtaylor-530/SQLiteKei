@@ -90,7 +90,7 @@ namespace SQLite.ViewModel
                 {
                     if (SqlStatement.StartsWith("SELECT", StringComparison.CurrentCultureIgnoreCase))
                     {
-                        var queryResult = dbHandler.ExecuteReader(sqlStatement);
+                        var queryResult = dbHandler.ExecuteAndLoadDataTable(sqlStatement);
                         DataView = queryResult.DefaultView;
                         StatusInfo = string.Format("Rows returned: {0}", queryResult.Rows.Count);
                     }

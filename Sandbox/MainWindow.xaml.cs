@@ -40,10 +40,10 @@ namespace Sandbox
 
         private void ColumnSelectionsGrid_ColumnsSelectionChanged(object sender, ColumnsSelectionsChangedEventArgs e)
         {
-            List<Utility.WPF.Chart.Series> series = new();
+            List<Utility.Chart.Series> series = new();
             foreach (var xx in e.ColumnSelections.Collection)
             {
-                var lineSeries = new Utility.WPF.Chart.Series(xx.ColumnX, xx.ColumnY, personFaker.Generate(1000).Select(a =>
+                var lineSeries = new Utility.Chart.Series(xx.ColumnX, xx.ColumnY, personFaker.Generate(1000).Select(a =>
                  {
                      double x, y;
                      switch (xx.ColumnX)
