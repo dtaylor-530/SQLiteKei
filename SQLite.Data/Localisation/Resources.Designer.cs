@@ -529,29 +529,29 @@ namespace SQLite.Data.Localisation {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TabContent_GroupBoxHeader_About.
+        ///   Looks up a localized string similar to Tab_GroupBoxHeader_About.
         /// </summary>
-        public static string TabContent_GroupBoxHeader_About {
+        public static string Tab_GroupBoxHeader_About {
             get {
-                return ResourceManager.GetString("TabContent_GroupBoxHeader_About", resourceCulture);
+                return ResourceManager.GetString("Tab_GroupBoxHeader_About", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TabContent_GroupBoxHeader_Columns.
+        ///   Looks up a localized string similar to Tab_GroupBoxHeader_Columns.
         /// </summary>
-        public static string TabContent_GroupBoxHeader_Columns {
+        public static string Tab_GroupBoxHeader_Columns {
             get {
-                return ResourceManager.GetString("TabContent_GroupBoxHeader_Columns", resourceCulture);
+                return ResourceManager.GetString("Tab_GroupBoxHeader_Columns", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TabContent_GroupBoxHeader_Columns.
+        ///   Looks up a localized string similar to Tab_GroupBoxHeader_Columns.
         /// </summary>
-        public static string TabContent_GroupBoxHeader_Tables {
+        public static string Tab_GroupBoxHeader_Tables {
             get {
-                return ResourceManager.GetString("TabContent_GroupBoxHeader_Tables", resourceCulture);
+                return ResourceManager.GetString("Tab_GroupBoxHeader_Tables", resourceCulture);
             }
         }
         

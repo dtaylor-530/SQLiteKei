@@ -35,7 +35,7 @@ public class DatabaseGeneralViewModel
         }
     }
 
-    public string Header => localiser["TabContent_GroupBoxHeader_About"];
+    public string Header => localiser["Tab_GroupBoxHeader_About"];
 
     public string DisplayName { get; }
 

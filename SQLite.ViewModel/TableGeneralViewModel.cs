@@ -86,14 +86,14 @@ namespace SQLite.ViewModel
 
         public void ReindexTable(TableService tableService) => tableService.ReindexTable(new TableItem(tableName, connectionPath));
 
-        public string AboutKey => localiser["TabContent_GroupBoxHeader_About"];
+        public string AboutKey => localiser["Tab_GroupBoxHeader_About"];
         public string TableNameKey => localiser["TableGeneralTab_TableName"];
         public string ColumnsKey => localiser["TableCreator_TabHeader_Columns"];
         public string RecordsKey => localiser["TableGeneralTab_Records"];
         public string TableCreateStatementKey => localiser["TableGeneralTab_TableCreateStatement"];
         public string EmptyKey => localiser["TableGeneralTab_ButtonText_Empty"];
         public string ReindexKey => localiser["TableGeneralTab_ButtonText_Reindex"];
-        public string GroupBoxHeaderColumnsKey => localiser["TabContent_GroupBoxHeader_Columns"];
+        public string GroupBoxHeaderColumnsKey => localiser["Tab_GroupBoxHeader_Columns"];
         public string NoColumnsFoundKey => localiser["TableGeneralTab_NoColumnsFound"];
     }
 }

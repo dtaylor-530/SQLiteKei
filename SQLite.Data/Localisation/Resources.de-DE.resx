@@ -273,13 +273,13 @@
   <data name="QueryEditor_NoDatabaseSelected" xml:space="preserve">
     <value>Keine Datenbank ausgewählt</value>
   </data>
-  <data name="TabContent_GroupBoxHeader_About" xml:space="preserve">
+  <data name="Tab_GroupBoxHeader_About" xml:space="preserve">
     <value>Über</value>
   </data>
-  <data name="TabContent_GroupBoxHeader_Columns" xml:space="preserve">
+  <data name="Tab_GroupBoxHeader_Columns" xml:space="preserve">
     <value>Spalten</value>
   </data>
-  <data name="TabContent_GroupBoxHeader_Tables" xml:space="preserve">
+  <data name="Tab_GroupBoxHeader_Tables" xml:space="preserve">
     <value>Tabellen</value>
   </data>
   <data name="TabHeader_General" xml:space="preserve">

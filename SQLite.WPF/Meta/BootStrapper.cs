@@ -18,7 +18,6 @@ namespace SQLite.WPF.Meta
             containerBuilder.RegisterType<ThemeService>().SingleInstance().AsImplementedInterfaces().AsSelf();
             containerBuilder.RegisterType<WindowService>().SingleInstance().AsImplementedInterfaces().AsSelf();
 
-
             return containerBuilder;
         }
 
@@ -27,9 +26,9 @@ namespace SQLite.WPF.Meta
 
             var manager = new DataTemplateManager();
 
-            manager.RegisterDataTemplate<TableGeneralViewModel, TableGeneralTabContent>();
-            manager.RegisterDataTemplate<TableRecordsViewModel, TableRecordsTabContent>();
-            manager.RegisterDataTemplate<DatabaseGeneralViewModel, DatabaseGeneralTabContent>();
+            manager.RegisterDataTemplate<TableGeneralViewModel, TableGeneralTab>();
+            manager.RegisterDataTemplate<TableRecordsViewModel, TableRecordsTab>();
+            manager.RegisterDataTemplate<DatabaseGeneralViewModel, DatabaseGeneralTab>();
             manager.RegisterDataTemplate<AboutViewModel, About>();
             manager.RegisterDataTemplate<SelectQueryViewModel, SelectQueryUserControl>();
         }

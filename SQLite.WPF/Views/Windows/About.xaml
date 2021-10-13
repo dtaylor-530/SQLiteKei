@@ -30,7 +30,7 @@
                 <TextBlock Text="{Binding GithubName, Mode=OneTime}" />
             </Hyperlink>
         </TextBlock>
-        <Image Source="../Resources/Icons/Logo_64x64.png"
+        <Image Source="../../Resources/Icons/Logo_64x64.png"
                Grid.Row="0" HorizontalAlignment="Left" Height="47" Margin="5,6,0,0"  VerticalAlignment="Top" Width="47" Grid.RowSpan="2"/>
         <Border Grid.Row="1" BorderThickness="1" BorderBrush="#3F3F46" Margin="5, 10, 5, 5">
             <ScrollViewer Height="Auto" VerticalScrollBarVisibility="Auto">

@@ -3,15 +3,14 @@
 namespace SQLite.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for TableGeneralTabContent.xaml
+    /// Interaction logic for TableRecordsTab.xaml
     /// </summary>
-    public partial class TableGeneralTabContent : UserControl
+    public partial class TableRecordsTab : UserControl
     {
 
-        public TableGeneralTabContent()
+        public TableRecordsTab()
         {
             InitializeComponent();
         }
-
     }
 }

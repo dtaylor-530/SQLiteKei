@@ -13,15 +13,15 @@
     </DataTemplate>-->
 
     <!--<DataTemplate DataType="{x:Type vm:DatabaseGeneralViewModel}">
-        <local1:DatabaseGeneralTabContent DataContext="{Binding .}"/>
+        <local1:DatabaseGeneralTab DataContext="{Binding .}"/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:TableGeneralViewModel}">
-        <local1:TableGeneralTabContent DataContext="{Binding .}"/>
+        <local1:TableGeneralTab DataContext="{Binding .}"/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:TableRecordsViewModel}">
-        <local1:TableRecordsTabContent DataContext="{Binding .}"/>
+        <local1:TableRecordsTab DataContext="{Binding .}"/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:SelectQueryViewModel}">
