@@ -93,7 +93,7 @@ namespace Utility.WPF.Chart
         {
             return observable
                 .Scan((default(T), observed), (a, b) => (b, a.observed))
-                .Skip(1)!;
+                .Where(a => a.Item1 != null && a.Item2 != null)!;
         }
     }
 }
