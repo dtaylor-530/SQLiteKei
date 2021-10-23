@@ -1,7 +1,9 @@
-﻿namespace SQLiteKei.DataAccess.Models
+﻿using Utility.Database;
+
+namespace SQLiteKei.DataAccess.Models
 {
     public class Trigger
     {
-        public string Name { get; set; }
+        public TableName Name { get; init; }
     }
 }

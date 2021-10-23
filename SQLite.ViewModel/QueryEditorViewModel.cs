@@ -1,5 +1,6 @@
 ﻿using ReactiveUI;
 using SQLite.Common.Contracts;
+using SQLite.Service.Model;
 using System.Data;
 using System.Windows.Input;
 using Utility.SQLite.Database;
@@ -85,7 +86,7 @@ namespace SQLite.ViewModel
             void ExecuteSql(string sqlStatement)
             {
 
-                using var dbHandler = new DatabaseHandler(selectedDatabase.DatabasePath);
+                using var dbHandler = new DatabaseHandler(selectedDatabase.Path);
                 try
                 {
                     if (SqlStatement.StartsWith("SELECT", StringComparison.CurrentCultureIgnoreCase))

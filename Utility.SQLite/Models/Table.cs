@@ -1,10 +1,12 @@
-﻿namespace Utility.SQLite.Models
+﻿using Utility.Database;
+
+namespace Utility.SQLite.Models
 {
     public class Table
     {
-        public string DatabaseName { get; init; }
+        public DatabasePath DatabasePath { get; init; }
 
-        public string Name { get; init; }
+        public TableName Name { get; init; }
 
         public string CreateStatement { get; init; }
     }

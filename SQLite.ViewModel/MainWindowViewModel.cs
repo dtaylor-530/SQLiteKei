@@ -1,5 +1,5 @@
 ﻿using ReactiveUI;
-using SQLite.ViewModel.Infrastructure.Service;
+using SQLite.Service.Service;
 
 namespace SQLite.ViewModel
 {
@@ -41,7 +41,7 @@ namespace SQLite.ViewModel
 
         public void Close()
         {
-            treeService.SaveTree();
+
         }
 
     }

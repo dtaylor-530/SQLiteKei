@@ -1,5 +1,7 @@
 ﻿using ReactiveUI;
 using SQLite.Common.Contracts;
+using SQLite.Service.Model;
+using SQLite.ViewModel.Infrastructure;
 using SQLiteKei.DataAccess.QueryBuilders;
 using SQLiteKei.DataAccess.QueryBuilders.Base;
 using SQLiteKei.DataAccess.QueryBuilders.Where;
@@ -13,35 +15,31 @@ using Utility.SQLite.Helpers;
 
 namespace SQLite.ViewModel
 {
-    public class SelectQueryConfiguration
+    public class SelectQueryViewModelKey : TableKey
     {
-        public SelectQueryConfiguration(string tableName, ConnectionPath connectionPath)
+        public SelectQueryViewModelKey(DatabasePath databaseName, TableName tableName) : base(databaseName, tableName)
         {
-            TableName = tableName;
-            ConnectionPath = connectionPath;
         }
-        public ConnectionPath ConnectionPath { get; }
-        public string TableName { get; }
     }
 
     /// <summary>
     /// The main ViewModel for the GenerateSelectQuery window
     /// </summary>
-    public class SelectQueryViewModel : ReactiveObject
+    public class SelectQueryViewModel : ReactiveViewModel
 
     {
         private readonly ILocaliser localiser;
-        private readonly ConnectionPath connectionPath;
+        private readonly DatabasePath connectionPath;
         private readonly string tableName;
 
-        private SelectQueryBuilder selectQueryBuilder;
+        private SelectQueryBuilder? selectQueryBuilder;
         private string selectQuery;
 
-        public SelectQueryViewModel(ILocaliser localiser, SelectQueryConfiguration configuration)
+        public SelectQueryViewModel(SelectQueryViewModelKey key, ILocaliser localiser) : base(key, string.Empty)
         {
             this.localiser = localiser;
-            this.connectionPath = configuration.ConnectionPath;
-            this.tableName = configuration.TableName;
+            this.connectionPath = key.DatabasePath;
+            this.tableName = key.TableName;
             Initialize();
         }
 

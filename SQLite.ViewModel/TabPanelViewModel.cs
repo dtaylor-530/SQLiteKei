@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
 using SQLite.Common;
-using SQLite.ViewModel.Infrastructure.Service;
+using SQLite.Service.Service;
 using System.Collections.ObjectModel;
 
 namespace SQLite.ViewModel;
@@ -19,7 +19,7 @@ public class TabPanelViewModel : ReactiveObject
         });
     }
 
-    public ObservableCollection<HeaderContent> TabItems => tabsService.TabItems;
+    public ObservableCollection<IDatabaseViewModel> TabItems => tabsService.TabItems;
 
     public int SelectedTabIndex
     {

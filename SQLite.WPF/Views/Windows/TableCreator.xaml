@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:model="clr-namespace:SQLite.ViewModel;assembly=SQLite.ViewModel"
         xmlns:vm="clr-namespace:SQLite.ViewModel;assembly=SQLite.ViewModel"
+             xmlns:s="clr-namespace:SQLite.Service.Model;assembly=SQLite.Service"
         d:DataContext="{d:DesignInstance vm:TableCreatorViewModel}"
         mc:Ignorable="d"
         Title="{Binding Title}"
@@ -20,8 +21,8 @@
             <Label Content="{Binding DatabaseKey}" />
             <ComboBox x:Name="DatabaseComboBox" Width="150" Height="20" ItemsSource="{Binding Databases}" SelectedItem="{Binding SelectedDatabase}">
                 <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type model:DatabaseSelectItem}">
-                        <TextBlock Text="{Binding DatabaseName}" VerticalAlignment="Center" ToolTip="{Binding DatabasePath}"></TextBlock>
+                    <DataTemplate DataType="{x:Type s:DatabaseSelectItem}">
+                        <TextBlock Text="{Binding Path.BaseName}" VerticalAlignment="Center" ToolTip="{Binding Path}"></TextBlock>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
@@ -34,7 +35,7 @@
                     <StackPanel>
                         <ItemsControl ItemsSource="{Binding ColumnDefinitions}">
                             <ItemsControl.Resources>
-                                <DataTemplate DataType="{x:Type model:ColumnDefinitionItem}">
+                                <DataTemplate DataType="{x:Type s:ColumnDefinitionItem}">
                                     <DockPanel Margin="0 2">
                                         <TextBox Text="{Binding ColumnName, UpdateSourceTrigger=PropertyChanged}" Width="175"/>
                                         <ComboBox SelectedItem="{Binding DataType}" ItemsSource="{Binding DataTypes}" Width="85" VerticalContentAlignment="Center"/>
@@ -57,7 +58,7 @@
                     <StackPanel>
                         <ItemsControl ItemsSource="{Binding ForeignKeyDefinitions}">
                             <ItemsControl.Resources>
-                                <DataTemplate DataType="{x:Type model:ForeignKeyDefinitionItem}">
+                                <DataTemplate DataType="{x:Type s:ForeignKeyDefinitionItem}">
                                     <DockPanel Margin="0 2">
                                         <Label Content="ForeignKey" />
                                         <ComboBox ItemsSource="{Binding AvailableColumns, Mode=OneWay}" SelectedItem="{Binding SelectedColumn}" MinWidth="100"/>

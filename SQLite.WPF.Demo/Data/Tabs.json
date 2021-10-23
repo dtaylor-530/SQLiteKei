@@ -1,0 +1,119 @@
+{
+  "{\u0022Key\u0022:{\u0022DatabasePath\u0022:{\u0022Path\u0022:\u0022C:\\\\Users\\\\rytal\\\\Documents\\\\Visual Studio 2019\\\\Projects\\\\Football\\\\Cm93-master\\\\Cm93.UI\\\\bin\\\\Debug\\\\Cm93\\\\Cm93.sqlite\u0022}},\u0022Name\u0022:\u0022Divisions\u0022}": [
+    {
+      "$type": "SQLite.ViewModel.TableGeneralViewModelTabKey, SQLite.ViewModel",
+      "TableName": {
+        "Name": "Divisions"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      }
+    },
+    {
+      "$type": "SQLite.ViewModel.TableRecordsViewModelTabKey, SQLite.ViewModel",
+      "TableName": {
+        "Name": "Divisions"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      }
+    },
+    {
+      "$type": "SQLite.ViewModel.TableChartViewModelTabKey, SQLite.ViewModel",
+      "TableName": {
+        "Name": "Divisions"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      }
+    }
+  ],
+  "{\u0022Key\u0022:{\u0022DatabasePath\u0022:{\u0022Path\u0022:\u0022C:\\\\Users\\\\rytal\\\\Documents\\\\Visual Studio 2019\\\\Projects\\\\Football\\\\Cm93-master\\\\Cm93.UI\\\\bin\\\\Debug\\\\Cm93\\\\Cm93.sqlite\u0022}},\u0022Name\u0022:\u0022PlayerStats\u0022}": [
+    {
+      "$type": "SQLite.ViewModel.TableGeneralViewModelTabKey, SQLite.ViewModel",
+      "TableName": {
+        "Name": "PlayerStats"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      }
+    },
+    {
+      "$type": "SQLite.ViewModel.TableRecordsViewModelTabKey, SQLite.ViewModel",
+      "TableName": {
+        "Name": "PlayerStats"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      }
+    },
+    {
+      "$type": "SQLite.ViewModel.TableChartViewModelTabKey, SQLite.ViewModel",
+      "TableName": {
+        "Name": "PlayerStats"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      }
+    }
+  ],
+  "{\u0022Key\u0022:{\u0022DatabasePath\u0022:{\u0022Path\u0022:\u0022C:\\\\Users\\\\rytal\\\\Documents\\\\Visual Studio 2019\\\\Projects\\\\Football\\\\Cm93-master\\\\Cm93.UI\\\\bin\\\\Debug\\\\Cm93\\\\Cm93.sqlite\u0022}},\u0022Name\u0022:\u0022Competitions\u0022}": [
+    {
+      "$type": "SQLite.ViewModel.TableGeneralViewModelTabKey, SQLite.ViewModel",
+      "TableName": {
+        "Name": "Competitions"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      }
+    },
+    {
+      "$type": "SQLite.ViewModel.TableRecordsViewModelTabKey, SQLite.ViewModel",
+      "TableName": {
+        "Name": "Competitions"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      }
+    },
+    {
+      "$type": "SQLite.ViewModel.TableChartViewModelTabKey, SQLite.ViewModel",
+      "TableName": {
+        "Name": "Competitions"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      }
+    }
+  ],
+  "{\u0022Key\u0022:{\u0022DatabasePath\u0022:{\u0022Path\u0022:\u0022C:\\\\Users\\\\rytal\\\\Documents\\\\Visual Studio 2019\\\\Projects\\\\Football\\\\Cm93-master\\\\Cm93.UI\\\\bin\\\\Debug\\\\Cm93\\\\Cm93.sqlite\u0022}},\u0022Name\u0022:\u0022Ratings\u0022}": [
+    {
+      "$type": "SQLite.ViewModel.TableGeneralViewModelTabKey, SQLite.ViewModel",
+      "TableName": {
+        "Name": "Ratings"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      }
+    },
+    {
+      "$type": "SQLite.ViewModel.TableRecordsViewModelTabKey, SQLite.ViewModel",
+      "TableName": {
+        "Name": "Ratings"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      }
+    },
+    {
+      "$type": "SQLite.ViewModel.TableChartViewModelTabKey, SQLite.ViewModel",
+      "TableName": {
+        "Name": "Ratings"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      }
+    }
+  ],
+  "{\u0022Key\u0022:{\u0022DatabasePath\u0022:{\u0022Path\u0022:\u0022C:\\\\Users\\\\rytal\\\\Documents\\\\Visual Studio 2019\\\\Projects\\\\Football\\\\Cm93-master\\\\Cm93.UI\\\\bin\\\\Debug\\\\Cm93\\\\Cm93.sqlite\u0022}},\u0022Name\u0022:\u0022Tables\u0022}": []
+}

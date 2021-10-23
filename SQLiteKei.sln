@@ -37,7 +37,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility.WPF.Chart", "Utilit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox", "Sandbox\Sandbox.csproj", "{C1F69928-ED6A-4826-8AD4-61081AA07C6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility.Chart", "Utility.Chart\Utility.Chart.csproj", "{DE5103B3-EF3F-495B-9AA1-B5DD5ED32C2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility.Chart", "Utility.Chart\Utility.Chart.csproj", "{DE5103B3-EF3F-495B-9AA1-B5DD5ED32C2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{81A0B84A-F677-4F87-94D4-566844986459}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLite.Service", "SQLite.Service\SQLite.Service.csproj", "{B78D2E4D-31C7-4B4C-8C66-D794E6415DF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +109,14 @@ Global
 		{DE5103B3-EF3F-495B-9AA1-B5DD5ED32C2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE5103B3-EF3F-495B-9AA1-B5DD5ED32C2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE5103B3-EF3F-495B-9AA1-B5DD5ED32C2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81A0B84A-F677-4F87-94D4-566844986459}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81A0B84A-F677-4F87-94D4-566844986459}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81A0B84A-F677-4F87-94D4-566844986459}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81A0B84A-F677-4F87-94D4-566844986459}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B78D2E4D-31C7-4B4C-8C66-D794E6415DF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B78D2E4D-31C7-4B4C-8C66-D794E6415DF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B78D2E4D-31C7-4B4C-8C66-D794E6415DF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B78D2E4D-31C7-4B4C-8C66-D794E6415DF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

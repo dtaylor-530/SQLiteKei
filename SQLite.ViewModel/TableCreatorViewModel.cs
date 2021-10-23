@@ -1,16 +1,24 @@
 ﻿using ReactiveUI;
 using SQLite.Common.Contracts;
-using SQLite.ViewModel.Infrastructure.Service;
+using SQLite.Service.Model;
+using SQLite.Service.Service;
 using SQLiteKei.DataAccess.QueryBuilders;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Input;
-using Utility.SQLite.Database;
-using static SQLite.Common.Log;
+using Utility;
 
 namespace SQLite.ViewModel
 {
+    public class TableCreatorViewModelKey : Key
+    {
+        public override bool Equals(Key? other)
+        {
+            return other is TableCreatorViewModelKey;
+        }
+    }
+
     public class TableCreatorViewModel : ReactiveObject
     {
 
@@ -23,9 +31,10 @@ namespace SQLite.ViewModel
         private string statusInfo;
         private readonly ICommand addForeignKeyCommand;
         private readonly ILocaliser localiser;
-        private readonly DatabaseSelectItem[] databases;
+        private readonly DatabaseService databaseService;
+        //private readonly DatabaseSelectItem[] databases;
 
-        public TableCreatorViewModel(ILocaliser localiser, TreeService treeService)
+        public TableCreatorViewModel(ILocaliser localiser, TreeService treeService, DatabaseService databaseService)
         {
             ColumnDefinitions.CollectionChanged += CollectionContentChanged;
             ForeignKeyDefinitions.CollectionChanged += CollectionContentChanged;
@@ -34,7 +43,8 @@ namespace SQLite.ViewModel
             addForeignKeyCommand = ReactiveCommand.Create(AddForeignKeyDefinition);
             createCommand = ReactiveCommand.Create(Create);
             this.localiser = localiser;
-            databases = treeService.TreeViewItems.Select(a => new DatabaseSelectItem(a.DisplayName, a.DatabasePath)).ToArray();
+            this.databaseService = databaseService;
+            //databases = treeService.TreeViewItems.Select(a => new DatabaseSelectItem(a.Key.DatabasePath)).ToArray();
         }
 
         public ICommand CreateCommand => createCommand;
@@ -48,12 +58,12 @@ namespace SQLite.ViewModel
 
                 foreach (var foreignKey in ForeignKeyDefinitions)
                 {
-                    foreignKey.SelectedDatabasePath = selectedDatabase.DatabasePath;
+                    foreignKey.SelectedDatabasePath = selectedDatabase.Path;
                 }
             }
         }
 
-        public IReadOnlyCollection<DatabaseSelectItem> Databases => databases;
+        public IReadOnlyCollection<DatabaseSelectItem> Databases => new[] { SelectedDatabase };
 
         public ObservableCollection<ColumnDefinitionItem> ColumnDefinitions { get; } = new ObservableCollection<ColumnDefinitionItem>();
 
@@ -87,6 +97,10 @@ namespace SQLite.ViewModel
             get { return statusInfo; }
             set { this.RaiseAndSetIfChanged(ref statusInfo, value); }
         }
+
+        public ICommand AddForeignKeyCommand { get { return addForeignKeyCommand; } }
+
+        public ICommand AddColumnCommand => addColumnCommand;
 
         private void CollectionContentChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -174,16 +188,11 @@ namespace SQLite.ViewModel
             ColumnDefinitions.Add(new ColumnDefinitionItem());
         }
 
-        public ICommand AddColumnCommand => addColumnCommand;
-
         public void AddForeignKeyDefinition()
         {
-            ForeignKeyDefinitionItem foreignKeyDefinition;
-
-            if (selectedDatabase == null)
-                foreignKeyDefinition = new ForeignKeyDefinitionItem(null);
-            else
-                foreignKeyDefinition = new ForeignKeyDefinitionItem(selectedDatabase.DatabasePath);
+            ForeignKeyDefinitionItem foreignKeyDefinition = selectedDatabase == null ?
+                new ForeignKeyDefinitionItem(null) :
+                new ForeignKeyDefinitionItem(selectedDatabase.Path);
 
             foreach (var column in ColumnDefinitions)
             {
@@ -192,8 +201,6 @@ namespace SQLite.ViewModel
 
             ForeignKeyDefinitions.Add(foreignKeyDefinition);
         }
-
-        public ICommand AddForeignKeyCommand { get { return addForeignKeyCommand; } }
 
         private void Create()
         {
@@ -205,25 +212,9 @@ namespace SQLite.ViewModel
                 return;
             }
 
-            if (!string.IsNullOrEmpty(SqlStatement))
-            {
-                var database = SelectedDatabase as DatabaseSelectItem;
-                var dbHandler = new DatabaseHandler(database.DatabasePath);
-
-                try
-                {
-                    if (SqlStatement.StartsWith("CREATE TABLE", StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        dbHandler.ExecuteNonQuery(SqlStatement);
-                        StatusInfo = localiser["TableCreator_TableCreateSuccess"];
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Error("An error occured when the user tried to create a table from the TableCreator.", ex);
-                    StatusInfo = ex.Message.Replace("SQL logic error or missing database\r\n", "SQL-Error - ");
-                }
-            }
+            StatusInfo = databaseService.CreateTable(sqlStatement) ?
+                localiser["TableCreator_TableCreateSuccess"] :
+                "SQL logic error or missing database\r\n";
         }
 
         public string Title => localiser["WindowTitle_TableCreator"];

@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
 using SQLite.Common.Contracts;
-using SQLite.ViewModel.Infrastructure.Service;
+using SQLite.Service.Service;
 using System.Windows.Input;
 
 namespace SQLite.ViewModel
@@ -19,7 +19,6 @@ namespace SQLite.ViewModel
         public string Source { get; }
     }
 
-
     public class PanelObject
     {
 
@@ -31,7 +30,6 @@ namespace SQLite.ViewModel
 
     public class MenuPanelViewModel
     {
-
 
         public MenuPanelViewModel(
             TreeService treeService,
@@ -53,8 +51,6 @@ namespace SQLite.ViewModel
             };
         }
 
-
         public IReadOnlyCollection<PanelObject> Collection { get; }
     }
 }
-

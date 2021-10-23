@@ -2,9 +2,19 @@
 using SQLite.Common.Contracts;
 using System.Diagnostics;
 using System.Windows.Input;
+using Utility;
 
 namespace SQLite.ViewModel
 {
+
+    public class AboutViewModelKey : Key
+    {
+        public override bool Equals(Key? other)
+        {
+            return other is AboutViewModelKey;
+        }
+    }
+
     public class AboutViewModel
     {
         private readonly ILocaliser localiser;
@@ -20,7 +30,6 @@ namespace SQLite.ViewModel
 
         public string Title => string.Empty;
 
-
         public ICommand NavigateCommand { get; } = ReactiveCommand.Create<Uri, Uri>(a => CheckoutOnGithub(a));
 
         static string VersionString()
@@ -33,10 +42,10 @@ namespace SQLite.ViewModel
             return string.Format("Version {0}", assemblyVersion);
         }
 
-        static Uri CheckoutOnGithub( Uri e)
+        static Uri CheckoutOnGithub(Uri e)
         {
             Process.Start(new ProcessStartInfo(e.AbsoluteUri));
-            return e;   
+            return e;
         }
     }
 }

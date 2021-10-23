@@ -14,7 +14,7 @@ public class TableHandler : DisposableDbHandler
 {
     private string tableName;
 
-    public TableHandler(ConnectionPath databasePath, string tableName) : base(databasePath)
+    public TableHandler(DatabasePath databasePath, string tableName) : base(databasePath)
     {
         this.tableName = tableName;
     }

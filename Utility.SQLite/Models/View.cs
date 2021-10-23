@@ -1,7 +1,9 @@
-﻿namespace Utility.SQLite.Models
+﻿using Utility.Database;
+
+namespace Utility.SQLite.Models
 {
     public class View
     {
-        public string Name { get; init; }
+        public TableName Name { get; init; }
     }
 }

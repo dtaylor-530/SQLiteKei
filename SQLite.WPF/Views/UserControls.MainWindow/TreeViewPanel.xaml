@@ -5,6 +5,7 @@
           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
           mc:Ignorable="d"
           xmlns:vm="clr-namespace:SQLite.ViewModel;assembly=SQLite.ViewModel"
+          xmlns:s="clr-namespace:SQLite.Service.Model;assembly=SQLite.Service"
           HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
           SelectedItemChanged="DBTreeView_SelectedItemChanged"
           d:DataContext="{d:DesignInstance vm:TreeViewModel}"
@@ -14,10 +15,10 @@
           Margin="5 0 0 0" Padding="0 4">
 
     <TreeView.Resources>
-        <HierarchicalDataTemplate DataType="{x:Type vm:DatabaseItem}" ItemsSource="{Binding Items}">
+        <HierarchicalDataTemplate DataType="{x:Type s:DatabaseBranchItem}" ItemsSource="{Binding Items}">
             <DockPanel>
                 <Image Source="../../Resources/Icons/TreeItem_Database.png" Height="16" Width="16" Margin="4 1"/>
-                <TextBlock Text="{Binding DisplayName}" ToolTip="{Binding DatabasePath}">
+                <TextBlock Text="{Binding Name}" ToolTip="{Binding Path=Key.DatabasePath}">
                     <TextBlock.ContextMenu>
                         <ContextMenu>
                             <!--<MenuItem Header="{x:Static localisation:Resources.ContextMenuItem_CloseDatabase}" Click="CloseDatabase" />
@@ -30,22 +31,22 @@
                 </TextBlock>
             </DockPanel>
         </HierarchicalDataTemplate>
-        <HierarchicalDataTemplate DataType="{x:Type vm:FolderItem}" ItemsSource="{Binding Items}">
+        <HierarchicalDataTemplate DataType="{x:Type s:FolderBranchItem}" ItemsSource="{Binding Items}">
             <DockPanel>
                 <Image Source="../../Resources/Icons/TreeItem_Folder.png" Height="16" Width="16" Margin="4 1"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding DisplayName}" />
+                    <TextBlock Text="{Binding Name}" />
                     <TextBlock Text=" (" />
                     <TextBlock Text="{Binding Items.Count, Mode=OneWay}" />
                     <TextBlock Text=")" />
                 </StackPanel>
             </DockPanel>
         </HierarchicalDataTemplate>
-        <HierarchicalDataTemplate DataType="{x:Type vm:TableFolderItem}" ItemsSource="{Binding Items}">
+        <HierarchicalDataTemplate DataType="{x:Type s:TableFolderItem}" ItemsSource="{Binding Items}">
             <DockPanel>
                 <Image Source="../../Resources/Icons/TreeItem_Folder.png" Height="16" Width="16" Margin="4 1"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding DisplayName}" />
+                    <TextBlock Text="{Binding Name}" />
                     <TextBlock Text=" (" />
                     <TextBlock Text="{Binding Items.Count, Mode=OneWay}" />
                     <TextBlock Text=")" />
@@ -57,10 +58,10 @@
                 </StackPanel>
             </DockPanel>
         </HierarchicalDataTemplate>
-        <HierarchicalDataTemplate DataType="{x:Type vm:TableItem}">
+        <HierarchicalDataTemplate DataType="{x:Type s:TableLeafItem}">
             <DockPanel>
                 <Image Source="../../Resources/Icons/TreeItem_Table.png" Height="16" Width="16" Margin="4 1"/>
-                <TextBlock Text="{Binding Path=DisplayName}" >
+                <TextBlock Text="{Binding Path=Name}" >
                     <TextBlock.ContextMenu>
                         <ContextMenu>
                             <!--<MenuItem Header="{x:Static localisation:Resources.ContextMenuItem_EmptyTable}" Click="EmptyTable" />-->
@@ -71,16 +72,16 @@
                 </TextBlock>
             </DockPanel>
         </HierarchicalDataTemplate>
-        <DataTemplate DataType="{x:Type vm:IndexItem}">
+        <DataTemplate DataType="{x:Type s:IndexLeafItem}">
             <DockPanel>
                 <Image Source="../../Resources/Icons/TreeItem_Index.png" Height="16" Width="16" Margin="4 1"/>
-                <TextBlock Text="{Binding Path=DisplayName}" />
+                <TextBlock Text="{Binding Path=Name}" />
             </DockPanel>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:TriggerItem}">
+        <DataTemplate DataType="{x:Type s:TriggerLeafItem}">
             <DockPanel>
                 <Image Source="../../Resources/Icons/TreeItem_Trigger.png" Height="16" Width="16" Margin="4 1"/>
-                <TextBlock Text="{Binding Path=DisplayName}">
+                <TextBlock Text="{Binding Path=Name}">
                     <TextBlock.ContextMenu>
                         <ContextMenu>
                             <!--<MenuItem Header="{x:Static localisation:Resources.ContextMenuItem_DeleteTrigger}"></MenuItem>-->
@@ -89,10 +90,10 @@
                 </TextBlock>
             </DockPanel>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:ViewItem}">
+        <DataTemplate DataType="{x:Type s:ViewLeafItem}">
             <DockPanel>
                 <Image Source="../../Resources/Icons/TreeItem_View.png" Height="16" Width="16" Margin="4 1"/>
-                <TextBlock Text="{Binding Path=DisplayName}">
+                <TextBlock Text="{Binding Path=Name}">
                     <TextBlock.ContextMenu>
                         <ContextMenu>
                             <!--<MenuItem Header="{x:Static localisation:Resources.ContextMenuItem_DeleteView}"></MenuItem>-->

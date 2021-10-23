@@ -1,27 +1,27 @@
-﻿using SQLite.Common.Contracts;
-using SQLite.ViewModel.Infrastructure.Service;
+﻿using ReactiveUI;
+using SQLite.Common.Contracts;
+using SQLite.Service.Service;
 using System.Collections.ObjectModel;
 
 namespace SQLite.ViewModel
 {
-    public class TreeViewModel
+    public class TreeViewModel : ReactiveObject
     {
         private readonly TreeService treeService;
 
         public TreeViewModel(TreeService treeService)
         {
             this.treeService = treeService;
+
+            treeService.Subscribe(a => this.RaisePropertyChanged(nameof(SelectedItem)));
         }
 
-        public ObservableCollection<TreeItem> TreeViewItems => treeService.TreeViewItems;
+        public ObservableCollection<DatabaseTreeItem> TreeViewItems => treeService.TreeViewItems;
 
-        public TreeItem SelectedItem
+        public DatabaseTreeItem SelectedItem
         {
             get => treeService.SelectedItem;
-            set
-            {
-                treeService.SelectedItem = value;
-            }
+            set => treeService.SelectedItem = value;
         }
     }
 }

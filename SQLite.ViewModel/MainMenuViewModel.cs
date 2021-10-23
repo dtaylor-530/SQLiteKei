@@ -1,7 +1,8 @@
 ﻿using ReactiveUI;
 using SQLite.Common.Contracts;
+using SQLite.Service.Model;
+using SQLite.Service.Service;
 using SQLite.ViewModel.Infrastructure.Factory;
-using SQLite.ViewModel.Infrastructure.Service;
 using System.Diagnostics;
 using System.Windows.Input;
 
@@ -57,21 +58,18 @@ namespace SQLite.ViewModel
             this.windowService = windowService;
         }
 
-
         private void OpenAbout()
         {
-            var about = viewModelFactory.Build<AboutViewModel>();
+            var about = viewModelFactory.Build<AboutViewModel>(new AboutViewModelKey());
             windowService.ShowWindow(new(localiser["WindowTitle_About"], about, ResizeMode.NoResize, Show.ShowDialog));
 
         }
 
         private void OpenPreferences()
         {
-            var preferences = viewModelFactory.Build<PreferencesViewModel>();
+            var preferences = viewModelFactory.Build<PreferencesViewModel>(new PreferencesViewModelKey());
             windowService.ShowWindow(new(localiser["WindowTitle_Preferences"], preferences, ResizeMode.NoResize, Show.ShowDialog));
         }
-
-
 
         private void MenuItem_Exit_Click()
         {
@@ -96,15 +94,13 @@ namespace SQLite.ViewModel
 
         private void OpenFileDirectory()
         {
-            if (treeService.SelectedItem is DatabaseItem { DatabasePath: { Directory: { } dir } })
+            if (treeService.SelectedItem is DatabaseBranchItem { Key: { DatabasePath: { Parent: { } dir } } })
             {
                 Process.Start(dir);
             }
             else
                 throw new Exception("s,,333d32,,,333333");
         }
-
-
 
         //private void CloseDatabase()
         //{
@@ -116,7 +112,6 @@ namespace SQLite.ViewModel
         //        Info("Closed database '" + db.DisplayName + "'.");
         //    }
         //}
-
 
     }
 
@@ -133,9 +128,7 @@ namespace SQLite.ViewModel
     public class Seperator : MenuObject
     {
 
-
     }
-
 
     public class MenuObject
     {

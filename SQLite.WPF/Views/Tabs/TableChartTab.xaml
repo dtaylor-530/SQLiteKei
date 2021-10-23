@@ -20,7 +20,7 @@
                                     ColumnEnabledKey="IsEnabled"
                                     ColumnSelections="{Binding ColumnSelections,Mode=TwoWay}"/>
 
-        <chart:DynamicSelectionChart Grid.Row="1" x:Name="DynamicChart" Series="{Binding Series}"/>
+        <chart:DynamicSelectionChart Grid.Row="1" x:Name="DynamicChart" Series="{Binding Series,Mode=OneWay}"/>
     </Grid>
 
 </UserControl>

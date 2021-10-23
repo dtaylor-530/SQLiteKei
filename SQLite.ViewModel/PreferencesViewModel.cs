@@ -1,11 +1,18 @@
-﻿using System.Windows.Input;
-using ReactiveUI;
+﻿using ReactiveUI;
 using SQLite.Common.Contracts;
-using static SQLite.Common.Log;
-
+using System.Windows.Input;
+using Utility;
 
 namespace SQLite.ViewModel
 {
+    public class PreferencesViewModelKey : Key
+    {
+        public override bool Equals(Key? other)
+        {
+            return other is PreferencesViewModelKey;
+        }
+    }
+
     public class PreferencesViewModel
     {
         //private readonly ILog log = Log.GetLogger();
@@ -15,13 +22,16 @@ namespace SQLite.ViewModel
         private readonly IThemeService themeService;
         private readonly ILocaliser localiser;
 
-        public PreferencesViewModel(IThemeService themeService, ILocaliser localiser)
+        public PreferencesViewModel(PreferencesViewModelKey key, IThemeService themeService, ILocaliser localiser)
         {
 
             applySettingsCommand = ReactiveCommand.Create(ApplySettings);
+            Key = key;
             this.themeService = themeService;
             this.localiser = localiser;
         }
+
+        public PreferencesViewModelKey Key { get; }
 
         public string[] AvailableLanguages => localiser.AvailableLanguages;
 
@@ -54,8 +64,6 @@ namespace SQLite.ViewModel
         //            return Instance["Preferences_Language_English"];
         //    };
         //}
-
-
 
         private void ApplySettings()
         {
@@ -103,11 +111,12 @@ namespace SQLite.ViewModel
 
         public string Title => localiser["WindowTitle_Preferences"];
         public string LanguageHeader => localiser["Preferences_GroupBoxHeader_Languages"];
-        public string LanguageKey=> localiser["Preferences_Language"];
+        public string LanguageKey => localiser["Preferences_Language"];
         public string LanaguageValue => localiser["Preferences_LanguageChangeInfo"];
         public string ThemeHeader => localiser["Preferences_GroupBoxHeader_Themes"];
-        public string ThemeKey=> localiser["Preferences_ApplicationTheme"];
-        public string ApplyKey=> localiser["ButtonText_Apply"];
-        public string CancelKey=> localiser["ButtonText_Cancel"];
+        public string ThemeKey => localiser["Preferences_ApplicationTheme"];
+        public string ApplyKey => localiser["ButtonText_Apply"];
+        public string CancelKey => localiser["ButtonText_Cancel"];
+
     }
 }

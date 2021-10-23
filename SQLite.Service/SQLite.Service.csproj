@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="ReactiveUI" Version="16.2.6" />
+	</ItemGroup>
+  <ItemGroup>
+	<ProjectReference Include="..\SQLite.Common\SQLite.Common.csproj" />
+	<ProjectReference Include="..\Utility.Chart\Utility.Chart.csproj" />
+	<ProjectReference Include="..\Utility.SQLite\Utility.SQLite.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Splat;
 using Splat.Autofac;
+using SQLite.Service.Meta;
 using SQLite.ViewModel;
 using SQLite.Views;
 using SQLite.WPF.Infrastructure;
@@ -74,7 +75,9 @@ namespace SQLite.WPF.Demo
         private ContainerBuilder Register(ContainerBuilder builder)
         {
             SQLite.WPF.Meta.BootStrapper.Register(builder);
+            SQLite.Service.Meta.BootStrapper.Register(builder);
             SQLite.ViewModel.Meta.BootStrapper.Register(builder);
+            BootStrapper.Register(builder);
             SQLite.Data.Meta.BootStrapper.Register(builder);
             return builder;
         }

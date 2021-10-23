@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:SQLite.ViewModel;assembly=SQLite.ViewModel"
+        xmlns:s="clr-namespace:SQLite.Service.Model;assembly=SQLite.Service"
         d:DataContext="{d:DesignInstance vm:SelectQueryViewModel}"
         mc:Ignorable="d"
         Height="350" Width="550"
@@ -21,7 +22,7 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <ItemsControl ItemsSource="{Binding Selects}">
                         <ItemsControl.Resources>
-                            <DataTemplate DataType="{x:Type vm:SelectItem}">
+                            <DataTemplate DataType="{x:Type s:SelectItem}">
                                 <DockPanel Height="25">
                                     <CheckBox IsChecked="{Binding IsSelected}" Margin="5 0" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding ColumnName}"
@@ -41,7 +42,7 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <ItemsControl ItemsSource="{Binding Selects}">
                         <ItemsControl.Resources>
-                            <DataTemplate DataType="{x:Type vm:SelectItem}">
+                            <DataTemplate DataType="{x:Type s:SelectItem}">
                                 <DockPanel Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}" Height="25">
                                     <TextBlock Text="{Binding ColumnName}"
                                                TextTrimming="CharacterEllipsis" ToolTip="{Binding ColumnName}"
@@ -72,7 +73,7 @@
                     <StackPanel>
                         <ItemsControl ItemsSource="{Binding Orders}">
                             <ItemsControl.Resources>
-                                <DataTemplate DataType="{x:Type vm:OrderItem}">
+                                <DataTemplate DataType="{x:Type s:OrderItem}">
                                     <DockPanel Margin="0 2">
                                         <ComboBox ItemsSource="{Binding Columns, Mode=OneWay}" SelectedItem="{Binding SelectedColumn}" Width="200"/>
                                         <CheckBox VerticalAlignment="Center" Margin="5 0" IsChecked="{Binding IsDescending}">

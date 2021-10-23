@@ -1,4 +1,5 @@
-﻿using SQLite.ViewModel;
+﻿using Splat;
+using SQLite.Service.Service;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,12 +18,14 @@ namespace SQLite.Views
         public MainWindow()
         {
             KeyDown += new KeyEventHandler(Window_KeyDown);
+
             InitializeComponent();
         }
 
-        protected override void OnClosed(EventArgs e)
+        protected override async void OnClosed(EventArgs e)
         {
-            (this.DataContext as MainWindowViewModel).Close();
+            Locator.Current.GetService<ExitService>().Exit();
+            base.OnClosed(e);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

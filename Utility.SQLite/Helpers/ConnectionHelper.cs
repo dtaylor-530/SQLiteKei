@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using Utility.Database;
 using Utility.SQLite.Database;
 using Utility.SQLite.Models;
@@ -26,7 +28,7 @@ namespace Utility.SQLite.Helpers
             IsPrimary = Convert.ToBoolean(row.ItemArray[5])
         };
 
-        public static IReadOnlyCollection<TableInformation> TablesInformation(ConnectionPath FilePath)
+        public static IReadOnlyCollection<TableInformation> TablesInformation(DatabasePath FilePath)
         {
             using (var dbHandler = new DatabaseHandler(FilePath))
             {

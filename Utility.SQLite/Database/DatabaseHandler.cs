@@ -12,7 +12,7 @@ namespace Utility.SQLite.Database
     /// </summary>
     public class DatabaseHandler : DisposableDbHandler
     {
-        public DatabaseHandler(ConnectionPath databasePath) : base(databasePath)
+        public DatabaseHandler(DatabasePath databasePath) : base(databasePath)
         {
         }
 
@@ -22,7 +22,7 @@ namespace Utility.SQLite.Database
         /// <returns></returns>
         public string Name => Connection.Database;
 
-        public ConnectionPath Path => ConnectionPath;
+        public DatabasePath Path => ConnectionPath;
 
         /// <summary>
         /// Returns information about all tables in the current database.
@@ -31,8 +31,8 @@ namespace Utility.SQLite.Database
         public IEnumerable<Table> Tables => from row in SchemaRows("Tables")
                                             select new Table
                                             {
-                                                DatabaseName = row.ItemArray[0].ToString(),
-                                                Name = row.ItemArray[2].ToString(),
+                                                DatabasePath = new DatabasePath(row.ItemArray[0].ToString()),
+                                                Name = new TableName(row.ItemArray[2].ToString()),
                                                 CreateStatement = row.ItemArray[6].ToString(),
                                             };
 
@@ -43,7 +43,7 @@ namespace Utility.SQLite.Database
         public IEnumerable<View> Views => from row in SchemaRows("Views")
                                           select new View
                                           {
-                                              Name = row.ItemArray[2].ToString()
+                                              Name = new TableName(row.ItemArray[2].ToString())
                                           };
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Utility.SQLite.Database
                                                     where !indexName.Contains("_PK_")
                                                     select new Models.Index
                                                     {
-                                                        Name = row.ItemArray[5].ToString()
+                                                        Name = new TableName(row.ItemArray[5].ToString())
                                                     };
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Utility.SQLite.Database
         public IEnumerable<Trigger> Triggers => from row in SchemaRows("Triggers")
                                                 select new Trigger
                                                 {
-                                                    Name = row.ItemArray[2].ToString()
+                                                    Name = new TableName(row.ItemArray[2].ToString())
                                                 };
 
         private IEnumerable<DataRow> SchemaRows(string collectionName)
@@ -83,7 +83,6 @@ namespace Utility.SQLite.Database
             var rows = Connection.Query(sql).AsList();
             return rows;
         }
-
 
         /// <summary>
         /// Executes the specified sql and returns a DataTable with the results.

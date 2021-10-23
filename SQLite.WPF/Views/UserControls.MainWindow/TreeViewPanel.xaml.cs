@@ -19,7 +19,7 @@ namespace SQLite.WPF.Views.UserControls.MainWindow
 
         private void DBTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (DataContext is TreeViewModel viewmodel && e.NewValue is TreeItem treeItem)
+            if (DataContext is TreeViewModel viewmodel && e.NewValue is DatabaseTreeItem treeItem)
                 viewmodel.SelectedItem = treeItem;
             else
                 throw new System.Exception("kktiit");

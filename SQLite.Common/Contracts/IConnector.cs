@@ -4,6 +4,6 @@ namespace SQLite.Common.Contracts
 {
     public interface IConnector
     {
-        ConnectionPath ConnectionPath { get; set; }
+        DatabasePath ConnectionPath { get; set; }
     }
 }

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:SQLite.ViewModel;assembly=SQLite.ViewModel"
+             xmlns:s="clr-namespace:SQLite.Service.Model;assembly=SQLite.Service"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:QueryEditorViewModel}"
         Title="{Binding Title, Mode=OneTime}"
@@ -20,7 +21,7 @@
             <Label Content="{Binding DatabaseKey}" />
             <ComboBox x:Name="DatabaseComboBox" Width="150" Height="20" ItemsSource="{Binding Databases}" SelectedItem="{Binding SelectedDatabase}">
                 <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type vm:DatabaseSelectItem}">
+                    <DataTemplate DataType="{x:Type s:DatabaseSelectItem}">
                         <TextBlock
                             Text="{Binding DatabaseName}"
                             VerticalAlignment="Center"
