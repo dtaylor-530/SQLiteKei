@@ -1,5 +1,4 @@
-﻿using ReactiveUI;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Utility.Chart;
 using Utility.Database;
 
@@ -8,12 +7,10 @@ namespace SQLite.Service.Repository
     public class SeriesPairRepository
     {
         readonly Lazy<Dictionary<string, List<SeriesPair>>> dictionary = new();
-        private JsonSerializerOptions settings;
+        private JsonSerializerOptions settings = new JsonSerializerOptions { WriteIndented = true };
 
         public SeriesPairRepository()
         {
-            settings = new JsonSerializerOptions { WriteIndented = true };
-
             this.dictionary = new(() =>
             {
                 Dictionary<string, List<SeriesPair>>? dictionary = null;

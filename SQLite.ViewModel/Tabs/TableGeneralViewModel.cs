@@ -29,7 +29,8 @@ namespace SQLite.ViewModel
             TableGeneralViewModelTabKey key,
             ILocaliser localiser,
             ViewModelNameService nameService,
-            TableService tableService) : base(key, string.Empty)
+            IsSelectedService isSelectedService,
+            TableService tableService) : base(key, isSelectedService)
         {
             this.Key = key;
             this.tableName = key.TableName;

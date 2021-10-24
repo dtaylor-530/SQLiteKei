@@ -8,7 +8,7 @@ namespace SQLite.Service.Model
 
     public record RowInt64(long X, long Y);
 
-    public record TableSeriesPairs(TableName TableName, IReadOnlyCollection<SeriesPair> Collection);
+    public record TableSeriesPairs(TableKey Key, IReadOnlyCollection<SeriesPair> Collection);
 
     public interface ISeriesPairChanges : IObservable<TableSeriesPairs>
     {

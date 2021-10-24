@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 using Utility;
 using Utility.Database;
@@ -7,6 +8,8 @@ namespace SQLite.Common.Contracts
 {
     public abstract class Item : IViewModel, IEquatable<Item?>
     {
+        private bool isSelected;
+
         [JsonConstructor]
         protected Item(DatabaseKey key, string name)
         {
@@ -17,6 +20,20 @@ namespace SQLite.Common.Contracts
         public virtual Key Key { get; }
 
         public virtual string Name { get; }
+
+        public bool IsSelected
+        {
+            get => isSelected;
+            set
+            {
+                isSelected = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected)));
+            }
+        }
+
+        public bool IsLoaded { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public override bool Equals(object? obj)
         {

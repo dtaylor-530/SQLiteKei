@@ -119,7 +119,7 @@ public class DatabaseKey : Key
     public override bool Equals(Key? other)
     {
         if (other is DatabaseKey dKey)
-            return dKey.DatabasePath.Equals(DatabasePath);
+            return dKey.DatabasePath.Equals(DatabasePath) && base.Equals(other);
         throw new Exception("Key types dont match");
     }
 

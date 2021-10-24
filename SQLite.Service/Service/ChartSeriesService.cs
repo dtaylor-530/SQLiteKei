@@ -1,9 +1,9 @@
 ﻿using OxyPlot;
 using SQLite.Service.Model;
 using System.Reactive.Linq;
-//using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Utility.Chart;
+using Utility.Database;
 
 namespace SQLite.Service.Service
 {
@@ -18,7 +18,7 @@ namespace SQLite.Service.Service
             columnSeriesPairService
                 .Select(a =>
                 {
-                    return new ChartSeries(a.TableName, LineSeriesConverter.Execute(a.Collection, databaseService, a.TableName).ToArray());
+                    return new ChartSeries(a.Key, LineSeriesConverter.Execute(a.Collection, databaseService, a.Key.TableName).ToArray());
 
                 }).Subscribe(chartSubject);
 
@@ -45,7 +45,7 @@ namespace SQLite.Service.Service
         }
     }
 
-    public record ChartSeries(string TableName, IReadOnlyCollection<Series> Collection);
+    public record ChartSeries(TableKey Key, IReadOnlyCollection<Series> Collection);
 
     static class LineSeriesConverter
     {

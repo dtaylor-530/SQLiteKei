@@ -47,16 +47,17 @@ namespace SQLite.Service.Service
                     if (tabsRepository.Load(selectedItem) is { } loadedKeys)
                     {
                         tabs = tabsFactory.TabsFor(loadedKeys).ToArray();
-
                     }
                     else
                     {
                         tabs = tabsFactory.TabsFor(selectedItem).ToArray();
-                        tabsRepository.Save(selectedItem, tabs.Select(a => a.Key).ToList());
+                        tabsRepository.Save(selectedItem, tabs.Select(a => (a as IDatabaseKey).Key).ToList());
                     }
 
                     foreach (var tab in tabs)
+                    {
                         TabItems.Add(tab);
+                    }
                 }
             }
         }

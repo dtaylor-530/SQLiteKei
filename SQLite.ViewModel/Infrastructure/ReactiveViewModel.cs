@@ -1,25 +1,48 @@
 ﻿using ReactiveUI;
 using SQLite.Common;
+using SQLite.Service.Service;
+using System.Reactive.Linq;
 using Utility;
 using Utility.Database;
 
 namespace SQLite.ViewModel.Infrastructure;
 
-public class ReactiveViewModel : ReactiveObject, IViewModel
+public abstract class ReactiveViewModel : ReactiveObject, IViewModel
 {
-    public ReactiveViewModel(Key key, string name)
+    private readonly IsSelectedService isSelectedService;
+    private readonly ObservableAsPropertyHelper<bool> prop;
+    private bool isLoaded;
+
+    public ReactiveViewModel(Key key, IsSelectedService isSelectedService)
     {
         Key = key;
-        Name = name;
+        this.isSelectedService = isSelectedService;
+        prop = isSelectedService.Get(key, this.WhenAnyValue(a => a.IsLoaded)).Select(a => a.Value).ToProperty(this, a => a.IsSelected);
     }
 
     public virtual Key Key { get; }
-    public virtual string Name { get; }
+
+    public abstract string Name { get; }
+
+    public bool IsLoaded
+    {
+        get => isLoaded;
+        set => this.RaiseAndSetIfChanged(ref isLoaded, value);
+    }
+
+    public bool IsSelected
+    {
+        get => prop.Value;
+        set
+        {
+            isSelectedService.Set(Key, new IsSelected(value));
+        }
+    }
 }
 
-public class DatabaseViewModel : ReactiveViewModel, IDatabaseViewModel
+public abstract class DatabaseViewModel : ReactiveViewModel, IDatabaseViewModel
 {
-    public DatabaseViewModel(DatabaseKey key, string name) : base(key, name)
+    public DatabaseViewModel(DatabaseKey key, IsSelectedService isSelectedService) : base(key, isSelectedService)
     {
         Key = key;
     }

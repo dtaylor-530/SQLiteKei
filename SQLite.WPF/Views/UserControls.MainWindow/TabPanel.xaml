@@ -16,8 +16,10 @@
     <TabControl.ItemContainerStyle>
         <Style TargetType="{x:Type TabItem}" >
             <Setter Property="Header" Value="{Binding Name}" />
+            <Setter Property="IsSelected" Value="{Binding IsSelected}" />
             <Setter Property="Content" Value="{Binding }" />
             <Setter Property="ContentTemplateSelector" Value="{x:Static infra:DataTemplateSelector.Instance}"/>
+            <Setter Property="local1:LoadedBehavior.IsEnabledForStyle" Value="True"/>
         </Style>
     </TabControl.ItemContainerStyle>
 </TabControl>

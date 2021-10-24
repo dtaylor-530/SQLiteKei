@@ -2,7 +2,11 @@
 
 public abstract class Key : IEquatable<Key>
 {
-    public abstract bool Equals(Key? other);
+    public virtual bool Equals(Key? other)
+    {
+        return this.GetType().Equals(other?.GetType());
+    }
+
 
     public override bool Equals(object? obj)
     {

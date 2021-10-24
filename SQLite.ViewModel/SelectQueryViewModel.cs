@@ -1,6 +1,7 @@
 ﻿using ReactiveUI;
 using SQLite.Common.Contracts;
 using SQLite.Service.Model;
+using SQLite.Service.Service;
 using SQLite.ViewModel.Infrastructure;
 using SQLiteKei.DataAccess.QueryBuilders;
 using SQLiteKei.DataAccess.QueryBuilders.Base;
@@ -35,7 +36,7 @@ namespace SQLite.ViewModel
         private SelectQueryBuilder? selectQueryBuilder;
         private string selectQuery;
 
-        public SelectQueryViewModel(SelectQueryViewModelKey key, ILocaliser localiser) : base(key, string.Empty)
+        public SelectQueryViewModel(SelectQueryViewModelKey key, ILocaliser localiser, IsSelectedService isSelectedService) : base(key, isSelectedService)
         {
             this.localiser = localiser;
             this.connectionPath = key.DatabasePath;
@@ -57,6 +58,8 @@ namespace SQLite.ViewModel
         public ObservableCollection<OrderItem> Orders { get; } = new ObservableCollection<OrderItem>();
 
         public ICommand AddOrderStatementCommand => ReactiveCommand.Create(AddOrderStatement);
+
+        public override string Name => "Select Query";
 
         private void Initialize()
         {

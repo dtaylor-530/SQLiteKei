@@ -46,6 +46,8 @@ namespace SQLite.Service.Meta
                 typeof(SeriesRepository),
                 typeof(SeriesPairRepository),
                 typeof(ColumnDataFactory),
+                typeof(IsSelectedService),
+                typeof(IsSelectedRepository),
 
             })
             {
@@ -59,8 +61,3 @@ namespace SQLite.Service.Meta
         }
     }
 }
-
-//containerBuilder.RegisterType<TableGeneralViewModel>().AsImplementedInterfaces().AsSelf();
-//containerBuilder.RegisterType<TableRecordsViewModel>().AsImplementedInterfaces().AsSelf();
-//containerBuilder.RegisterType<DatabaseGeneralViewModel>().AsImplementedInterfaces().AsSelf();
-//containerBuilder.RegisterType<TableCreatorViewModel>().AsImplementedInterfaces().AsSelf();

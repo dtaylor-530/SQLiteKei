@@ -2,8 +2,8 @@
 using SQLite.Service.Model;
 using SQLite.Service.Service;
 using SQLite.ViewModel.Infrastructure;
-using System.Reactive.Linq;
-//using System.Reactive.Linq;
+using System.Reactive;
+using System.Reactive.Subjects;
 using Utility.Chart;
 using Utility.Database;
 
@@ -28,14 +28,15 @@ namespace SQLite.ViewModel
         private readonly ColumnModelService modelService;
         private readonly ColumnSeriesService columnSeriesService;
         private readonly ColumnSeriesPairService seriesPairService;
+        private readonly Subject<Unit> subject = new();
 
         public TableChartViewModel(
             TableChartViewModelTabKey key,
             ViewModelNameService nameService,
             ColumnModelService modelService,
             ColumnSeriesPairService seriesPairService,
-            ChartSeriesService chartSeriesService,
-            ColumnSeriesService columnSeriesService) : base(key, string.Empty)
+            IsSelectedService isSelectedService,
+            ColumnSeriesService columnSeriesService) : base(key, isSelectedService)
         {
             Key = key;
             this.nameService = nameService;
@@ -43,11 +44,8 @@ namespace SQLite.ViewModel
             this.seriesPairService = seriesPairService;
             this.columnSeriesService = columnSeriesService;
 
-            chartSeriesService
-                .Where(a => a.TableName == Key.TableName)
-                .Subscribe(a =>
+            subject.Subscribe(a =>
             {
-                columnSeriesService.Set(Key, a.Collection.ToList());
                 this.RaisePropertyChanged(nameof(Series));
             });
         }
@@ -66,38 +64,8 @@ namespace SQLite.ViewModel
 
         public IReadOnlyCollection<Series> Series
         {
-            get => columnSeriesService.Get(Key);
-            //private set => columnSeriesService.Set(Key, value);
+            get => columnSeriesService.Get(Key, subject);
         }
 
-        //void Execute()
-        //{
-
-        //    List<Utility.Chart.Series> series = new();
-        //    foreach (var xx in columnSelections ?? throw new Exception("!!se544455df2244444)d"))
-        //    {
-
-        //        var rows = treeService.SelectCurrentAsRows($"Select {xx.ColumnX}, {xx.ColumnY} from {configuration.TableName}");
-        //        var lineSeries = new Utility.Chart.Series(xx.ColumnX, xx.ColumnY, rows
-        //            .Cast<IDictionary<string, object>>()
-        //            .Select(r => new DataPoint(Convert.ToDouble(r[xx.ColumnX]), Convert.ToDouble(r[xx.ColumnY]))).ToArray());
-        //        series.Add(lineSeries);
-        //    }
-
-        //    Series = series;
-
-        //}
-
     }
-
-    //public class TableChartViewModelService
-    //{
-    //    public TableChartViewModelService()
-    //    {
-
-    //    }
-
-    //    public IReadOnlyCollection<ReactiveObject> Collection { get; }
-    //}
-
 }

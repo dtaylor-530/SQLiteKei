@@ -14,8 +14,8 @@ public class TabPanelViewModel : ReactiveObject
         this.tabsService = tabsService;
         tabsService.Subscribe(a =>
         {
-            SelectedTabIndex = a;
-            this.RaisePropertyChanged(nameof(SelectedTabIndex));
+            //SelectedTabIndex = a;
+            //this.RaisePropertyChanged(nameof(SelectedTabIndex));
         });
     }
 

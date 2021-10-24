@@ -204,7 +204,7 @@ namespace Utility.WPF.Chart
     {
         private bool x; private bool y;
 
-        public Column(string name, bool isEnabled)
+        public Column(string name, bool isEnabled = false)
         {
             Name = name;
             IsEnabled = isEnabled;

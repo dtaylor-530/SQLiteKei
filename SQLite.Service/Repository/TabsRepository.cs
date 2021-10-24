@@ -8,10 +8,9 @@ namespace SQLite.ViewModel.Infrastructure.Service
     public class TabsRepository
     {
         readonly Lazy<Dictionary<string, List<DatabaseKey>>> dictionary;
-        readonly JsonSerializerOptions settings;
+        readonly JsonSerializerOptions settings = new() { WriteIndented = true };
         public TabsRepository()
         {
-            settings = new JsonSerializerOptions { WriteIndented = true };
             settings.Converters.Add(new AbstractClassConverter<DatabaseKey>());
 
             dictionary = new(() =>

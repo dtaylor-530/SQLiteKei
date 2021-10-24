@@ -1,7 +1,7 @@
 ﻿using SQLite.Service.Model;
 using SQLite.Service.Repository;
 using System.Collections.ObjectModel;
-using System.Reactive.Subjects;
+
 using Utility.Chart;
 using Utility.Database;
 
@@ -21,8 +21,13 @@ namespace SQLite.Service.Service
 
         public IReadOnlyCollection<SeriesPair> Get(TableKey key)
         {
-            var aa = collection.GetValueOrDefault(key) ?? new ObservableCollection<SeriesPair>(repository.Load(key));
-            return collection[key] = aa;
+            var value = collection.GetValueOrDefault(key);
+            if (value == default)
+            {
+                value = new ObservableCollection<SeriesPair>(repository.Load(key));
+                subject.OnNext(new(key, value));
+            }
+            return collection[key] = value;
         }
 
         public void Set(TableKey key, IReadOnlyCollection<SeriesPair> pairs)
@@ -32,7 +37,7 @@ namespace SQLite.Service.Service
             foreach (var item in pairs)
                 collection[key].Add(item);
 
-            subject.OnNext(new(key.TableName, collection[key]));
+            subject.OnNext(new(key, collection[key]));
             repository.Save(key, pairs.ToList());
 
         }

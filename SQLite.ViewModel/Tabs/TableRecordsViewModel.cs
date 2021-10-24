@@ -38,7 +38,8 @@ namespace SQLite.ViewModel
             ViewModelFactory viewModelFactory,
             StatusService statusService,
             ViewModelNameService nameService,
-            DatabaseService databaseService) : base(key, string.Empty)
+            IsSelectedService isSelectedService,
+            DatabaseService databaseService) : base(key, isSelectedService)
         {
             this.Key = key;
             this.WhenAnyValue(a => a.SearchString)
@@ -59,7 +60,7 @@ namespace SQLite.ViewModel
             this.databaseService = databaseService;
             this.SelectCommand = ReactiveCommand.Create(ExecuteSelect);
 
-            Execute($"Select * from {key.TableName} limit 20");
+            Execute($"Select * from {key.TableName.Name} limit 20");
         }
 
         public override string Name => nameService.Get(this.Key);

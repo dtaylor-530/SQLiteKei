@@ -20,17 +20,19 @@ public class DatabaseGeneralViewModel : DatabaseViewModel
 {
     private readonly ViewModelNameService nameService;
     private readonly ILocaliser localiser;
-    private readonly TableInformationsService tableInformationsService;
     private readonly Lazy<IReadOnlyCollection<TableInformation>> tableData;
 
-    public DatabaseGeneralViewModel(DatabaseGeneralViewModelTabKey key, ViewModelNameService nameService, ILocaliser localiser, TableInformationsService tableInformationsService)
-        : base(key, string.Empty)
+    public DatabaseGeneralViewModel(
+        DatabaseGeneralViewModelTabKey key,
+        ViewModelNameService nameService,
+        ILocaliser localiser,
+        IsSelectedService isSelectedService,
+        TableInformationsService tableInformationsService)
+        : base(key, isSelectedService)
     {
         Key = key;
         this.nameService = nameService;
-
         this.localiser = localiser;
-        //this.tableInformationsService = tableInformationsService;
         tableData = new(() => tableInformationsService.Get(key));
     }
 
@@ -50,7 +52,7 @@ public class DatabaseGeneralViewModel : DatabaseViewModel
 
     public long RowCount => TableOverviewData.Sum(a => a.RowCount);
 
-    public IReadOnlyCollection<TableInformation> TableOverviewData => ConnectionHelper.TablesInformation(Key.DatabasePath);
+    public IReadOnlyCollection<TableInformation> TableOverviewData => tableData.Value;
 
     public string DatabaseNameKey => localiser["DatabaseGeneralTab_DatabaseName"];
     public string DatabasePathKey => localiser["DatabaseGeneralTab_DatabasePath"];

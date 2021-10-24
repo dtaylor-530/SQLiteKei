@@ -2,8 +2,13 @@
 
 namespace SQLite.Common
 {
-    public interface IDatabaseViewModel : IName
+    public interface IDatabaseKey
     {
         DatabaseKey Key { get; }
+    }
+
+    public interface IDatabaseViewModel : IViewModel, IDatabaseKey
+    {
+
     }
 }

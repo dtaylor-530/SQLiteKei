@@ -8,13 +8,19 @@ namespace SQLite.Service.Service
         private readonly TabsService tabsService;
         private readonly SeriesRepository seriesRepository;
         private readonly SeriesPairRepository seriesPairRepository;
+        private readonly IsSelectedRepository isSelectedRepository;
 
-        public ExitService(TreeService treeService, TabsService tabsService, SeriesRepository seriesRepository, SeriesPairRepository seriesPairRepository)
+        public ExitService(TreeService treeService,
+            TabsService tabsService,
+            SeriesRepository seriesRepository,
+            SeriesPairRepository seriesPairRepository,
+            IsSelectedRepository isSelectedRepository)
         {
             this.treeService = treeService;
             this.tabsService = tabsService;
             this.seriesRepository = seriesRepository;
             this.seriesPairRepository = seriesPairRepository;
+            this.isSelectedRepository = isSelectedRepository;
         }
 
         public async void Exit()
@@ -25,6 +31,7 @@ namespace SQLite.Service.Service
                 tabsService.SaveTabs();
                 seriesRepository.PersistAll();
                 seriesPairRepository.PersistAll();
+                isSelectedRepository.PersistAll();
             });
         }
     }
