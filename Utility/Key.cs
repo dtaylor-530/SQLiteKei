@@ -1,12 +1,32 @@
 ﻿namespace Utility;
 
-public abstract class Key : IEquatable<Key>
+public interface IType
 {
-    public virtual bool Equals(Key? other)
+    public Type Type { get; }
+}
+
+public interface IKey : IEquatable<IKey>, IType
+{
+}
+
+public interface IKey<T> : IKey
+{
+
+}
+
+public abstract class Key : IKey
+{
+    public Key(Type type)
+    {
+        Type = type;
+    }
+
+    public Type Type { get; }
+
+    public virtual bool Equals(IKey? other)
     {
         return this.GetType().Equals(other?.GetType());
     }
-
 
     public override bool Equals(object? obj)
     {
@@ -15,7 +35,12 @@ public abstract class Key : IEquatable<Key>
 
     public override int GetHashCode()
     {
-        throw new NotImplementedException();
+        return Type.GetHashCode();
     }
-
+}
+public class Key<T> : Key, IKey<T>
+{
+    public Key() : base(typeof(T))
+    {
+    }
 }

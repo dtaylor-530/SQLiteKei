@@ -1,49 +1,17 @@
-﻿using System.Text.Json.Serialization;
+﻿using Utility.Common.Base;
 
 namespace Utility.Database;
 
-public record FilePath(string Path)
+//public interface IDatabaseKey
+//{
+//    DatabaseKey Key { get; }
+//}
+
+public interface IDatabaseViewModel : IViewModel
 {
-    public static implicit operator string(FilePath fileName)
-    {
-        return fileName.Path;
-    }
-
-    [JsonIgnore]
-    [Newtonsoft.Json.JsonIgnore]
-    public string BaseName => System.IO.Path.GetFileNameWithoutExtension(Path);
-
-    [JsonIgnore]
-    [Newtonsoft.Json.JsonIgnore]
-    public string? Parent => new FileInfo(Path).DirectoryName;
-
-    [JsonIgnore]
-    [Newtonsoft.Json.JsonIgnore]
-    public string Name => new FileInfo(Path).Name;
-
-    [JsonIgnore]
-    [Newtonsoft.Json.JsonIgnore]
-    public FileInfo AsFileInfo => new(Path);
-
-    [JsonIgnore]
-    [Newtonsoft.Json.JsonIgnore]
-    public string Size => GetSize(AsFileInfo.Length);
-
-    private static string GetSize(long value)
-    {
-        string[] SizeSuffixes = { "Bytes", "KB", "MB", "GB", "TB" };
-        int suffix = 0;
-        decimal decimalValue = value;
-
-        while (Math.Round(decimalValue / 1024) >= 1)
-        {
-            decimalValue /= 1024;
-            suffix++;
-        }
-
-        return string.Format("{0} {1}", Math.Round(decimalValue, 2), SizeSuffixes[suffix]);
-    }
 }
+
+public interface ITableName { TableName TableName { get; } }
 
 public record DatabasePath(string Path) : FilePath(Path)
 {
@@ -51,7 +19,6 @@ public record DatabasePath(string Path) : FilePath(Path)
     {
         return path.Path;
     }
-
 }
 
 public record TableName(string Name)
@@ -62,42 +29,32 @@ public record TableName(string Name)
     }
 }
 
-public class TableTabKey : TableKey
+public class TableTabKey<T> : TableKey<T> where T : IDatabaseViewModel
 {
     public TableTabKey(DatabasePath databasePath, TableName tableName) : base(databasePath, tableName)
     {
-
     }
-
-    //public string TypeName { get; }
-
-    //public static TableTabKey From(TableKey key, string typeName)
-    //{
-    //    return new TableTabKey(key.DatabaseName, key.TableName);
-    //}
 }
 
-public class DatabaseTabKey : DatabaseKey
+public class DatabaseTabKey<T> : DatabaseKey<T> where T : IDatabaseViewModel
 {
     public DatabaseTabKey(DatabasePath databaseName) : base(databaseName)
     {
-
     }
-
 }
 
-public class TableKey : DatabaseKey
+public interface ITableKey : ITableName, IDatabaseKey { }
+
+public class TableKey : DatabaseKey, ITableKey
 {
-
-    public TableKey(DatabasePath databaseName, TableName tableName) : base(databaseName)
+    public TableKey(DatabasePath databasePath, TableName tableName, Type type) : base(databasePath, type)
     {
-
         TableName = tableName;
     }
 
     public TableName TableName { get; }
 
-    public override bool Equals(Key? other)
+    public override bool Equals(IKey? other)
     {
         if (other is TableKey dKey)
             return dKey.TableName.Equals(TableName) && base.Equals(other);
@@ -107,16 +64,42 @@ public class TableKey : DatabaseKey
     }
 }
 
-public class DatabaseKey : Key
+public class TableKey<T> : TableKey, ITableKey, IDatabaseKey<T> where T : IDatabaseViewModel
 {
-    public DatabaseKey(DatabasePath databasePath)
+    public TableKey(DatabasePath databaseName, TableName tableName) : base(databaseName, tableName, typeof(T))
+    {
+    }
+
+    public static implicit operator Key<T>(TableKey<T> dkey)
+    {
+        return new Key<T>();
+    }
+}
+
+public interface IDatabasePath
+{
+    public DatabasePath DatabasePath { get; }
+}
+
+public interface IDatabaseKey : IKey, IDatabasePath
+{
+
+}
+public interface IDatabaseKey<T> : IKey<T>, IDatabasePath
+{
+
+}
+
+public class DatabaseKey : Key, IDatabaseKey
+{
+    public DatabaseKey(DatabasePath databasePath, Type type) : base(type)
     {
         DatabasePath = databasePath;
     }
 
     public DatabasePath DatabasePath { get; }
 
-    public override bool Equals(Key? other)
+    public override bool Equals(IKey? other)
     {
         if (other is DatabaseKey dKey)
             return dKey.DatabasePath.Equals(DatabasePath) && base.Equals(other);
@@ -127,4 +110,31 @@ public class DatabaseKey : Key
     {
         return DatabasePath.GetHashCode();
     }
+}
+
+public class DatabaseKey<T> : DatabaseKey, IKey<T>
+{
+    public DatabaseKey(DatabasePath databasePath) : base(databasePath, typeof(T))
+    {
+    }
+
+    public static implicit operator Key<T>(DatabaseKey<T> dkey)
+    {
+        return new Key<T>();
+    }
+}
+
+public abstract class TableTabViewModelKey<T> : DatabaseTabViewModelKey<T>, ITableKey where T : IDatabaseViewModel
+{
+    public TableTabViewModelKey(DatabasePath path, TableName tableName) : base(path)
+    {
+        TableName = tableName;
+    }
+
+    public TableName TableName { get; }
+}
+
+public abstract class DatabaseTabViewModelKey<T> : DatabaseKey<T> where T : IDatabaseViewModel
+{
+    public DatabaseTabViewModelKey(DatabasePath path) : base(path) { }
 }

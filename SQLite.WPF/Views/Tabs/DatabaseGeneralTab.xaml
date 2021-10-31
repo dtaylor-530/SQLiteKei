@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:SQLite.ViewModel;assembly=SQLite.ViewModel"
              xmlns:sys="clr-namespace:System;assembly=netstandard"
-             xmlns:conv="clr-namespace:SQLite.WPF.Infrastructure.Converter"
+             xmlns:conv="clr-namespace:Utility.WPF.Common.Converter;assembly=Utility.WPF.Common"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance  vm:DatabaseGeneralViewModel}"
@@ -44,7 +44,7 @@
         <GroupBox Grid.Row="1" Header="{Binding TablesKey}" Margin="5, 0, 5, 5" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="Auto">
             <Grid Visibility="{Binding TableOverviewData.Count, Converter={x:Static conv:CountToVisibilityConverter.Instance}, ConverterParameter={StaticResource False}}">
                 <DataGrid x:Name="TableDataGrid" Grid.Column = "0" HorizontalAlignment="Left" Margin="5"
-                          ItemsSource="{Binding TableOverviewData, Mode=OneTime}" 
+                          ItemsSource="{Binding TableOverviewData, Mode=OneTime}"
                           VerticalAlignment="Top"
                       AutoGenerateColumns="False"
                       IsReadOnly="True" HeadersVisibility="Column">
@@ -54,7 +54,7 @@
                         <DataGridTextColumn Header="{Binding TableRecordsKey, Mode=OneTime}" Binding="{Binding RowCount}"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Label x:Name="NoTablesFoundLabel" Content="{Binding NoTablesFoundKey}" 
+            <Label x:Name="NoTablesFoundLabel" Content="{Binding NoTablesFoundKey}"
                    Visibility="{Binding TableOverviewData.Count, Converter={x:Static conv:CountToVisibilityConverter.Instance}, ConverterParameter={StaticResource True}}"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="DemiBold"/>
             </Grid>

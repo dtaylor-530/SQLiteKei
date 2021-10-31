@@ -1,8 +1,8 @@
 ﻿using ReactiveUI;
-using SQLite.Common.Contracts;
-using SQLite.Service.Model;
+using SQLite.Common.Model;
 using System.Data;
 using System.Windows.Input;
+using Utility.Common.Base;
 using Utility.SQLite.Database;
 
 namespace SQLite.ViewModel

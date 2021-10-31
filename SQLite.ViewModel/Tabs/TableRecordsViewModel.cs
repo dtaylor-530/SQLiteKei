@@ -1,45 +1,40 @@
 ﻿using ReactiveUI;
+using SQLite.Common;
 using SQLite.Common.Contracts;
-using SQLite.Service.Service;
-using SQLite.ViewModel.Infrastructure;
-using SQLite.ViewModel.Infrastructure.Factory;
+using SQLite.Service;
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
-using Utility.Database;
-using static SQLite.Common.Log;
+using Utility.Common.Base;
+using Utility.Common.Contracts;
+using Utility.Service;
+using static Utility.Common.Base.Log;
 
 namespace SQLite.ViewModel
 {
-    public class TableRecordsViewModelTabKey : TableTabKey
-    {
-        public TableRecordsViewModelTabKey(DatabasePath databasePath, TableName tableName) : base(databasePath, tableName)
-        {
-        }
-    }
 
-    public class TableRecordsViewModel : DatabaseViewModel
+    public class TableRecordsViewModel : DatabaseTabViewModel<ITableRecordsViewModel>, ITableRecordsViewModel
     {
         private string searchString;
         //private readonly TableRecordsConfiguration configuration;
         private readonly ILocaliser localiser;
         private readonly IListCollectionService listCollectionService;
         private readonly IWindowService windowService;
-        private readonly ViewModelFactory viewModelFactory;
-        private readonly StatusService statusService;
-        private readonly ViewModelNameService nameService;
-        private readonly DatabaseService databaseService;
+        private readonly IViewModelFactory viewModelFactory;
+        private readonly IStatusService statusService;
+        private readonly IViewModelNameService nameService;
+        private readonly ISelectedDatabaseService selectedDatabaseService;
 
         public TableRecordsViewModel(
             TableRecordsViewModelTabKey key,
             ILocaliser localiser,
             IListCollectionService listCollectionService,
             IWindowService windowService,
-            ViewModelFactory viewModelFactory,
-            StatusService statusService,
-            ViewModelNameService nameService,
-            IsSelectedService isSelectedService,
-            DatabaseService databaseService) : base(key, isSelectedService)
+            IViewModelFactory viewModelFactory,
+            IStatusService statusService,
+            IViewModelNameService nameService,
+            ISelectedDatabaseService selectedDatabaseService,
+            IIsSelectedService isSelectedService) : base(key, isSelectedService)
         {
             this.Key = key;
             this.WhenAnyValue(a => a.SearchString)
@@ -57,7 +52,7 @@ namespace SQLite.ViewModel
             this.viewModelFactory = viewModelFactory;
             this.statusService = statusService;
             this.nameService = nameService;
-            this.databaseService = databaseService;
+            this.selectedDatabaseService = selectedDatabaseService;
             this.SelectCommand = ReactiveCommand.Create(ExecuteSelect);
 
             Execute($"Select * from {key.TableName.Name} limit 20");
@@ -80,7 +75,7 @@ namespace SQLite.ViewModel
         private void ExecuteSelect()
         {
 
-            var selectQuery = viewModelFactory.Build<SelectQueryViewModel>(new SelectQueryViewModelKey(Key.DatabasePath, Key.TableName));
+            var selectQuery = viewModelFactory.Build(new SelectQueryViewModelKey(Key.DatabasePath, Key.TableName));
             bool? vb = windowService.ShowWindow(new("GDFGDFG", selectQuery, ResizeMode.NoResize, Show.ShowDialog));
 
             // Todo fix WindowService so that the result is meaningful
@@ -96,7 +91,7 @@ namespace SQLite.ViewModel
             Info("Executing select query from SelectQuery window.\n" + selectQuery);
             try
             {
-                var resultTable = databaseService.SelectCurrentToDataTable(selectQuery);
+                var resultTable = selectedDatabaseService.SelectToDataTable(selectQuery);
                 listCollectionService.SetSource(resultTable);
                 statusService.OnNext(string.Format("Rows returned: {0}", resultTable.Rows.Count));
             }

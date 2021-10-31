@@ -1,5 +1,5 @@
-﻿using SQLite.Common.Contracts;
-using SQLite.Data.Localisation;
+﻿using SQLite.Data.Localisation;
+using Utility.Common.Base;
 
 namespace SQLite.Data;
 

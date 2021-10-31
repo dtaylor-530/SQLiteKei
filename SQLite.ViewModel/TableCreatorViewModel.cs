@@ -1,25 +1,19 @@
 ﻿using ReactiveUI;
-using SQLite.Common.Contracts;
-using SQLite.Service.Model;
+using SQLite.Common;
+using SQLite.Common.Model;
 using SQLite.Service.Service;
 using SQLiteKei.DataAccess.QueryBuilders;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Input;
-using Utility;
+using Utility.Common.Base;
+using Utility.ViewModel.Base;
 
 namespace SQLite.ViewModel
 {
-    public class TableCreatorViewModelKey : Key
-    {
-        public override bool Equals(Key? other)
-        {
-            return other is TableCreatorViewModelKey;
-        }
-    }
 
-    public class TableCreatorViewModel : ReactiveObject
+    public class TableCreatorViewModel : BaseViewModel<ITableCreatorViewModel>, ITableCreatorViewModel
     {
 
         private DatabaseSelectItem selectedDatabase;
@@ -31,10 +25,9 @@ namespace SQLite.ViewModel
         private string statusInfo;
         private readonly ICommand addForeignKeyCommand;
         private readonly ILocaliser localiser;
-        private readonly DatabaseService databaseService;
-        //private readonly DatabaseSelectItem[] databases;
+        private readonly IDatabaseService databaseService;
 
-        public TableCreatorViewModel(ILocaliser localiser, TreeService treeService, DatabaseService databaseService)
+        public TableCreatorViewModel(TableCreatorViewModelKey key, ILocaliser localiser, IDatabaseService databaseService) : base(key)
         {
             ColumnDefinitions.CollectionChanged += CollectionContentChanged;
             ForeignKeyDefinitions.CollectionChanged += CollectionContentChanged;
@@ -236,5 +229,7 @@ namespace SQLite.ViewModel
         public string CreateKey => localiser["ButtonText_Create"];
 
         public string CancelKey => localiser["ButtonText_Cancel"];
+
+        public override string Name { get; }
     }
 }

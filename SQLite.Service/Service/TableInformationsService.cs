@@ -1,9 +1,10 @@
-﻿using Utility.Database;
+﻿using SQLite.Common.Contracts;
+using Utility.Database;
 using Utility.SQLite.Helpers;
 
 namespace SQLite.Service.Service;
 
-public class TableInformationsService
+public class TableInformationsService : ITableInformationsService
 {
 
     public TableInformationsService()

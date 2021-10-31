@@ -9,11 +9,14 @@
 		<PackageReference Include="Dahomey.Json" Version="1.11.3" />
 		<PackageReference Include="fasterflect" Version="3.0.0" />
 		<PackageReference Include="log4net" Version="2.0.12" />
-		<PackageReference Include="Splat.Autofac" Version="9.2.5" />
+		<PackageReference Include="ReactiveUI" Version="16.2.6" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Utility.Chart\Utility.Chart.csproj" />
+	  <ProjectReference Include="..\Utility.Common.Base\Utility.Common.Base.csproj" />
 	  <ProjectReference Include="..\Utility.Database\Utility.Database.csproj" />
+	  <ProjectReference Include="..\Utility.SQLite\Utility.SQLite.csproj" />
 	</ItemGroup>
 
 </Project>

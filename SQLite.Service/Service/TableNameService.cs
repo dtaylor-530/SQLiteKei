@@ -13,7 +13,6 @@ public class TableNameService
                 return new TableName(name);
             default:
                 throw new Exception("Key types dont match");
-
         }
     }
 

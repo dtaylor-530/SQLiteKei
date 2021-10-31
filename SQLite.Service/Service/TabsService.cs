@@ -1,13 +1,13 @@
 ﻿using ReactiveUI;
-using SQLite.Common;
 using SQLite.Common.Contracts;
-using SQLite.ViewModel.Infrastructure.Service;
+using SQLite.Service.Repository;
 using System.Collections.ObjectModel;
 using System.Reactive.Subjects;
+using Utility.Common.Base;
 
 namespace SQLite.Service.Service
 {
-    public class TabsService : ReactiveObject, IObservable<int>
+    public class TabsService : ReactiveObject, IObservable<int>, ITabsService
     {
         readonly ReplaySubject<int> selectedIndex = new(1);
         private readonly TabsRepository tabsRepository;
@@ -18,10 +18,10 @@ namespace SQLite.Service.Service
             treeService
                 .Subscribe(a =>
                 {
-                    ResetTabs(a, tabsRepository, tabsFactory);
+                    ResetTabs(a.TreeItem, tabsRepository, tabsFactory);
                 });
 
-            void ResetTabs(DatabaseTreeItem selectedItem, TabsRepository tabsRepository, ITabsFactory tabsFactory)
+            void ResetTabs(TreeItem selectedItem, TabsRepository tabsRepository, ITabsFactory tabsFactory)
             {
                 ResetTabControl();
                 ReaddTabs();
@@ -43,15 +43,15 @@ namespace SQLite.Service.Service
 
                 void ReaddTabs()
                 {
-                    IReadOnlyCollection<IDatabaseViewModel>? tabs = null;
+                    IReadOnlyCollection<IViewModel>? tabs = null;
                     if (tabsRepository.Load(selectedItem) is { } loadedKeys)
                     {
                         tabs = tabsFactory.TabsFor(loadedKeys).ToArray();
                     }
                     else
                     {
-                        tabs = tabsFactory.TabsFor(selectedItem).ToArray();
-                        tabsRepository.Save(selectedItem, tabs.Select(a => (a as IDatabaseKey).Key).ToList());
+                        tabs = tabsFactory.TabsFor(selectedItem.Key).ToArray();
+                        tabsRepository.Save(selectedItem, tabs.Select(a => a.Key).ToList());
                     }
 
                     foreach (var tab in tabs)
@@ -67,7 +67,7 @@ namespace SQLite.Service.Service
             tabsRepository.PersistAll();
         }
 
-        public ObservableCollection<IDatabaseViewModel> TabItems { get; } = new ObservableCollection<IDatabaseViewModel>();
+        public ObservableCollection<IViewModel> TabItems { get; } = new ObservableCollection<IViewModel>();
 
         public IDisposable Subscribe(IObserver<int> observer)
         {

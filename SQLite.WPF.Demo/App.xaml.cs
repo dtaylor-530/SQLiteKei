@@ -1,15 +1,15 @@
 ﻿using Autofac;
 using Splat;
 using Splat.Autofac;
-using SQLite.Service.Meta;
-using SQLite.ViewModel;
 using SQLite.Views;
 using SQLite.WPF.Infrastructure;
 using System;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
-using static SQLite.Common.Log;
+using Utility.Common;
+using Utility.Common.Base;
+using static Utility.Common.Base.Log;
 
 namespace SQLite.WPF.Demo
 {
@@ -27,6 +27,7 @@ namespace SQLite.WPF.Demo
         {
             Fatal("An unhandled exception was thrown and a message is shown to the user.", e.Exception);
             new UnhandledExceptionWindow().ShowDialog();
+            var dc = Locator.Current.GetService<IViewModelFactory>().Build(new MainWindowViewModelKey());
             e.Handled = true;
             Current.Shutdown();
         }
@@ -37,13 +38,14 @@ namespace SQLite.WPF.Demo
             base.OnStartup(e);
 
             // registeration can't take place in the constructor
-            WPF.Meta.BootStrapper.RegisterViews();
+            Utility.WPF.Meta.BootStrapper.RegisterViews();
+            SQLite.WPF.Meta.BootStrapper.RegisterViews();
 
             Information();
 
             Locator.Current.GetService<ThemeService>()?.ApplyCurrentUserTheme();
 
-            var dc = Locator.Current.GetService<MainWindowViewModel>();
+            var dc = Locator.Current.GetService<IViewModelFactory>().Build(new MainWindowViewModelKey());
 
             new MainWindow
             {
@@ -74,11 +76,14 @@ namespace SQLite.WPF.Demo
 
         private ContainerBuilder Register(ContainerBuilder builder)
         {
-            SQLite.WPF.Meta.BootStrapper.Register(builder);
+            //SQLite.WPF.Meta.BootStrapper.Register(builder);
             SQLite.Service.Meta.BootStrapper.Register(builder);
             SQLite.ViewModel.Meta.BootStrapper.Register(builder);
-            BootStrapper.Register(builder);
             SQLite.Data.Meta.BootStrapper.Register(builder);
+
+            Utility.Service.BootStrapper.Register(builder);
+            Utility.ViewModel.Meta.BootStrapper.Register(builder);
+            Utility.WPF.Service.Meta.BootStrapper.Register(builder);
             return builder;
         }
     }

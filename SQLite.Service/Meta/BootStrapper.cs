@@ -3,7 +3,6 @@ using SQLite.Service.Factory;
 using SQLite.Service.Mapping;
 using SQLite.Service.Repository;
 using SQLite.Service.Service;
-using SQLite.ViewModel.Infrastructure.Factory;
 
 namespace SQLite.Service.Meta
 {
@@ -12,21 +11,24 @@ namespace SQLite.Service.Meta
         public static ContainerBuilder Register(this ContainerBuilder containerBuilder)
         {
 
-            foreach (var type in new[] {
-
-                typeof(ViewModelFactory),
-
-                typeof(TreeRepository),
+            foreach (var type in new[]
+            {
+                typeof(ColumnDataFactory),
+                typeof(TreeViewMapper),
+                typeof(TabsRepository),
+                typeof(TabsFactory),
+                typeof(ViewModelNameService),
 
                 typeof(DatabaseService),
                 typeof(ExitService),
-                typeof(TableService),
-                typeof(StatusService),
-                typeof(TabsService),
-                typeof(TreeService),
+                typeof(MainMenuService),
+                typeof(MenuPanelService),
+                typeof(SelectedDatabaseService),
                 typeof(TableInformationsService),
-
-                typeof(TreeViewMapper),
+                typeof(TableNameService),
+                typeof(TableService),
+                typeof(TabsService),
+                typeof(ViewService),
             })
             {
                 containerBuilder.RegisterType(type).SingleInstance().AsImplementedInterfaces().AsSelf();
@@ -38,7 +40,8 @@ namespace SQLite.Service.Meta
         public static ContainerBuilder RegisterTableChart(this ContainerBuilder containerBuilder)
         {
 
-            foreach (var type in new[] {
+            foreach (var type in new[]
+            {
                 typeof(ColumnSeriesService),
                 typeof(ColumnSeriesPairService),
                 typeof(ChartSeriesService),
@@ -46,9 +49,6 @@ namespace SQLite.Service.Meta
                 typeof(SeriesRepository),
                 typeof(SeriesPairRepository),
                 typeof(ColumnDataFactory),
-                typeof(IsSelectedService),
-                typeof(IsSelectedRepository),
-
             })
             {
                 containerBuilder.RegisterType(type).SingleInstance().AsImplementedInterfaces().AsSelf();

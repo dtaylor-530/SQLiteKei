@@ -1,14 +1,12 @@
-﻿<Window x:Class="SQLite.Views.TableCreator"
+﻿<UserControl x:Class="SQLite.Views.TableCreator"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:model="clr-namespace:SQLite.ViewModel;assembly=SQLite.ViewModel"
         xmlns:vm="clr-namespace:SQLite.ViewModel;assembly=SQLite.ViewModel"
-             xmlns:s="clr-namespace:SQLite.Service.Model;assembly=SQLite.Service"
+             xmlns:s="clr-namespace:SQLite.Common.Model;assembly=SQLite.Common"
         d:DataContext="{d:DesignInstance vm:TableCreatorViewModel}"
         mc:Ignorable="d"
-        Title="{Binding Title}"
         MinHeight="400" MinWidth="500"
         Height="400" Width="600">
     <Grid>
@@ -91,4 +89,4 @@
             <Button Style="{DynamicResource ButtonDark}" Grid.Column="2" Margin="5 3" Padding="5 0" Content="{Binding CancelKey}" IsCancel="True" />
         </Grid>
     </Grid>
-</Window>
+</UserControl>

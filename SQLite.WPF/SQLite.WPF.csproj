@@ -6,39 +6,25 @@
 		<UseWPF>true</UseWPF>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <None Remove="Resources\Icons\Logo_128x128.png" />
+	  <None Remove="Resources\Icons\Logo_16x16.png" />
+	  <None Remove="Resources\Icons\Logo_256x256.png" />
+	  <None Remove="Resources\Icons\Logo_32x32.png" />
+	  <None Remove="Resources\Icons\Logo_64x64.png" />
+	</ItemGroup>
+
 
 
 	<ItemGroup>
 		<ProjectReference Include="..\SQLite.ViewModel\SQLite.ViewModel.csproj" />
 		<ProjectReference Include="..\Utility.WPF.Chart\Utility.WPF.Chart.csproj" />
+		<ProjectReference Include="..\Utility.WPF.Common\Utility.WPF.Common.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.37" />
 		<PackageReference Include="ReactiveUI.WPF" Version="16.2.6" />
-	</ItemGroup>
-
-
-	<ItemGroup>
-		<None Remove="Resources\Icons\Database_Close.png" />
-		<None Remove="Resources\Icons\Database_Delete.png" />
-		<None Remove="Resources\Icons\Database_New.png" />
-		<None Remove="Resources\Icons\Database_Open.png" />
-		<None Remove="Resources\Icons\Logo_128x128.png" />
-		<None Remove="Resources\Icons\Logo_16x16.png" />
-		<None Remove="Resources\Icons\Logo_256x256.png" />
-		<None Remove="Resources\Icons\Logo_32x32.png" />
-		<None Remove="Resources\Icons\Logo_64x64.png" />
-		<None Remove="Resources\Icons\Placeholder.png" />
-		<None Remove="Resources\Icons\Refresh.png" />
-		<None Remove="Resources\Icons\SQL_Statement.png" />
-		<None Remove="Resources\Icons\Table_New.png" />
-		<None Remove="Resources\Icons\TreeItem_Database.png" />
-		<None Remove="Resources\Icons\TreeItem_Folder.png" />
-		<None Remove="Resources\Icons\TreeItem_Index.png" />
-		<None Remove="Resources\Icons\TreeItem_Table.png" />
-		<None Remove="Resources\Icons\TreeItem_Trigger.png" />
-		<None Remove="Resources\Icons\TreeItem_View.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -77,6 +63,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Resource Include="Resources\Icons\Logo_128x128.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\Icons\Logo_16x16.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\Icons\Logo_256x256.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\Icons\Logo_32x32.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\Icons\Logo_64x64.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
 		<Resource Include="Resources\UIThemes\Dark\Dark.xaml">
 			<SubType>Designer</SubType>
 			<Generator>MSBuild:Compile</Generator>
@@ -87,25 +88,6 @@
 		</Resource>
 	</ItemGroup>
 	<ItemGroup>
-		<Resource Include="Resources\Icons\Database_Close.png" />
-		<Resource Include="Resources\Icons\Database_Delete.png" />
-		<Resource Include="Resources\Icons\Database_New.png" />
-		<Resource Include="Resources\Icons\Database_Open.png" />
-		<Resource Include="Resources\Icons\Logo_128x128.png" />
-		<Resource Include="Resources\Icons\Logo_16x16.png" />
-		<Resource Include="Resources\Icons\Logo_256x256.png" />
-		<Resource Include="Resources\Icons\Logo_32x32.png" />
-		<Resource Include="Resources\Icons\Logo_64x64.png" />
-		<Resource Include="Resources\Icons\Placeholder.png" />
-		<Resource Include="Resources\Icons\Refresh.png" />
-		<Resource Include="Resources\Icons\SQL_Statement.png" />
-		<Resource Include="Resources\Icons\Table_New.png" />
-		<Resource Include="Resources\Icons\TreeItem_Database.png" />
-		<Resource Include="Resources\Icons\TreeItem_Folder.png" />
-		<Resource Include="Resources\Icons\TreeItem_Index.png" />
-		<Resource Include="Resources\Icons\TreeItem_Table.png" />
-		<Resource Include="Resources\Icons\TreeItem_Trigger.png" />
-		<Resource Include="Resources\Icons\TreeItem_View.png" />
 		<Resource Include="Resources\UIThemes\Dark\Dark_Button.xaml">
 			<SubType>Designer</SubType>
 			<Generator>MSBuild:Compile</Generator>
@@ -184,6 +166,51 @@
 		<Compile Update="Views\Windows\MainWindow.xaml.cs">
 			<SubType>Code</SubType>
 		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Resources\Icons\Database_Close.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Icons\Database_Delete.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Icons\Database_New.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Icons\Database_Open.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Icons\Placeholder.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Icons\Refresh.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Icons\SQL_Statement.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Icons\Table_New.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Icons\TreeItem_Database.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Icons\TreeItem_Folder.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Icons\TreeItem_Index.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Icons\TreeItem_Table.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Icons\TreeItem_Trigger.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Icons\TreeItem_View.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 	<ItemGroup>

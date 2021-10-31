@@ -1,0 +1,26 @@
+﻿<TreeView x:Class="Utility.WPF.UserControls.MainWindow.TreeView"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+          mc:Ignorable="d"
+          xmlns:vm="clr-namespace:Utility.ViewModel;assembly=Utility.ViewModel"
+          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+          SelectedItemChanged="DBTreeView_SelectedItemChanged"
+          d:DataContext="{d:DesignInstance vm:TreeViewModel}"
+          ItemsSource="{Binding TreeViewItems}"
+          Background="{DynamicResource ApplicationBackground}"
+          MouseRightButtonDown="TreeViewRightMouseButtonDown"
+          Margin="5 0 0 0" Padding="0 4">
+
+    <TreeView.Resources>
+     
+    </TreeView.Resources>
+    <TreeView.ContextMenu>
+        <ContextMenu>
+            <!--<MenuItem Header="{x:Static localisation:Resources.ContextMenuItem_OpenDatabase}" Click="OpenDatabase" />
+            <MenuItem Header="{x:Static localisation:Resources.ContextMenuItem_NewDatabase}" Click="CreateNewDatabase" />-->
+        </ContextMenu>
+    </TreeView.ContextMenu>
+
+</TreeView>

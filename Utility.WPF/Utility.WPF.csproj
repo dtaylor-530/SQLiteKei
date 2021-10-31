@@ -1,0 +1,71 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Utility.ViewModel\Utility.ViewModel.csproj" />
+		<ProjectReference Include="..\Utility.WPF.Common\Utility.WPF.Common.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ReactiveUI.WPF" Version="16.2.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="MainWindow.xaml.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Update="UserControls.MainWindow\MainMenu.xaml.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Update="UserControls.MainWindow\MenuPanel.xaml.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Update="UserControls.MainWindow\TabPanel.xaml.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Update="UserControls.MainWindow\TreeView.xaml.cs">
+			<SubType>Code</SubType>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Page Update="About.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="MainWindow.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="Preferences.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <SubType>Designer</SubType>
+		</Page>
+		<Page Update="UnhandledExceptionWindow.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="UserControls.MainWindow\MainMenu.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="UserControls.MainWindow\MenuPanel.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="UserControls.MainWindow\TabPanel.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="UserControls.MainWindow\TreeView.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+	</ItemGroup>
+
+</Project>

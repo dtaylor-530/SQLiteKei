@@ -1,54 +1,53 @@
-﻿using SQLite.Common.Contracts;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Utility;
-using Utility.Database;
+using Utility.Common.Base;
 
-namespace SQLite.ViewModel.Infrastructure.Service
+namespace SQLite.Service.Repository
 {
     public class TabsRepository
     {
-        readonly Lazy<Dictionary<string, List<DatabaseKey>>> dictionary;
+        readonly Lazy<Dictionary<string, List<Key>>> dictionary;
         readonly JsonSerializerOptions settings = new() { WriteIndented = true };
         public TabsRepository()
         {
-            settings.Converters.Add(new AbstractClassConverter<DatabaseKey>());
+            settings.Converters.Add(new AbstractClassConverter<Key>());
 
             dictionary = new(() =>
             {
-                Dictionary<string, List<DatabaseKey>>? dictionary = null;
+                Dictionary<string, List<Key>>? dictionary = null;
                 if (File.Exists(GetSaveLocationPath()))
                 {
                     using var stream = File.OpenRead(GetSaveLocationPath());
                     if (stream.Length == 0)
                         dictionary = new();
                     else
-                        dictionary = JsonSerializer.Deserialize<Dictionary<string, List<DatabaseKey>>>(stream, settings);
+                        dictionary = JsonSerializer.Deserialize<Dictionary<string, List<Key>>>(stream, settings);
                 }
                 return dictionary ?? new();
             });
 
         }
 
-        public IReadOnlyCollection<DatabaseKey>? Load(DatabaseTreeItem? treeItem)
+        public IReadOnlyCollection<Key>? Load(TreeItem? treeItem)
         {
             if (treeItem == null)
             {
-                return Array.Empty<DatabaseKey>();
+                return Array.Empty<Key>();
             }
 
-            return dictionary.Value.GetValueOrDefault(JsonSerializer.Serialize(treeItem));
+            return dictionary.Value.GetValueOrDefault(JsonSerializer.Serialize(treeItem, settings));
         }
 
-        public void Save(DatabaseTreeItem treeItem, List<DatabaseKey> content)
+        public void Save(TreeItem treeItem, List<Key> content)
         {
-            dictionary.Value[JsonSerializer.Serialize(treeItem)] = content;
+            dictionary.Value[JsonSerializer.Serialize(treeItem, settings)] = content;
         }
 
         public void PersistAll()
         {
 
             string json = JsonSerializer.Serialize(dictionary.Value, settings);
-            System.IO.File.WriteAllText(GetSaveLocationPath(), json);
+            File.WriteAllText(GetSaveLocationPath(), json);
         }
 
         private static string GetSaveLocationPath()

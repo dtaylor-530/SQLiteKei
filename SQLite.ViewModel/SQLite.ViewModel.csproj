@@ -12,9 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SQLite.Common\SQLite.Common.csproj" />
-    <ProjectReference Include="..\SQLite.Service\SQLite.Service.csproj" />
-    <ProjectReference Include="..\Utility.Chart\Utility.Chart.csproj" />
-    <ProjectReference Include="..\Utility.SQLite\Utility.SQLite.csproj" />
+    <ProjectReference Include="..\Utility.ViewModel.Base\Utility.ViewModel.Base.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,20 +1,22 @@
 ﻿using SQLite.Service.Repository;
+using Utility.Common.Base;
+using Utility.Common.Contracts;
 
 namespace SQLite.Service.Service
 {
-    public class ExitService
+    public class ExitService : IExitService
     {
-        private readonly TreeService treeService;
+        private readonly ITreeService treeService;
         private readonly TabsService tabsService;
         private readonly SeriesRepository seriesRepository;
         private readonly SeriesPairRepository seriesPairRepository;
-        private readonly IsSelectedRepository isSelectedRepository;
+        private readonly IIsSelectedRepository isSelectedRepository;
 
-        public ExitService(TreeService treeService,
+        public ExitService(ITreeService treeService,
             TabsService tabsService,
             SeriesRepository seriesRepository,
             SeriesPairRepository seriesPairRepository,
-            IsSelectedRepository isSelectedRepository)
+            IIsSelectedRepository isSelectedRepository)
         {
             this.treeService = treeService;
             this.tabsService = tabsService;

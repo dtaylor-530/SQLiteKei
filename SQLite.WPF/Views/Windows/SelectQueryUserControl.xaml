@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:SQLite.ViewModel;assembly=SQLite.ViewModel"
-        xmlns:s="clr-namespace:SQLite.Service.Model;assembly=SQLite.Service"
+        xmlns:s="clr-namespace:SQLite.Common.Model;assembly=SQLite.Common"
         d:DataContext="{d:DesignInstance vm:SelectQueryViewModel}"
         mc:Ignorable="d"
         Height="350" Width="550"

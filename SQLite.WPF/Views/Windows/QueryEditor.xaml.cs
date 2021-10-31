@@ -1,6 +1,5 @@
-﻿using SQLite.Common.Contracts;
-using SQLite.ViewModel;
-using System.Windows;
+﻿using SQLite.ViewModel;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace SQLite.Views
@@ -8,10 +7,8 @@ namespace SQLite.Views
     /// <summary>
     /// Interaction logic for QueryEditor.xaml
     /// </summary>
-    public partial class QueryEditor : Window
+    public partial class QueryEditor : UserControl
     {
-        private readonly ILocaliser localiser;
-
         public QueryEditor()
         {
             KeyDown += new KeyEventHandler(Window_KeyDown);

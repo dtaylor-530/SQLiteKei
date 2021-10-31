@@ -1,29 +1,29 @@
-﻿using SQLite.Common;
-using SQLite.Common.Contracts;
-using SQLite.Service.Model;
+﻿using SQLite.Common.Contracts;
+using Utility.Common.Base;
+using Utility.Common.Contracts;
 using Utility.Database;
 using Utility.SQLite.Database;
-using static SQLite.Common.Log;
+using static Utility.Common.Base.Log;
 
 namespace SQLite.Service.Service
 {
 
-    public class TableService
+    public class TableService : ITableService
     {
         class Mapper
         {
-            public static TableHandler Map(TableLeafItem tableItem)
+            public static TableHandler Map(ITableKey tableItem)
             {
-                return new TableHandler(new DatabasePath(tableItem.Key.DatabasePath), tableItem.Name);
+                return new TableHandler(new DatabasePath(tableItem.DatabasePath), tableItem.TableName);
             }
         }
 
         private readonly ILocaliser localiser;
         private readonly IMessageBoxService messageBoxService;
-        private readonly TreeService treeService;
-        private readonly StatusService statusService;
+        private readonly ITreeService treeService;
+        private readonly IStatusService statusService;
 
-        public TableService(ILocaliser localiser, IMessageBoxService messageBoxService, TreeService treeService, StatusService statusService)
+        public TableService(ILocaliser localiser, IMessageBoxService messageBoxService, ITreeService treeService, IStatusService statusService)
         {
             this.localiser = localiser;
             this.messageBoxService = messageBoxService;
@@ -31,9 +31,9 @@ namespace SQLite.Service.Service
             this.statusService = statusService;
         }
 
-        public bool DeleteTable(TableLeafItem tableItem)
+        public bool DeleteTable(ITableKey tableItem)
         {
-            var message = localiser["MessageBox_TableDeleteWarning", tableItem.Name];
+            var message = localiser["MessageBox_TableDeleteWarning", tableItem.TableName];
             var result = messageBoxService.ShowMessage(new(message, localiser["MessageBoxTitle_TableDeletion"], MessageBoxButton.YesNo, MessageBoxImage.Warning));
 
             if (result != true)
@@ -49,14 +49,14 @@ namespace SQLite.Service.Service
             }
             catch (Exception ex)
             {
-                Error("Failed to delete table '" + tableItem.Name + "'.", ex);
+                Error("Failed to delete table '" + tableItem.TableName + "'.", ex);
                 return false;
             }
         }
 
-        public void EmptyTable(TableLeafItem tableItem)
+        public void EmptyTable(ITableKey tableItem)
         {
-            var message = localiser["MessageBox_EmptyTable", tableItem.Name];
+            var message = localiser["MessageBox_EmptyTable", tableItem.TableName];
             var messageTitle = localiser["MessageBoxTitle_EmptyTable"];
             var result = messageBoxService.ShowMessage(new(message, messageTitle, MessageBoxButton.YesNo, MessageBoxImage.Warning));
 
@@ -70,15 +70,15 @@ namespace SQLite.Service.Service
             }
             catch (Exception ex)
             {
-                Error("Failed to empty table" + tableItem.Name, ex);
+                Error("Failed to empty table" + tableItem.TableName, ex);
                 statusService.OnNext(ex.Message);
             }
 
         }
 
-        public void ReindexTable(TableLeafItem tableItem)
+        public void ReindexTable(ITableKey tableItem)
         {
-            var message = localiser["MessageBox_ReindexTable", tableItem.Name];
+            var message = localiser["MessageBox_ReindexTable", tableItem.TableName];
             var messageTitle = localiser["MessageBoxTitle_ReindexTable"];
             var result = messageBoxService.ShowMessage(new(message, messageTitle, MessageBoxButton.YesNo, MessageBoxImage.Question));
 
@@ -91,20 +91,20 @@ namespace SQLite.Service.Service
             }
             catch (Exception ex)
             {
-                Error("Failed to empty table" + tableItem.Name, ex);
+                Error("Failed to empty table" + tableItem.TableName, ex);
                 statusService.OnNext(ex.Message);
             }
 
         }
 
-        public void RenameTable(TableLeafItem tableItem, string newName)
+        public void RenameTable(ITableKey tableItem, string newName)
         {
-            var message = localiser["MessageBox_RenameTable", tableItem.Name];
+            var message = localiser["MessageBox_RenameTable", tableItem.TableName];
             var messageTitle = localiser["MessageBoxTitle_RenameTable"];
             var result = messageBoxService.ShowMessage(new(message, messageTitle, MessageBoxButton.YesNo, MessageBoxImage.Question));
             if (result != true) return;
 
-            if (string.IsNullOrWhiteSpace(tableItem.Name))
+            if (string.IsNullOrWhiteSpace(tableItem.TableName))
             {
                 return;
             }

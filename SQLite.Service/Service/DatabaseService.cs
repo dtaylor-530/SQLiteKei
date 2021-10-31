@@ -1,16 +1,17 @@
-﻿using SQLite.Common;
-using SQLite.Common.Contracts;
+﻿using SQLite.Common.Contracts;
+using SQLite.Common.Model;
 using SQLite.Service.Mapping;
-using SQLite.Service.Model;
+using Utility;
+using Utility.Common.Base;
 using Utility.Database;
 using Utility.SQLite.Database;
-using static SQLite.Common.Log;
+using static Utility.Common.Base.Log;
 
 namespace SQLite.Service.Service
 {
-    public class DatabaseService
+    public class DatabaseService : IDatabaseService
     {
-        private readonly TreeService treeService;
+        private readonly ITreeService treeService;
         private readonly TreeViewMapper mapper;
         private readonly ILocaliser localiser;
         private readonly IMessageBoxService messageBoxService;
@@ -19,7 +20,7 @@ namespace SQLite.Service.Service
         Dictionary<string, string> dictionaryDatabasePaths = new();
 
         public DatabaseService(
-            TreeService treeService,
+            ITreeService treeService,
             TreeViewMapper mapper,
             ILocaliser localiser,
             IMessageBoxService messageBoxService,
@@ -32,22 +33,19 @@ namespace SQLite.Service.Service
             this.dialogService = dialogService;
         }
 
-        public void OpenDatabase(DatabasePath databasePath)
+        public void OpenDatabase(IKey key)
         {
-            var key = new DatabaseKey(new DatabasePath(databasePath.Name));
             if (treeService.TreeViewItems.Any(x => x.Key.Equals(key)))
                 throw new Exception("d__434344fs7nbdfsd");
 
-            DatabaseBranchItem databaseItem = mapper.Map(databasePath);
+            TreeItem databaseItem = mapper.Map(key);
             treeService.TreeViewItems.Add(databaseItem);
             Info("Opened database '" + databaseItem.Name + "'.");
 
         }
 
-        public void CloseDatabase(DatabasePath databasePath)
+        public void CloseDatabase(IKey key)
         {
-            var key = new DatabaseKey(new DatabasePath(databasePath.Name));
-
             if (treeService.TreeViewItems.SingleOrDefault(x => x.Key.Equals(key)) is { } db)
             {
                 treeService.TreeViewItems.Remove(db);
@@ -59,18 +57,16 @@ namespace SQLite.Service.Service
 
         public void CreateNewDatabase()
         {
-
             if (dialogService.Show(new("SQLite (*.sqlite)|*.sqlite", DialogType.Save)) is { FilePath: { } path, Success: true })
             {
                 Utility.SQLite.Helpers.ConnectionFactory.CreateDatabase(path);
-                OpenDatabase(new DatabasePath(path));
+                OpenDatabase(new DatabaseKey(new DatabasePath(path), this.GetType()));
             }
-
         }
 
         public void CloseDatabase()
         {
-            var selectedItem = treeService.SelectedItem.Key.DatabasePath;
+            var selectedItem = treeService.SelectedItem.Key;
 
             if (selectedItem != null)
                 CloseDatabase(selectedItem);
@@ -80,13 +76,13 @@ namespace SQLite.Service.Service
         {
             if (dialogService.Show(new("Database Files (*.sqlite, *.db)|*.sqlite; *db; |All Files |*.*", DialogType.Open)) is { FilePath: { } path, Success: true })
             {
-                OpenDatabase(new DatabasePath(path));
+                OpenDatabase(new DatabaseKey(new DatabasePath(path), this.GetType()));
             }
         }
 
         public void DeleteDatabase()
         {
-            if (treeService.SelectedItem is not DatabaseBranchItem { Name: { } name, Key: { DatabasePath: { } dbName } })
+            if (treeService.SelectedItem is not DatabaseBranchItem { Name: { } name, Key: { DatabasePath: { } dbName } key })
             {
                 return;
             }
@@ -102,7 +98,7 @@ namespace SQLite.Service.Service
                     throw new FileNotFoundException("Database file could not be found.");
 
                 System.IO.File.Delete(filePath);
-                CloseDatabase(new DatabasePath(filePath));
+                CloseDatabase(key);
             }
         }
 
@@ -137,6 +133,6 @@ namespace SQLite.Service.Service
             return false;
         }
 
-        public FileInfo CurrentDatabasePath => treeService.SelectedItem.Key.DatabasePath.AsFileInfo;
+        FileInfo CurrentDatabasePath => ((treeService.SelectedItem.Key as DatabaseKey) ?? throw new Exception("Evfsd dsfd")).DatabasePath.AsFileInfo;
     }
 }

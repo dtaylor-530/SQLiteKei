@@ -1,8 +1,4 @@
 ﻿using Autofac;
-using SQLite.Service.Factory;
-using SQLite.Service.Service;
-using SQLite.ViewModel.Infrastructure;
-using SQLite.ViewModel.Infrastructure.Service;
 
 namespace SQLite.ViewModel.Meta
 {
@@ -10,31 +6,17 @@ namespace SQLite.ViewModel.Meta
     {
         public static ContainerBuilder Register(this ContainerBuilder containerBuilder)
         {
-            foreach (var type in new[] {
-
-                typeof(TabsFactory),
-                typeof(TabsRepository),
-                typeof(ViewService),
-                typeof(ViewModelNameService),
-
-                typeof(MainWindowViewModel),
-                typeof(MainMenuViewModel),
-                typeof(MenuPanelViewModel),
-                typeof(TabPanelViewModel),
-                typeof(TreeViewModel),
-                typeof(AboutViewModel),
-            })
-            {
-                containerBuilder.RegisterType(type).SingleInstance().AsImplementedInterfaces().AsSelf();
-            }
 
             foreach (var type in new[] {
+                typeof(DatabaseGeneralViewModel),
+                typeof(TableChartViewModel),
                 typeof(TableGeneralViewModel),
                 typeof(TableRecordsViewModel),
-                typeof(TableChartViewModel),
-                typeof(DatabaseGeneralViewModel),
-                typeof(TableCreatorViewModel),
+
+                typeof(DatabaseViewModel),
+                typeof(QueryEditorViewModel),
                 typeof(SelectQueryViewModel),
+                typeof(TableCreatorViewModel),
             })
             {
                 containerBuilder.RegisterType(type).AsImplementedInterfaces().AsSelf();

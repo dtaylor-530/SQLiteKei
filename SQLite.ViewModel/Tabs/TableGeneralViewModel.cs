@@ -1,40 +1,32 @@
 ﻿using ReactiveUI;
+using SQLite.Common;
 using SQLite.Common.Contracts;
-using SQLite.Service.Model;
-using SQLite.Service.Service;
-using SQLite.ViewModel.Infrastructure;
 using System.Windows.Input;
-using Utility.Database;
+using Utility.Common.Base;
+using Utility.Common.Contracts;
+using Utility.Service;
 using Utility.SQLite.Database;
 using Utility.SQLite.Models;
 
 namespace SQLite.ViewModel
 {
-    public class TableGeneralViewModelTabKey : TableTabKey
-    {
-        public TableGeneralViewModelTabKey(DatabasePath databasePath, TableName tableName) : base(databasePath, tableName)
-        {
-        }
-    }
 
-    public class TableGeneralViewModel : DatabaseViewModel
+    public class TableGeneralViewModel : DatabaseTabViewModel<ITableGeneralViewModel>, ITableGeneralViewModel
     {
         private string tableName;
-        private readonly DatabasePath connectionPath;
         private readonly ILocaliser localiser;
-        private readonly ViewModelNameService nameService;
-        private readonly TableService tableService;
+        private readonly IViewModelNameService nameService;
+        private readonly ITableService tableService;
 
         public TableGeneralViewModel(
             TableGeneralViewModelTabKey key,
             ILocaliser localiser,
-            ViewModelNameService nameService,
-            IsSelectedService isSelectedService,
-            TableService tableService) : base(key, isSelectedService)
+            IViewModelNameService nameService,
+            IIsSelectedService selectedService,
+            ITableService tableService) : base(key, selectedService)
         {
             this.Key = key;
             this.tableName = key.TableName;
-            this.connectionPath = key.DatabasePath;
             this.localiser = localiser;
             this.nameService = nameService;
             this.tableService = tableService;
@@ -68,14 +60,12 @@ namespace SQLite.ViewModel
         public string TableName
         {
             get => tableName;
-            set => tableService.RenameTable(new TableLeafItem(tableName, new TableKey(connectionPath, Key.TableName)), tableName = value);
+            set => tableService.RenameTable(Key, tableName = value);
         }
 
-        public void EmptyTable() => tableService.EmptyTable(new TableLeafItem(tableName, new TableKey(connectionPath, Key.TableName)));
+        public void EmptyTable() => tableService.EmptyTable(Key);
 
-        public void ReindexTable() => ReindexTable(tableService);
-
-        public void ReindexTable(TableService tableService) => tableService.ReindexTable(new TableLeafItem(tableName, new TableKey(connectionPath, Key.TableName)));
+        public void ReindexTable() => tableService.ReindexTable(Key);
 
         public string AboutKey => localiser["Tab_GroupBoxHeader_About"];
         public string TableNameKey => localiser["TableGeneralTab_TableName"];
@@ -87,4 +77,5 @@ namespace SQLite.ViewModel
         public string GroupBoxHeaderColumnsKey => localiser["Tab_GroupBoxHeader_Columns"];
         public string NoColumnsFoundKey => localiser["TableGeneralTab_NoColumnsFound"];
     }
+
 }

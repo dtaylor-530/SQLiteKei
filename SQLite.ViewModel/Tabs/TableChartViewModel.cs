@@ -1,44 +1,32 @@
 ﻿using ReactiveUI;
-using SQLite.Service.Model;
+using SQLite.Common;
+using SQLite.Common.Contracts;
+using SQLite.Common.Model;
 using SQLite.Service.Service;
-using SQLite.ViewModel.Infrastructure;
 using System.Reactive;
 using System.Reactive.Subjects;
 using Utility.Chart;
-using Utility.Database;
+using Utility.Common.Contracts;
 
 namespace SQLite.ViewModel
 {
-
-    public class AutoActivateAttribute : Attribute
+    public class TableChartViewModel : TableViewModel<ITableChartViewModel>, ITableChartViewModel
     {
-
-    }
-
-    public class TableChartViewModelTabKey : TableTabKey
-    {
-        public TableChartViewModelTabKey(DatabasePath databasePath, TableName tableName) : base(databasePath, tableName)
-        {
-        }
-    }
-
-    public class TableChartViewModel : DatabaseViewModel
-    {
-        private readonly ViewModelNameService nameService;
-        private readonly ColumnModelService modelService;
-        private readonly ColumnSeriesService columnSeriesService;
-        private readonly ColumnSeriesPairService seriesPairService;
+        private readonly TableChartViewModelTabKey key;
+        private readonly IViewModelNameService nameService;
+        private readonly IColumnModelService modelService;
+        private readonly IColumnSeriesService columnSeriesService;
+        private readonly IColumnSeriesPairService seriesPairService;
         private readonly Subject<Unit> subject = new();
 
         public TableChartViewModel(
             TableChartViewModelTabKey key,
-            ViewModelNameService nameService,
-            ColumnModelService modelService,
-            ColumnSeriesPairService seriesPairService,
-            IsSelectedService isSelectedService,
-            ColumnSeriesService columnSeriesService) : base(key, isSelectedService)
+            IViewModelNameService nameService,
+            IColumnModelService modelService,
+            IColumnSeriesPairService seriesPairService,
+            IColumnSeriesService columnSeriesService) : base(key)
         {
-            Key = key;
+            this.key = key;
             this.nameService = nameService;
             this.modelService = modelService;
             this.seriesPairService = seriesPairService;
@@ -50,21 +38,21 @@ namespace SQLite.ViewModel
             });
         }
 
-        public override TableChartViewModelTabKey Key { get; }
+        //public override TableChartViewModelTabKey Key { get; }
 
-        public override string Name => nameService.Get(Key);
+        public override string Name => nameService.Get(key);
 
-        public IReadOnlyCollection<ColumnModel> ColumnData => modelService.GetCollection(Key);
+        public IReadOnlyCollection<ColumnModel> ColumnData => modelService.GetCollection(key);
 
         public IReadOnlyCollection<SeriesPair> ColumnSelections
         {
-            get => seriesPairService.Get(Key);
-            set => seriesPairService.Set(Key, value);
+            get => seriesPairService.Get(key);
+            set => seriesPairService.Set(key, value);
         }
 
         public IReadOnlyCollection<Series> Series
         {
-            get => columnSeriesService.Get(Key, subject);
+            get => columnSeriesService.Get(key, subject);
         }
 
     }

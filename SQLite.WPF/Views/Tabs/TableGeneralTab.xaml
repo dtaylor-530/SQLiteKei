@@ -5,7 +5,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:vm="clr-namespace:SQLite.ViewModel;assembly=SQLite.ViewModel"
-    xmlns:conv="clr-namespace:SQLite.WPF.Infrastructure.Converter" xmlns:sys="clr-namespace:System;assembly=netstandard"
+    xmlns:conv="clr-namespace:Utility.WPF.Common.Converter;assembly=Utility.WPF.Common"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
     d:DataContext="{d:DesignInstance  vm:TableGeneralViewModel}"
     mc:Ignorable="d"
     d:DesignHeight="1000" d:DesignWidth="1000">
