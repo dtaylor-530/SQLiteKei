@@ -67,7 +67,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{29
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility.Utility", "Utility.Utility\Utility.Utility.csproj", "{6F60C2C5-10CE-4ADD-89C5-FCD9B1E86C75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.Entity", "Database.Entity\Database.Entity.csproj", "{31D299B2-D46B-46BB-98C6-A6038709B7BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Entity", "Database.Entity\Database.Entity.csproj", "{31D299B2-D46B-46BB-98C6-A6038709B7BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility.WPF.Demo", "Utility.WPF.Demo\Utility.WPF.Demo.csproj", "{60CE4C89-A84F-4FD7-928C-A9930C69D334}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -191,6 +193,10 @@ Global
 		{31D299B2-D46B-46BB-98C6-A6038709B7BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31D299B2-D46B-46BB-98C6-A6038709B7BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31D299B2-D46B-46BB-98C6-A6038709B7BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60CE4C89-A84F-4FD7-928C-A9930C69D334}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60CE4C89-A84F-4FD7-928C-A9930C69D334}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60CE4C89-A84F-4FD7-928C-A9930C69D334}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60CE4C89-A84F-4FD7-928C-A9930C69D334}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -209,6 +215,7 @@ Global
 		{C1F69928-ED6A-4826-8AD4-61081AA07C6A} = {6304ED5B-E2BC-4F10-9EAD-02955BE0665C}
 		{B78D2E4D-31C7-4B4C-8C66-D794E6415DF8} = {2922CF6E-73E5-4527-A989-F42B7C2DE51A}
 		{31D299B2-D46B-46BB-98C6-A6038709B7BC} = {2922CF6E-73E5-4527-A989-F42B7C2DE51A}
+		{60CE4C89-A84F-4FD7-928C-A9930C69D334} = {6304ED5B-E2BC-4F10-9EAD-02955BE0665C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A5D0842-6616-4F1E-97F6-EDB3B23FBB12}

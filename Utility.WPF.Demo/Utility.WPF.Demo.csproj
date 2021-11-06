@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Utility.Service\Utility.Service.csproj" />
+    <ProjectReference Include="..\Utility.ViewModel\Utility.ViewModel.csproj" />
+    <ProjectReference Include="..\Utility.WPF.Service\Utility.WPF.Service.csproj" />
+    <ProjectReference Include="..\Utility.WPF\Utility.WPF.csproj" />
+  </ItemGroup>
+
+</Project>
