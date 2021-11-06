@@ -3,7 +3,7 @@ using SQLite.Utility.Factory;
 using System.Reactive.Linq;
 using Utility.Database.Common;
 
-namespace SQLite.Service.Factory;
+namespace Database.Service.Chart;
 
 public class ColumnDataFactory
 {

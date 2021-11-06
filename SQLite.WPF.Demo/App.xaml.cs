@@ -2,8 +2,7 @@
 using Database.Service.Meta;
 using Splat;
 using Splat.Autofac;
-using System;
-using System.Threading;
+using SQLite.WPF.Demo.Infrastructure;
 using System.Windows;
 using System.Windows.Threading;
 using Utility.Common;
@@ -47,43 +46,36 @@ namespace Database.WPF.Demo
             three.RegisterViews();
             Database.WPF.Meta.BootStrapper.RegisterViews();
 
-            Information();
+            LogSandwich.Start();
 
             Locator.Current.GetService<ThemeService>()?.ApplyCurrentUserTheme();
 
-            var dc = Locator.Current.GetService<IViewModelFactory>().Build(new MainWindowViewModelKey());
+            StartView();
 
-            new MainWindow
+            static void StartView()
             {
-                DataContext = dc
-            }.Show();
-        }
 
-        private static void Information()
-        {
-            string assemblyVersion = System.Reflection.Assembly.GetExecutingAssembly()
-                                           .GetName()
-                                           .Version
-                                           .ToString();
+                var dc = Locator.Current.GetService<IViewModelFactory>().Build(new MainWindowViewModelKey());
 
-            Info("================= GENERAL INFO =================");
-            Info("SQLite Kei " + assemblyVersion);
-            Info("Running on " + Environment.OSVersion);
-            Info("Application language is " + Thread.CurrentThread.CurrentUICulture);
-            Info("================================================");
+                new MainWindow
+                {
+                    DataContext = dc
+                }.Show();
+
+            }
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-
-            Info("============= APPLICATION SHUTDOWN =============");
+            LogSandwich.End();
         }
 
         private ContainerBuilder Register(ContainerBuilder builder)
         {
             //SQLite.WPF.Meta.BootStrapper.Register(builder);
             BootStrapper.Register(builder);
+            Database.Service.Chart.Meta.BootStrapper.Register(builder);
             SQLite.ViewModel.Meta.BootStrapper.Register(builder);
             SQLite.Data.Meta.BootStrapper.Register(builder);
             SQLite.Utility.Meta.BootStrapper.Register(builder);

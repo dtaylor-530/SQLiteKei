@@ -28,10 +28,6 @@ namespace Database.ViewModel
         private readonly ILocaliser localiser;
         private readonly IDatabaseService databaseService;
         private readonly ISqlStatementBuilderService sqlStatementBuilderService;
-        private readonly IHandlerService tableHandlerFactory;
-
-        //private readonly ITableHandlerFactory tableHandlerFactory;
-        //private readonly IDatabaseHandlerFactory databaseHandlerFactory;
 
         public TableCreatorViewModel(TableCreatorViewModelKey key, ILocaliser localiser, IDatabaseService databaseService,
             ISqlStatementBuilderService sqlStatementBuilderService,
@@ -46,10 +42,6 @@ namespace Database.ViewModel
             this.localiser = localiser;
             this.databaseService = databaseService;
             this.sqlStatementBuilderService = sqlStatementBuilderService;
-            this.tableHandlerFactory = tableHandlerFactory;
-            //this.tableHandlerFactory = tableHandlerFactory;
-            //this.databaseHandlerFactory = databaseHandlerFactory;
-            //databases = treeService.TreeViewItems.Select(a => new DatabaseSelectItem(a.Key.DatabasePath)).ToArray();
 
             void AddColumnDefinition()
             {
@@ -171,37 +163,6 @@ namespace Database.ViewModel
             };
             StatusInfo = b;
             IsValidTableDefinition = a;
-            //try
-            //{
-            //    var builder = QueryBuilder.Create(tableName);
-
-            //    foreach (var definition in ColumnDefinitions)
-            //    {
-            //        builder.AddColumn(definition.ColumnName,
-            //            definition.DataType,
-            //            definition.IsPrimary,
-            //            definition.IsNotNull,
-            //            definition.DefaultValue);
-            //    }
-
-            //    foreach (var foreignKey in ForeignKeyDefinitions)
-            //    {
-            //        if (!string.IsNullOrWhiteSpace(foreignKey.SelectedColumn)
-            //           && !string.IsNullOrWhiteSpace(foreignKey.SelectedTable)
-            //           && !string.IsNullOrWhiteSpace(foreignKey.SelectedReferencedColumn))
-            //        {
-            //            builder.AddForeignKey(foreignKey.SelectedColumn, foreignKey.SelectedTable, foreignKey.SelectedReferencedColumn);
-            //        }
-            //    }
-
-            //    SqlStatement = builder.Build();
-            //    IsValidTableDefinition = true;
-            //}
-            //catch (Exception ex)
-            //{
-            //    StatusInfo = ex.Message;
-            //    IsValidTableDefinition = false;
-            //}
         }
 
         private void UpdateAvailableColumnsForForeignKeys()

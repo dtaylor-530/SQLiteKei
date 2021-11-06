@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Database.Service.Chart\Database.Service.Chart.csproj" />
     <ProjectReference Include="..\SQLite.Data\Database.Data.csproj" />
     <ProjectReference Include="..\SQLite.Service\Database.Service.csproj" />
     <ProjectReference Include="..\SQLite.Utility\SQLite.Utility.csproj" />

@@ -16,7 +16,6 @@ namespace Database.Service.Meta
         {
             return containerBuilder
                 .RegisterServices()
-                .RegisterTableChart()
                 .RegisterProfiles();
         }
 
@@ -24,14 +23,13 @@ namespace Database.Service.Meta
         {
             foreach (var type in new[]
            {
-                typeof(ColumnDataFactory),
+
                 typeof(TreeViewMapper),
                 typeof(TabsRepository),
                 typeof(TabsFactory),
                 typeof(ViewModelNameService),
                 typeof(MenuWindowService),
                 typeof(DatabaseService),
-                typeof(ExitService),
                 typeof(MainMenuModel),
                 typeof(MenuPanelModel),
                 typeof(SelectedDatabaseService),
@@ -62,27 +60,5 @@ namespace Database.Service.Meta
             return containerBuilder;
         }
 
-        static ContainerBuilder RegisterTableChart(this ContainerBuilder containerBuilder)
-        {
-
-            foreach (var type in new[]
-            {
-                typeof(ColumnSeriesModel),
-                typeof(ColumnSeriesPairModel),
-                typeof(ChartSeriesService),
-                typeof(ColumnModelModel),
-                typeof(SeriesRepository),
-                typeof(SeriesPairRepository),
-                typeof(ColumnDataFactory),
-            })
-            {
-                containerBuilder.RegisterType(type).SingleInstance().AsImplementedInterfaces().AsSelf();
-            }
-
-            //containerBuilder.RegisterType<SeriesPairChangesService>().SingleInstance().AsImplementedInterfaces().AsSelf().AutoActivate();
-
-            return containerBuilder;
-
-        }
     }
 }

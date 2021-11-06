@@ -27,7 +27,7 @@ public class TreeViewMapper : ITreeViewMapper
     /// </summary>
     /// <param name="databasePath">The database path.</param>
     /// <returns></returns>
-    public TreeItem Map(IKey key)
+    public TreeItem Map(Key key)
     {
         if (key is not DatabaseKey { DatabasePath: { } path } dkey)
         {
@@ -51,12 +51,12 @@ public class TreeViewMapper : ITreeViewMapper
         {
              new TableFolderItem(localiser["TreeItem_Tables"],databaseKey, new ObservableCollection<DatabaseTreeItem>(MapTables(dbHandler))){
               },
-            new FolderBranchItem(localiser["TreeItem_Views"],databaseKey, new ObservableCollection<DatabaseTreeItem>(MapViews(dbHandler))){
-               },
-            new FolderBranchItem(localiser["TreeItem_Indexes"],databaseKey, new ObservableCollection<DatabaseTreeItem>(MapIndexes(dbHandler)) ){
-                },
-          new FolderBranchItem(localiser["TreeItem_Triggers"], databaseKey, new ObservableCollection<DatabaseTreeItem>(MapTriggers(dbHandler))){
-            }
+             new FolderBranchItem(localiser["TreeItem_Views"],databaseKey, new ObservableCollection<DatabaseTreeItem>(MapViews(dbHandler))){
+              },
+            new FolderBranchItem(localiser["TreeItem_Indexes"],databaseKey, new ObservableCollection<DatabaseTreeItem>(MapIndexes(dbHandler))){
+              },
+            new FolderBranchItem(localiser["TreeItem_Triggers"], databaseKey, new ObservableCollection<DatabaseTreeItem>(MapTriggers(dbHandler))){
+              }
         };
 
         static IEnumerable<TableLeafItem> MapTables(IDatabaseHandler dbHandler) => from table in dbHandler.Tables

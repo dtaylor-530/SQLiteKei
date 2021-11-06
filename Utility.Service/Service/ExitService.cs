@@ -1,7 +1,7 @@
 ﻿using Utility.Common.Base;
 using Utility.Common.Contracts;
 
-namespace SQLite.Service.Service
+namespace Utility.Service.Service
 {
     public class ExitService : IExitService
     {

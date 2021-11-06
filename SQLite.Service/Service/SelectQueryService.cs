@@ -12,41 +12,23 @@ namespace Database.Service.Service
     /// The main ViewModel for the GenerateSelectQuery window
     /// </summary>
     public class SelectQueryService : ISelectQueryService
-
     {
-        //private readonly ILocaliser localiser;
-        //private readonly DatabasePath connectionPath;
-        //private readonly TableName tableName;
         private readonly IMap map;
         private readonly IHandlerService handlerService;
-        //private SelectQueryBuilder? selectQueryBuilder;
-        //private string selectQuery;
 
         public SelectQueryService(IMap map, IHandlerService handlerService)
         {
             this.map = map;
-
-            //Initialize();
             this.handlerService = handlerService;
         }
 
         public SelectItem[] ToSelectItems(ITableKey tableKey)
         {
-            //   CreateMap<ITableKey, ITableHandler>().ConvertUsing(a => TableHandlerFactory.Build(a));
-
             return handlerService.Table(tableKey, tableHandler =>
             {
                 var columns = tableHandler.Columns;
                 var selects = map.Map<SelectItem[]>(columns);
                 return selects;
-                //foreach (var column in columns)
-                //{
-                //    Selects.Add(new SelectItem
-                //    {
-                //        ColumnName = column.Name,
-                //        IsSelected = true
-                //    });
-                //}
             });
 
         }
@@ -73,33 +55,6 @@ namespace Database.Service.Service
             return selectQuery;
         }
 
-        //public void Initialize(ITableKey tableKey)
-        //{
-
-        //InitializeItems();
-        //UpdateSelectQuery();
-
-        //void CollectionContentChanged(NotifyCollectionChangedEventArgs e)
-        //{
-        //    switch (e.Action)
-        //    {
-        //        case NotifyCollectionChangedAction.Remove:
-        //            foreach (INotifyPropertyChanged item in e.OldItems!)
-        //            {
-        //                item.PropertyChanged -= (s, e) => UpdateSelectQuery();
-        //            }
-        //            break;
-        //        case NotifyCollectionChangedAction.Add:
-        //            foreach (INotifyPropertyChanged item in e.NewItems!)
-        //            {
-        //                item.PropertyChanged += (s, e) => UpdateSelectQuery();
-        //            }
-        //            break;
-
-        //        default:
-        //            throw new Exception("gd33__De");
-        //    }
-        //}
         class Helper
         {
             public static SelectQueryBuilder SelectQuery(IReadOnlyCollection<SelectItem> selects, IReadOnlyCollection<OrderItem> orders)
@@ -190,9 +145,6 @@ namespace Database.Service.Service
                     return !hasUnselectedColumns && !hasAliases;
                 }
             }
-
-            //}
         }
-
     }
 }

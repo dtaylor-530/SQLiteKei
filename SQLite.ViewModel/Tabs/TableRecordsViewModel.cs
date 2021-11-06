@@ -1,7 +1,7 @@
-﻿using ReactiveUI;
+﻿using Database.Common.Contracts;
+using ReactiveUI;
 using SQLite.Common;
 using SQLite.Common.Contracts;
-using SQLite.Service;
 using SQLite.ViewModel;
 using System.Collections;
 using System.Text.RegularExpressions;
@@ -16,7 +16,6 @@ namespace Database.ViewModel
     public class TableRecordsViewModel : DatabaseTabViewModel<ITableRecordsViewModel>, ITableRecordsViewModel
     {
         private string searchString;
-        //private readonly TableRecordsConfiguration configuration;
         private readonly ILocaliser localiser;
         private readonly IListCollectionService listCollectionService;
         private readonly IWindowService windowService;

@@ -1,4 +1,5 @@
-﻿using OxyPlot;
+﻿using Database.Common.Contracts;
+using OxyPlot;
 using SQLite.Common.Contracts;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Utility.Service.Service;
 using Utility.ViewModel;
 
 namespace Utility.Service
@@ -19,6 +20,7 @@ namespace Utility.Service
                 typeof(ViewModelFactory),
                 typeof(VersionModel),
                 typeof(WebNavigationService),
+                typeof(ExitService),
 
                 typeof(MapService),
 

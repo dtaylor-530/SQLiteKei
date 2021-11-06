@@ -38,7 +38,7 @@ namespace SQLite.Service.Service
             this.databaseHandlerFactory = databaseHandlerFactory;
         }
 
-        public void OpenDatabase(IKey key)
+        public void OpenDatabase(Key key)
         {
             if (treeModel.TreeViewItems.Any(x => x.Key.Equals(key)))
                 throw new Exception("d__434344fs7nbdfsd");
@@ -65,7 +65,6 @@ namespace SQLite.Service.Service
         {
             if (dialogService.Show(new("SQLite (*.sqlite)|*.sqlite", DialogType.Save)) is { FilePath: { } path, Success: true })
             {
-                // Utility.SQLite.Helpers.ConnectionFactory.CreateDatabase(path);
                 var connection = map.Map<DatabasePath, ConnectionResult>(new DatabasePath(path));
                 //OpenDatabase(new DatabaseKey(new DatabasePath(path), this.GetType()));
             }
@@ -143,6 +142,6 @@ namespace SQLite.Service.Service
             return false;
         }
 
-        DatabaseKey CurrentDatabaseKey => ((treeModel.SelectedItem.Key as DatabaseKey) ?? throw new Exception("Evfsd dsfd"));
+        DatabaseKey CurrentDatabaseKey => (treeModel.SelectedItem.Key as DatabaseKey) ?? throw new Exception("Evfsd dsfd");
     }
 }

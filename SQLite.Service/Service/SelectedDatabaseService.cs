@@ -1,4 +1,5 @@
-﻿using Database.Entity;
+﻿using Database.Common.Contracts;
+using Database.Entity;
 using SQLite.Utility.Factory;
 using System.Data;
 using Utility.Common.Base;
@@ -36,21 +37,4 @@ namespace SQLite.Service
             return databaseHandlerFactory.Database(DatabaseKey, handler => handler.ExecuteQuery<T>(selectQuery));
         }
     }
-
-    //public static class ConnectionPathHelper
-    //{
-    //    public static DataTable SelectToDataTable(this DatabasePath path, string selectQuery)
-    //    {
-    //        return new DatabaseHandler(path).ExecuteAndLoadDataTable(selectQuery);
-    //    }
-
-    //    public static IReadOnlyCollection<dynamic> SelectAsRows(this DatabasePath path, string selectQuery)
-    //    {
-    //        return new DatabaseHandler(path).ExecuteDynamicQuery(selectQuery);
-    //    }
-    //    public static IReadOnlyCollection<T> SelectAsRows<T>(this DatabasePath path, string selectQuery)
-    //    {
-    //        return new DatabaseHandler(path).ExecuteQuery<T>(selectQuery);
-    //    }
-    //}
 }

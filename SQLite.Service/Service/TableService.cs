@@ -10,14 +10,6 @@ namespace SQLite.Service.Service
 
     public class TableService : ITableService
     {
-        //class Mapper
-        //{
-        //    public static TableHandler Map(ITableKey tableItem)
-        //    {
-        //        return new TableHandler(new DatabasePath(tableItem.DatabasePath), tableItem.TableName);
-        //    }
-        //}
-
         private readonly ILocaliser localiser;
         private readonly IMessageBoxService messageBoxService;
         private readonly ITreeModel treeModel;

@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace SQLite.Service
+namespace Database.Common.Contracts
 {
     public interface ISelectedDatabaseService
     {

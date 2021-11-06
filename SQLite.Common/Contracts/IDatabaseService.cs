@@ -10,6 +10,6 @@ namespace SQLite.Service.Service
         bool CreateTable(string sqlStatement);
         void DeleteDatabase();
         void OpenDatabase();
-        void OpenDatabase(IKey key);
+        void OpenDatabase(Key key);
     }
 }
