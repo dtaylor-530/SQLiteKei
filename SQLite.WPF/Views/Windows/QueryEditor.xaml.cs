@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace SQLite.Views
+namespace Database.WPF
 {
     /// <summary>
     /// Interaction logic for QueryEditor.xaml

@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Utility.Common.Contracts;
 
-namespace SQLite.Views
+namespace Utility.WPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

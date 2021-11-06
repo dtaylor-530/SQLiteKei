@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace SQLite.Views
+namespace Utility.WPF
 {
     /// <summary>
     /// Interaction logic for About.xaml

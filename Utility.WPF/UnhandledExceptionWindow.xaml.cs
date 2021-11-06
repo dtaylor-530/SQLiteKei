@@ -1,15 +1,14 @@
 ﻿using System.Windows;
 
-namespace SQLite.Views
+namespace Utility.WPF;
+
+/// <summary>
+/// Interaction logic for UnhandledExceptionWindow.xaml
+/// </summary>
+public partial class UnhandledExceptionWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for UnhandledExceptionWindow.xaml
-    /// </summary>
-    public partial class UnhandledExceptionWindow : Window
+    public UnhandledExceptionWindow()
     {
-        public UnhandledExceptionWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

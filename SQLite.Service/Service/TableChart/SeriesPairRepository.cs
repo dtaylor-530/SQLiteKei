@@ -1,11 +1,12 @@
 ﻿using System.Text.Json;
 using Utility.Chart;
+using Utility.Common.Base;
 using Utility.Entity;
 
 namespace SQLite.Service.Repository
 {
 
-    public class SeriesPairRepository
+    public class SeriesPairRepository : IRepository
     {
         readonly Lazy<Dictionary<string, List<SeriesPair>>> dictionary = new();
         private JsonSerializerOptions settings = new JsonSerializerOptions { WriteIndented = true };

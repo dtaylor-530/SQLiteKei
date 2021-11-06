@@ -1,13 +1,11 @@
-﻿using Utility.Common.Base;
-using Utility.Entity;
+﻿using Utility.Entity;
 
-namespace SQLite.Service.Repository
+namespace Utility.Common.Base
 {
-
-    public interface IIsSelectedRepository
+    public interface IIsSelectedRepository : IRepository
     {
         IsSelected Load(IKey key);
-        void PersistAll();
+
         void Save(IKey key, IsSelected pairs);
     }
 }

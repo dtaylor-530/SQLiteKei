@@ -63,7 +63,7 @@ namespace Utility.Service
             treeViewItems.Clear();
             treeViewItems.AddRange(TreeViewItems.Select(a => RecreateItems(a.Key)));
 
-            TreeItem RecreateItems(IKey key)
+            TreeItem RecreateItems(Key key)
             {
                 return treeViewMapper.Map(key);
 

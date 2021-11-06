@@ -1,39 +1,23 @@
-﻿using SQLite.Service.Repository;
-using Utility.Common.Base;
+﻿using Utility.Common.Base;
 using Utility.Common.Contracts;
 
 namespace SQLite.Service.Service
 {
     public class ExitService : IExitService
     {
-        private readonly ITreeModel treeService;
-        private readonly TabsRepository tabsRepository;
-        private readonly SeriesRepository seriesRepository;
-        private readonly SeriesPairRepository seriesPairRepository;
-        private readonly IIsSelectedRepository isSelectedRepository;
+        private readonly IReadOnlyCollection<IRepository> repositories;
 
-        public ExitService(ITreeModel treeModel,
-            TabsRepository tabsRepository,
-            SeriesRepository seriesRepository,
-            SeriesPairRepository seriesPairRepository,
-            IIsSelectedRepository isSelectedRepository)
+        public ExitService(IEnumerable<IRepository> repositories)
         {
-            this.treeService = treeModel;
-            this.tabsRepository = tabsRepository;
-            this.seriesRepository = seriesRepository;
-            this.seriesPairRepository = seriesPairRepository;
-            this.isSelectedRepository = isSelectedRepository;
+            this.repositories = repositories.ToArray();
         }
 
         public async void Exit()
         {
             await Task.Run(() =>
             {
-                treeService.SaveTree();
-                tabsRepository.PersistAll();
-                seriesRepository.PersistAll();
-                seriesPairRepository.PersistAll();
-                isSelectedRepository.PersistAll();
+                foreach (var repo in repositories)
+                    repo.PersistAll();
             });
         }
     }

@@ -5,7 +5,7 @@ using Utility.Entity;
 
 namespace SQLite.Service.Repository
 {
-    public class TabsRepository
+    public class TabsRepository : IRepository
     {
         readonly Lazy<Dictionary<string, List<Key>>> dictionary;
         readonly JsonSerializerOptions settings = new() { WriteIndented = true };

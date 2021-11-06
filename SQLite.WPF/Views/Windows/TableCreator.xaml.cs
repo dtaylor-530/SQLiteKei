@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace SQLite.Views
+namespace Database.WPF
 {
     /// <summary>
     /// Interaction logic for TableCreator.xaml

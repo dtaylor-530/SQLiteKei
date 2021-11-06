@@ -1,4 +1,4 @@
-﻿namespace SQLite.Data
+﻿namespace Utility.Common.Base
 {
     public enum Theme
     {

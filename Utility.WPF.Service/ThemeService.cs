@@ -1,7 +1,7 @@
 ﻿using SQLite.Common.Contracts;
-using SQLite.Data;
+using Utility.Common.Base;
 
-namespace Database.WPF.Infrastructure
+namespace Utility.WPF.Service
 {
     public class ThemeService : IThemeService
     {

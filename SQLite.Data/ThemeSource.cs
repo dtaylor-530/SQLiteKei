@@ -1,4 +1,4 @@
-﻿using SQLite.Data;
+﻿using Utility.Common.Base;
 
 namespace Database.Data;
 

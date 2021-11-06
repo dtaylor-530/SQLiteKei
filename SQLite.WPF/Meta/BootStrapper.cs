@@ -1,8 +1,7 @@
 ﻿using Database.ViewModel;
 using Database.WPF.Infrastructure.IKriv.Windows.Mvvm;
+using Database.WPF.UserControls;
 using Database.WPF.Views.Tabs;
-using SQLite.Views;
-using SQLite.Views.UserControls;
 
 namespace Database.WPF.Meta;
 

@@ -11,6 +11,7 @@ namespace Utility.Service
     {
 
         private readonly ITreeViewMapper treeViewMapper;
+        private readonly HashSet<TreeItem> items = new();
 
         public TreeRepository(ITreeViewMapper treeViewMapper)
         {
@@ -19,23 +20,8 @@ namespace Utility.Service
 
         public void Save(IReadOnlyCollection<TreeItem> tree)
         {
-            var targetPath = GetSaveLocationPath();
-            var rootItemDatabasePaths = tree.Select(x => x.Key).ToList();
-
-            try
-            {
-                //JsonSerializer.Serialize(streamWriter, rootItemDatabasePaths, typeof(List<ConnectionPath>));
-
-                string json = JsonSerializer.Serialize(rootItemDatabasePaths);
-                File.WriteAllText(targetPath, json);
-                //xmlSerializer.Serialize(streamWriter, rootItemDatabasePaths);
-                Info("Successfully saved database tree.");
-            }
-            catch (Exception ex)
-            {
-                Error("Unable to save database tree.", ex);
-            }
-
+            foreach (var res in tree)
+                items.Add(res);
         }
 
         public IReadOnlyCollection<TreeItem> Load()
@@ -58,6 +44,8 @@ namespace Utility.Service
                 {
                     Error("Could not load database tree.", ex);
                 }
+            foreach (var res in resultCollection)
+                items.Add(res);
 
             return resultCollection;
 
@@ -88,6 +76,25 @@ namespace Utility.Service
             }
         }
 
+        public void PersistAll()
+        {
+            var targetPath = GetSaveLocationPath();
+            var rootItemDatabasePaths = items.Select(x => x.Key).ToList();
+
+            try
+            {
+                //JsonSerializer.Serialize(streamWriter, rootItemDatabasePaths, typeof(List<ConnectionPath>));
+
+                string json = JsonSerializer.Serialize(rootItemDatabasePaths);
+                File.WriteAllText(targetPath, json);
+                //xmlSerializer.Serialize(streamWriter, rootItemDatabasePaths);
+                Info("Successfully saved database tree.");
+            }
+            catch (Exception ex)
+            {
+                Error("Unable to save database tree.", ex);
+            }
+        }
         private static string GetSaveLocationPath()
         {
             //var roamingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);

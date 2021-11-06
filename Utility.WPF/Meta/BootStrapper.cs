@@ -1,7 +1,6 @@
 ﻿using Database.WPF.Infrastructure.IKriv.Windows.Mvvm;
 using Database.WPF.Views.UserControls.MainWindow;
 using SQLite.ViewModel;
-using SQLite.Views;
 using Utility.ViewModel;
 using Utility.WPF.UserControls.MainWindow;
 

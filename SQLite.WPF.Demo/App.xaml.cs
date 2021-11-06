@@ -1,16 +1,17 @@
 ﻿using Autofac;
 using Database.Service.Meta;
-using Database.WPF.Infrastructure;
 using Splat;
 using Splat.Autofac;
-using SQLite.Views;
 using System;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using Utility.Common;
 using Utility.Common.Base;
+using Utility.WPF;
+using Utility.WPF.Service;
 using static Utility.Common.Base.Log;
+
 using four = Utility.WPF.Service.Meta.BootStrapper;
 using one = Utility.Service.BootStrapper;
 using three = Utility.WPF.Meta.BootStrapper;

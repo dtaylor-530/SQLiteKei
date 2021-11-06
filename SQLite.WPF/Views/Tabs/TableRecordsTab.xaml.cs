@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace SQLite.Views.UserControls
+namespace Database.WPF.UserControls
 {
     /// <summary>
     /// Interaction logic for TableRecordsTab.xaml

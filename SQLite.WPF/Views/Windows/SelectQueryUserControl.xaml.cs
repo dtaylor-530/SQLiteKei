@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace SQLite.Views
+namespace Database.WPF
 {
     /// <summary>
     /// Interaction logic for GenerateSelectQueryWindow.xaml
