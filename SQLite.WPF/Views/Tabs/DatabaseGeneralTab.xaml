@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:vm="clr-namespace:SQLite.ViewModel;assembly=SQLite.ViewModel"
+             xmlns:vm="clr-namespace:Database.ViewModel;assembly=Database.ViewModel"
              xmlns:sys="clr-namespace:System;assembly=netstandard"
              xmlns:conv="clr-namespace:Utility.WPF.Common.Converter;assembly=Utility.WPF.Common"
              mc:Ignorable="d"

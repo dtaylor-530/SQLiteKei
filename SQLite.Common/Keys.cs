@@ -1,6 +1,7 @@
-﻿using SQLite.ViewModel;
-using Utility;
+﻿using Database.Entity;
+using SQLite.ViewModel;
 using Utility.Database;
+using Utility.Entity;
 
 namespace SQLite.Common
 {

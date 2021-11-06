@@ -1,8 +1,8 @@
-﻿using SQLite.Common.Model;
+﻿using Database.Entity;
+using SQLite.Utility.Factory;
 using System.Collections.ObjectModel;
-using Utility;
 using Utility.Common.Base;
-using Utility.Database;
+using Utility.Entity;
 using Utility.SQLite.Database;
 using static Utility.Common.Base.Log;
 
@@ -14,10 +14,12 @@ namespace SQLite.Service.Mapping;
 public class TreeViewMapper : ITreeViewMapper
 {
     private readonly ILocaliser localiser;
+    private readonly IHandlerService handlerFactory;
 
-    public TreeViewMapper(ILocaliser localiser)
+    public TreeViewMapper(ILocaliser localiser, IHandlerService handlerFactory)
     {
         this.localiser = localiser;
+        this.handlerFactory = handlerFactory;
     }
 
     /// <summary>
@@ -32,17 +34,20 @@ public class TreeViewMapper : ITreeViewMapper
             throw new Exception("sdfopopopofsd");
         }
 
-        using var databaseHandler = new DatabaseHandler(path);
-        var databaseItem = new DatabaseBranchItem(
-            dkey,
-            Path.GetFileNameWithoutExtension(databaseHandler.Path.Path),
-            new ObservableCollection<DatabaseTreeItem>(FolderItems(localiser, databaseHandler, dkey)));
+        var databaseItem = handlerFactory.Database(dkey, handler =>
+        {
+            var databaseItem = new DatabaseBranchItem(
+                dkey,
+                Path.GetFileNameWithoutExtension(handler.Path.Path),
+                new ObservableCollection<DatabaseTreeItem>(FolderItems(localiser, handler, dkey)));
+            return databaseItem;
+        });
 
         Info("Loaded database " + databaseItem.Name + ".");
 
         return databaseItem;
 
-        static FolderBranchItem[] FolderItems(ILocaliser localiser, DatabaseHandler dbHandler, DatabaseKey databaseKey) => new FolderBranchItem[]
+        static FolderBranchItem[] FolderItems(ILocaliser localiser, IDatabaseHandler dbHandler, DatabaseKey databaseKey) => new FolderBranchItem[]
         {
              new TableFolderItem(localiser["TreeItem_Tables"],databaseKey, new ObservableCollection<DatabaseTreeItem>(MapTables(dbHandler))){
               },
@@ -54,17 +59,17 @@ public class TreeViewMapper : ITreeViewMapper
             }
         };
 
-        static IEnumerable<TableLeafItem> MapTables(DatabaseHandler dbHandler) => from table in dbHandler.Tables
-                                                                                  select new TableLeafItem(table.Name, new TableKey<TableLeafItem>(dbHandler.Path, table.Name));
+        static IEnumerable<TableLeafItem> MapTables(IDatabaseHandler dbHandler) => from table in dbHandler.Tables
+                                                                                   select new TableLeafItem(table.Name, new TableKey<TableLeafItem>(dbHandler.Path, table.Name));
 
-        static IEnumerable<IndexLeafItem> MapIndexes(DatabaseHandler dbHandler) => from indexName in dbHandler.Indexes.Select(x => x.Name)
-                                                                                   select new IndexLeafItem(indexName, new TableKey<TableLeafItem>(dbHandler.Path, indexName));
+        static IEnumerable<IndexLeafItem> MapIndexes(IDatabaseHandler dbHandler) => from indexName in dbHandler.Indexes.Select(x => x.Name)
+                                                                                    select new IndexLeafItem(indexName, new TableKey<TableLeafItem>(dbHandler.Path, indexName));
 
-        static IEnumerable<TriggerLeafItem> MapTriggers(DatabaseHandler dbHandler) => from triggerName in dbHandler.Triggers.Select(x => x.Name)
-                                                                                      select new TriggerLeafItem(triggerName, new TableKey<TableLeafItem>(dbHandler.Path, triggerName));
+        static IEnumerable<TriggerLeafItem> MapTriggers(IDatabaseHandler dbHandler) => from triggerName in dbHandler.Triggers.Select(x => x.Name)
+                                                                                       select new TriggerLeafItem(triggerName, new TableKey<TableLeafItem>(dbHandler.Path, triggerName));
 
-        static IEnumerable<ViewLeafItem> MapViews(DatabaseHandler dbHandler) => from viewName in dbHandler.Views.Select(x => x.Name)
-                                                                                select new ViewLeafItem(viewName, new TableKey<ViewLeafItem>(dbHandler.Path, viewName));
+        static IEnumerable<ViewLeafItem> MapViews(IDatabaseHandler dbHandler) => from viewName in dbHandler.Views.Select(x => x.Name)
+                                                                                 select new ViewLeafItem(viewName, new TableKey<ViewLeafItem>(dbHandler.Path, viewName));
     }
 
 }

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Utility.ViewModel;assembly=Utility.ViewModel"
-        xmlns:local="clr-namespace:SQLite.WPF.Views.UserControls.MainWindow"
+        xmlns:local="clr-namespace:Database.WPF.Views.UserControls.MainWindow"
         xmlns:local1="clr-namespace:Utility.WPF.UserControls.MainWindow"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"

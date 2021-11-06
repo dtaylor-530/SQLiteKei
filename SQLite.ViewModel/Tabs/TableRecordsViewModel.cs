@@ -2,6 +2,7 @@
 using SQLite.Common;
 using SQLite.Common.Contracts;
 using SQLite.Service;
+using SQLite.ViewModel;
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
@@ -10,9 +11,8 @@ using Utility.Common.Contracts;
 using Utility.Service;
 using static Utility.Common.Base.Log;
 
-namespace SQLite.ViewModel
+namespace Database.ViewModel
 {
-
     public class TableRecordsViewModel : DatabaseTabViewModel<ITableRecordsViewModel>, ITableRecordsViewModel
     {
         private string searchString;
@@ -21,7 +21,7 @@ namespace SQLite.ViewModel
         private readonly IListCollectionService listCollectionService;
         private readonly IWindowService windowService;
         private readonly IViewModelFactory viewModelFactory;
-        private readonly IStatusService statusService;
+        private readonly IStatusModel statusService;
         private readonly IViewModelNameService nameService;
         private readonly ISelectedDatabaseService selectedDatabaseService;
 
@@ -31,12 +31,12 @@ namespace SQLite.ViewModel
             IListCollectionService listCollectionService,
             IWindowService windowService,
             IViewModelFactory viewModelFactory,
-            IStatusService statusService,
+            IStatusModel statusService,
             IViewModelNameService nameService,
             ISelectedDatabaseService selectedDatabaseService,
             IIsSelectedService isSelectedService) : base(key, isSelectedService)
         {
-            this.Key = key;
+            Key = key;
             this.WhenAnyValue(a => a.SearchString)
                 .WhereNotNull()
                 .Subscribe(filter =>
@@ -53,12 +53,12 @@ namespace SQLite.ViewModel
             this.statusService = statusService;
             this.nameService = nameService;
             this.selectedDatabaseService = selectedDatabaseService;
-            this.SelectCommand = ReactiveCommand.Create(ExecuteSelect);
+            SelectCommand = ReactiveCommand.Create(ExecuteSelect);
 
             Execute($"Select * from {key.TableName.Name} limit 20");
         }
 
-        public override string Name => nameService.Get(this.Key);
+        public override string Name => nameService.Get(Key);
         public override TableRecordsViewModelTabKey Key { get; }
 
         public IEnumerable Collection => listCollectionService.Collection;

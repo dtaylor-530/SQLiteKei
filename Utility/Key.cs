@@ -1,4 +1,4 @@
-﻿namespace Utility;
+﻿namespace Utility.Entity;
 
 public interface IType
 {
@@ -25,7 +25,7 @@ public abstract class Key : IKey
 
     public virtual bool Equals(IKey? other)
     {
-        return this.GetType().Equals(other?.GetType());
+        return GetType().Equals(other?.GetType());
     }
 
     public override bool Equals(object? obj)

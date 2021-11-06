@@ -1,5 +1,4 @@
 ﻿using ReactiveUI;
-using System.Collections.ObjectModel;
 using Utility.Common;
 using Utility.Common.Base;
 using Utility.ViewModel.Base;
@@ -8,15 +7,15 @@ namespace Utility.ViewModel;
 
 public class TreeViewModel : BaseViewModel<ITreeViewModel>, ITreeViewModel
 {
-    private readonly ITreeService treeService;
+    private readonly ITreeModel treeService;
 
-    public TreeViewModel(TreeViewModelKey treeViewModelKey, ITreeService treeService) : base(treeViewModelKey)
+    public TreeViewModel(TreeViewModelKey treeViewModelKey, ITreeModel treeModel) : base(treeViewModelKey)
     {
-        this.treeService = treeService;
-        treeService.Subscribe(a => this.RaisePropertyChanged(nameof(SelectedItem)));
+        this.treeService = treeModel;
+        treeModel.Subscribe(a => this.RaisePropertyChanged(nameof(SelectedItem)));
     }
 
-    public ObservableCollection<TreeItem> TreeViewItems => treeService.TreeViewItems;
+    public IReadOnlyCollection<TreeItem> TreeViewItems => treeService.TreeViewItems;
 
     public TreeItem SelectedItem
     {

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Utility.Entity;
 
 namespace Utility.Common.Base;
 

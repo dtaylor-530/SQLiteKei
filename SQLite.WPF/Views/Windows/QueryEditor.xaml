@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:SQLite.ViewModel;assembly=SQLite.ViewModel"
-             xmlns:s="clr-namespace:SQLite.Common.Model;assembly=SQLite.Common"
+        xmlns:vm="clr-namespace:Database.ViewModel;assembly=Database.ViewModel"
+        xmlns:s="clr-namespace:Database.Entity;assembly=Database.Entity"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:QueryEditorViewModel}"
       

@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Dahomey.Json" Version="1.11.3" />
+		<PackageReference Include="fasterflect" Version="3.0.0" />
+		<PackageReference Include="log4net" Version="2.0.12" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Database.Entity\Database.Entity.csproj" />
+	  <ProjectReference Include="..\Utility.Chart\Utility.Chart.Common.csproj" />
+	  <ProjectReference Include="..\Utility.Common.Base\Utility.Common.Base.csproj" />
+	  <ProjectReference Include="..\Utility.Database\Utility.Database.Common.csproj" />
+	</ItemGroup>
+
+</Project>

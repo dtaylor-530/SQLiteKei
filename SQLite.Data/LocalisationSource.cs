@@ -1,4 +1,4 @@
-﻿using SQLite.Data.Localisation;
+﻿using Database.Data.Localisation;
 using Utility.Common.Base;
 
 namespace SQLite.Data;

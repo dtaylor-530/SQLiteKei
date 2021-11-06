@@ -2,7 +2,7 @@
 using SQLite.Common.Contracts;
 using System;
 
-namespace SQLite.WPF.Infrastructure
+namespace Database.WPF.Infrastructure
 {
     public class FileDialogService : IFileDialogService
     {

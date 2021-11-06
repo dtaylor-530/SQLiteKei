@@ -2,24 +2,21 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SQLite.Data\SQLite.Data.csproj" />
-    <ProjectReference Include="..\SQLite.Service\SQLite.Service.csproj" />
-    <ProjectReference Include="..\SQLite.ViewModel\SQLite.ViewModel.csproj" />
-    <ProjectReference Include="..\SQLite.WPF\SQLite.WPF.csproj" />
+    <ProjectReference Include="..\SQLite.Data\Database.Data.csproj" />
+    <ProjectReference Include="..\SQLite.Service\Database.Service.csproj" />
+    <ProjectReference Include="..\SQLite.Utility\SQLite.Utility.csproj" />
+    <ProjectReference Include="..\SQLite.ViewModel\Database.ViewModel.csproj" />
+    <ProjectReference Include="..\SQLite.WPF\Database.WPF.csproj" />
     <ProjectReference Include="..\Utility.Service\Utility.Service.csproj" />
     <ProjectReference Include="..\Utility.ViewModel\Utility.ViewModel.csproj" />
     <ProjectReference Include="..\Utility.WPF.Service\Utility.WPF.Service.csproj" />
     <ProjectReference Include="..\Utility.WPF\Utility.WPF.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@
     <SolidColorBrush x:Key="ButtonLight_Background" Color="#2D2D30" />
     <SolidColorBrush x:Key="ButtonDark_Background" Color="#232324" />
     <!---->
-    
+
     <Style TargetType="{x:Type Button}">
         <Setter Property="Foreground" Value="{DynamicResource ApplicationFontColor}" />
         <Setter Property="Template">

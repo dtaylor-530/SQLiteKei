@@ -12,9 +12,9 @@ namespace Utility.ViewModel
     public class AboutViewModel : BaseViewModel, IAboutViewModel
     {
         private readonly ILocaliser localiser;
-        private readonly IVersionService versionService;
+        private readonly IVersionModel versionService;
 
-        public AboutViewModel(AboutViewModelKey key, ILocaliser localiser, IVersionService versionService) : base(key)
+        public AboutViewModel(AboutViewModelKey key, ILocaliser localiser, IVersionModel versionService) : base(key)
         {
             this.localiser = localiser;
             this.versionService = versionService;

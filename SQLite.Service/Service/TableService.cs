@@ -1,8 +1,8 @@
-﻿using SQLite.Common.Contracts;
+﻿using Database.Common.Contracts;
+using SQLite.Utility.Factory;
 using Utility.Common.Base;
 using Utility.Common.Contracts;
-using Utility.Database;
-using Utility.SQLite.Database;
+using Utility.Database.Common;
 using static Utility.Common.Base.Log;
 
 namespace SQLite.Service.Service
@@ -10,30 +10,32 @@ namespace SQLite.Service.Service
 
     public class TableService : ITableService
     {
-        class Mapper
-        {
-            public static TableHandler Map(ITableKey tableItem)
-            {
-                return new TableHandler(new DatabasePath(tableItem.DatabasePath), tableItem.TableName);
-            }
-        }
+        //class Mapper
+        //{
+        //    public static TableHandler Map(ITableKey tableItem)
+        //    {
+        //        return new TableHandler(new DatabasePath(tableItem.DatabasePath), tableItem.TableName);
+        //    }
+        //}
 
         private readonly ILocaliser localiser;
         private readonly IMessageBoxService messageBoxService;
-        private readonly ITreeService treeService;
-        private readonly IStatusService statusService;
+        private readonly ITreeModel treeModel;
+        private readonly IStatusModel statusService;
+        private readonly IHandlerService tableHandlerFactory;
 
-        public TableService(ILocaliser localiser, IMessageBoxService messageBoxService, ITreeService treeService, IStatusService statusService)
+        public TableService(ILocaliser localiser, IMessageBoxService messageBoxService, ITreeModel treeModel, IStatusModel statusService, IHandlerService tableHandlerFactory)
         {
             this.localiser = localiser;
             this.messageBoxService = messageBoxService;
-            this.treeService = treeService;
+            this.treeModel = treeModel;
             this.statusService = statusService;
+            this.tableHandlerFactory = tableHandlerFactory;
         }
 
-        public bool DeleteTable(ITableKey tableItem)
+        public bool DeleteTable(ITableKey tableKey)
         {
-            var message = localiser["MessageBox_TableDeleteWarning", tableItem.TableName];
+            var message = localiser["MessageBox_TableDeleteWarning", tableKey.TableName];
             var result = messageBoxService.ShowMessage(new(message, localiser["MessageBoxTitle_TableDeletion"], MessageBoxButton.YesNo, MessageBoxImage.Warning));
 
             if (result != true)
@@ -41,84 +43,95 @@ namespace SQLite.Service.Service
 
             try
             {
-                using var tableHandler = Mapper.Map(tableItem);
-                tableHandler.DropTable();
-                treeService.RemoveItemFromTree(tableItem);
+                tableHandlerFactory.Table(tableKey, handler =>
+                {
+                    handler.DropTable();
+                    return new object();
+                });
+                this.treeModel.OnNext(new(Removes: new[] { tableKey }));
                 return true;
 
             }
             catch (Exception ex)
             {
-                Error("Failed to delete table '" + tableItem.TableName + "'.", ex);
+                Error("Failed to delete table '" + tableKey.TableName + "'.", ex);
                 return false;
             }
         }
 
-        public void EmptyTable(ITableKey tableItem)
+        public void EmptyTable(ITableKey tableKey)
         {
-            var message = localiser["MessageBox_EmptyTable", tableItem.TableName];
+            var message = localiser["MessageBox_EmptyTable", tableKey.TableName];
             var messageTitle = localiser["MessageBoxTitle_EmptyTable"];
             var result = messageBoxService.ShowMessage(new(message, messageTitle, MessageBoxButton.YesNo, MessageBoxImage.Warning));
 
             if (result != true)
                 return;
 
-            using var tableHandler = Mapper.Map(tableItem);
-            try
+            tableHandlerFactory.Table(tableKey, handler =>
             {
-                tableHandler.EmptyTable();
-            }
-            catch (Exception ex)
-            {
-                Error("Failed to empty table" + tableItem.TableName, ex);
-                statusService.OnNext(ex.Message);
-            }
+                try
+                {
+                    handler.EmptyTable();
+                }
+                catch (Exception ex)
+                {
+                    Error("Failed to empty table" + tableKey.TableName, ex);
+                    statusService.OnNext(ex.Message);
+                }
+                return new object();
+            });
 
         }
 
-        public void ReindexTable(ITableKey tableItem)
+        public void ReindexTable(ITableKey tableKey)
         {
-            var message = localiser["MessageBox_ReindexTable", tableItem.TableName];
+            var message = localiser["MessageBox_ReindexTable", tableKey.TableName];
             var messageTitle = localiser["MessageBoxTitle_ReindexTable"];
             var result = messageBoxService.ShowMessage(new(message, messageTitle, MessageBoxButton.YesNo, MessageBoxImage.Question));
 
             if (result != true) return;
 
-            using var tableHandler = Mapper.Map(tableItem);
-            try
+            tableHandlerFactory.Table(tableKey, handler =>
             {
-                tableHandler.ReindexTable();
-            }
-            catch (Exception ex)
-            {
-                Error("Failed to empty table" + tableItem.TableName, ex);
-                statusService.OnNext(ex.Message);
-            }
-
+                try
+                {
+                    handler.ReindexTable();
+                }
+                catch (Exception ex)
+                {
+                    Error("Failed to reindex table" + tableKey.TableName, ex);
+                    statusService.OnNext(ex.Message);
+                }
+                return new object();
+            });
         }
 
-        public void RenameTable(ITableKey tableItem, string newName)
+        public void RenameTable(ITableKey tableKey, string newName)
         {
-            var message = localiser["MessageBox_RenameTable", tableItem.TableName];
+            var message = localiser["MessageBox_RenameTable", tableKey.TableName];
             var messageTitle = localiser["MessageBoxTitle_RenameTable"];
             var result = messageBoxService.ShowMessage(new(message, messageTitle, MessageBoxButton.YesNo, MessageBoxImage.Question));
             if (result != true) return;
 
-            if (string.IsNullOrWhiteSpace(tableItem.TableName))
+            if (string.IsNullOrWhiteSpace(tableKey.TableName))
             {
                 return;
             }
-            try
-            {
-                using var tableHandler = Mapper.Map(tableItem);
-                tableHandler.RenameTable(newName);
-            }
-            catch
-            {
-                //TODO decide what should happen in this case
-            }
-            return;
-        }
 
+            tableHandlerFactory.Table(tableKey, handler =>
+            {
+                try
+                {
+                    handler.RenameTable(newName);
+                }
+                catch (Exception ex)
+                {
+                    Error("Failed to rename table" + tableKey.TableName, ex);
+                    statusService.OnNext(ex.Message);
+                }
+                return new object();
+            });
+        }
     }
 }

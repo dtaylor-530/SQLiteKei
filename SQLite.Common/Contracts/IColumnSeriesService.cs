@@ -1,6 +1,6 @@
 ﻿using System.Reactive;
-using Utility;
 using Utility.Chart;
+using Utility.Entity;
 
 namespace SQLite.Service.Service
 {

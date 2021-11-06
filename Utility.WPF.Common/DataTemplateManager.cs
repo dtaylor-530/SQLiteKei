@@ -1,4 +1,4 @@
-﻿namespace SQLite.WPF.Infrastructure
+﻿namespace Database.WPF.Infrastructure
 {
     using System;
     using System.Windows;

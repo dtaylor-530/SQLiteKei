@@ -1,54 +1,60 @@
-﻿using SQLite.Common.Contracts;
-using SQLite.Common.Model;
+﻿using Database.Entity;
+using SQLite.Common.Contracts;
 using SQLite.Service.Mapping;
-using Utility;
+using SQLite.Utility.Factory;
 using Utility.Common.Base;
 using Utility.Database;
-using Utility.SQLite.Database;
+using Utility.Entity;
 using static Utility.Common.Base.Log;
 
 namespace SQLite.Service.Service
 {
     public class DatabaseService : IDatabaseService
     {
-        private readonly ITreeService treeService;
+        private readonly IMap map;
+        private readonly ITreeModel treeModel;
         private readonly TreeViewMapper mapper;
         private readonly ILocaliser localiser;
         private readonly IMessageBoxService messageBoxService;
         private readonly IFileDialogService dialogService;
-
-        Dictionary<string, string> dictionaryDatabasePaths = new();
+        private readonly IHandlerService databaseHandlerFactory;
 
         public DatabaseService(
-            ITreeService treeService,
-            TreeViewMapper mapper,
+            IMap map,
+            ITreeModel treeModel,
+            TreeViewMapper treeViewMapper,
             ILocaliser localiser,
             IMessageBoxService messageBoxService,
-            IFileDialogService dialogService)
+            IFileDialogService dialogService,
+            IHandlerService databaseHandlerFactory
+            )
         {
-            this.treeService = treeService;
-            this.mapper = mapper;
+            this.map = map;
+            this.treeModel = treeModel;
+            this.mapper = treeViewMapper;
             this.localiser = localiser;
             this.messageBoxService = messageBoxService;
             this.dialogService = dialogService;
+            this.databaseHandlerFactory = databaseHandlerFactory;
         }
 
         public void OpenDatabase(IKey key)
         {
-            if (treeService.TreeViewItems.Any(x => x.Key.Equals(key)))
+            if (treeModel.TreeViewItems.Any(x => x.Key.Equals(key)))
                 throw new Exception("d__434344fs7nbdfsd");
 
             TreeItem databaseItem = mapper.Map(key);
-            treeService.TreeViewItems.Add(databaseItem);
+            treeModel.OnNext(new(Adds: new[] { databaseItem }));
             Info("Opened database '" + databaseItem.Name + "'.");
 
         }
 
         public void CloseDatabase(IKey key)
         {
-            if (treeService.TreeViewItems.SingleOrDefault(x => x.Key.Equals(key)) is { } db)
+            if (treeModel.TreeViewItems.SingleOrDefault(x => x.Key.Equals(key)) is { } db)
             {
-                treeService.TreeViewItems.Remove(db);
+                //treeModel.TreeViewItems.Remove(db);
+                treeModel.OnNext(new(Removes: new[] { db.Key }));
                 Info("Closed database '" + db.Name + "'.");
             }
             else
@@ -59,14 +65,15 @@ namespace SQLite.Service.Service
         {
             if (dialogService.Show(new("SQLite (*.sqlite)|*.sqlite", DialogType.Save)) is { FilePath: { } path, Success: true })
             {
-                Utility.SQLite.Helpers.ConnectionFactory.CreateDatabase(path);
-                OpenDatabase(new DatabaseKey(new DatabasePath(path), this.GetType()));
+                // Utility.SQLite.Helpers.ConnectionFactory.CreateDatabase(path);
+                var connection = map.Map<DatabasePath, ConnectionResult>(new DatabasePath(path));
+                //OpenDatabase(new DatabaseKey(new DatabasePath(path), this.GetType()));
             }
         }
 
         public void CloseDatabase()
         {
-            var selectedItem = treeService.SelectedItem.Key;
+            var selectedItem = treeModel.SelectedItem.Key;
 
             if (selectedItem != null)
                 CloseDatabase(selectedItem);
@@ -82,7 +89,7 @@ namespace SQLite.Service.Service
 
         public void DeleteDatabase()
         {
-            if (treeService.SelectedItem is not DatabaseBranchItem { Name: { } name, Key: { DatabasePath: { } dbName } key })
+            if (treeModel.SelectedItem is not DatabaseBranchItem { Name: { } name, Key: { DatabasePath: { } dbName } key })
             {
                 return;
             }
@@ -93,11 +100,11 @@ namespace SQLite.Service.Service
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning)) == true)
             {
-                var filePath = dictionaryDatabasePaths[dbName];
-                if (!System.IO.File.Exists(filePath))
-                    throw new FileNotFoundException("Database file could not be found.");
+                //var filePath = dictionaryDatabasePaths[dbName];
+                //if (!System.IO.File.Exists(filePath))
+                //    throw new FileNotFoundException("Database file could not be found.");
 
-                System.IO.File.Delete(filePath);
+                //System.IO.File.Delete(filePath);
                 CloseDatabase(key);
             }
         }
@@ -115,24 +122,27 @@ namespace SQLite.Service.Service
             if (!string.IsNullOrEmpty(sqlStatement))
             {
                 //var database = SelectedDatabase as DatabaseSelectItem;
-                var dbHandler = new DatabaseHandler(new DatabasePath(CurrentDatabasePath.FullName));
+                return databaseHandlerFactory.Database(CurrentDatabaseKey, dbHandler =>
+                {
 
-                try
-                {
-                    if (sqlStatement.StartsWith("CREATE TABLE", StringComparison.CurrentCultureIgnoreCase))
+                    try
                     {
-                        dbHandler.ExecuteNonQuery(sqlStatement);
-                        return true;
+                        if (sqlStatement.StartsWith("CREATE TABLE", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            dbHandler.ExecuteNonQuery(sqlStatement);
+                            return true;
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Error("An error occured when the user tried to create a table from the TableCreator.", ex);
-                }
+                    catch (Exception ex)
+                    {
+                        Error("An error occured when the user tried to create a table from the TableCreator.", ex);
+                    }
+                    return false;
+                });
             }
             return false;
         }
 
-        FileInfo CurrentDatabasePath => ((treeService.SelectedItem.Key as DatabaseKey) ?? throw new Exception("Evfsd dsfd")).DatabasePath.AsFileInfo;
+        DatabaseKey CurrentDatabaseKey => ((treeModel.SelectedItem.Key as DatabaseKey) ?? throw new Exception("Evfsd dsfd"));
     }
 }

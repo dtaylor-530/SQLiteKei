@@ -1,24 +1,26 @@
-﻿using ReactiveUI;
-using SQLite.Common.Model;
+﻿using Database.Entity;
+using ReactiveUI;
+using SQLite.Utility.Factory;
 using System.Data;
 using System.Windows.Input;
 using Utility.Common.Base;
-using Utility.SQLite.Database;
 
-namespace SQLite.ViewModel
+namespace Database.ViewModel
 {
     public class QueryEditorViewModel : ReactiveObject
     {
         private readonly ILocaliser localiser;
+        private readonly IHandlerService tableHandlerFactory;
         private string sqlStatement = string.Empty;
         private string statusInfo;
         private DatabaseSelectItem selectedDatabase;
         private string selectedText;
         private DataView dataView;
 
-        public QueryEditorViewModel(ILocaliser localiser)
+        public QueryEditorViewModel(ILocaliser localiser, IHandlerService tableHandlerFactory)
         {
             this.localiser = localiser;
+            this.tableHandlerFactory = tableHandlerFactory;
             ExecuteCommand = ReactiveCommand.Create(Execute);
         }
 
@@ -85,26 +87,27 @@ namespace SQLite.ViewModel
 
             void ExecuteSql(string sqlStatement)
             {
-
-                using var dbHandler = new DatabaseHandler(selectedDatabase.Path);
-                try
-                {
-                    if (SqlStatement.StartsWith("SELECT", StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        var queryResult = dbHandler.ExecuteAndLoadDataTable(sqlStatement);
-                        DataView = queryResult.DefaultView;
-                        StatusInfo = string.Format("Rows returned: {0}", queryResult.Rows.Count);
-                    }
-                    else
-                    {
-                        var commandResult = dbHandler.ExecuteNonQuery(sqlStatement);
-                        StatusInfo = string.Format("Rows affected: {0}", commandResult);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    StatusInfo = ex.Message.Replace("SQL logic error or missing database\r\n", "SQL-Error - ");
-                }
+                StatusInfo = tableHandlerFactory.Database(selectedDatabase.Key, handler =>
+               {
+                   try
+                   {
+                       if (SqlStatement.StartsWith("SELECT", StringComparison.CurrentCultureIgnoreCase))
+                       {
+                           var queryResult = handler.ExecuteAndLoadDataTable(sqlStatement);
+                           DataView = queryResult.DefaultView;
+                           return string.Format("Rows returned: {0}", queryResult.Rows.Count);
+                       }
+                       else
+                       {
+                           var commandResult = handler.ExecuteNonQuery(sqlStatement);
+                           return string.Format("Rows affected: {0}", commandResult);
+                       }
+                   }
+                   catch (Exception ex)
+                   {
+                       return ex.Message.Replace("SQL logic error or missing database\r\n", "SQL-Error - ");
+                   }
+               });
             }
         }
     }

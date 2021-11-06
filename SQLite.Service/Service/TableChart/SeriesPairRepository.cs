@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
-using Utility;
 using Utility.Chart;
+using Utility.Entity;
 
 namespace SQLite.Service.Repository
 {

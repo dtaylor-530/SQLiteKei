@@ -8,9 +8,9 @@ namespace Utility.ViewModel
     public class MainMenuViewModel : BaseViewModel<IMainMenuViewModel>, IMainMenuViewModel
     {
 
-        private readonly IMainMenuService mainMenuService;
+        private readonly IMainMenuModel mainMenuService;
 
-        public MainMenuViewModel(MainMenuViewModelKey key, IMainMenuService mainMenuService) : base(key)
+        public MainMenuViewModel(MainMenuViewModelKey key, IMainMenuModel mainMenuService) : base(key)
         {
             this.mainMenuService = mainMenuService;
         }

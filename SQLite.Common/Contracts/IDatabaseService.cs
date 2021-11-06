@@ -1,4 +1,4 @@
-﻿using Utility;
+﻿using Utility.Entity;
 
 namespace SQLite.Service.Service
 {

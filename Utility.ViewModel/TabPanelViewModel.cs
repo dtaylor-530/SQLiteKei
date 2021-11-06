@@ -8,12 +8,12 @@ namespace Utility.ViewModel;
 
 public class TabPanelViewModel : BaseViewModel<ITabPanelViewModel>, ITabPanelViewModel
 {
-    private readonly ITabsService tabsService;
+    private readonly ITabsModel tabsService;
 
-    public TabPanelViewModel(TabPanelViewModelKey key, ITabsService tabsService) : base(key)
+    public TabPanelViewModel(TabPanelViewModelKey key, ITabsModel tabsModel) : base(key)
     {
-        this.tabsService = tabsService;
-        tabsService
+        this.tabsService = tabsModel;
+        tabsModel
             .Subscribe(a =>
         {
             //SelectedTabIndex = a;

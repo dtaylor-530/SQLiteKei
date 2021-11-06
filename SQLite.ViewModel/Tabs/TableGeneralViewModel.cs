@@ -1,61 +1,57 @@
-﻿using ReactiveUI;
+﻿using Database.Common.Contracts;
+using Database.Service.Model;
+using ReactiveUI;
 using SQLite.Common;
-using SQLite.Common.Contracts;
+using SQLite.ViewModel;
 using System.Windows.Input;
 using Utility.Common.Base;
 using Utility.Common.Contracts;
 using Utility.Service;
-using Utility.SQLite.Database;
 using Utility.SQLite.Models;
 
-namespace SQLite.ViewModel
+namespace Database.ViewModel
 {
-
     public class TableGeneralViewModel : DatabaseTabViewModel<ITableGeneralViewModel>, ITableGeneralViewModel
     {
+        private TableGeneralViewModelTabKey key;
         private string tableName;
         private readonly ILocaliser localiser;
         private readonly IViewModelNameService nameService;
         private readonly ITableService tableService;
+        private readonly ITableGeneralModel generalModel;
 
         public TableGeneralViewModel(
             TableGeneralViewModelTabKey key,
             ILocaliser localiser,
             IViewModelNameService nameService,
             IIsSelectedService selectedService,
-            ITableService tableService) : base(key, selectedService)
+            ITableService tableService,
+            ITableGeneralModel generalModel) : base(key, selectedService)
         {
-            this.Key = key;
-            this.tableName = key.TableName;
+            this.key = key;
+            tableName = key.TableName;
             this.localiser = localiser;
             this.nameService = nameService;
             this.tableService = tableService;
+            this.generalModel = generalModel;
             EmptyTableCommand = ReactiveCommand.Create(EmptyTable);
             ReindexTableCommand = ReactiveCommand.Create(ReindexTable);
 
-            using (var dbHandler = new TableHandler(key.DatabasePath, TableName))
-            {
-                (string a, long b, Column[] c, int d) = dbHandler.General;
-                TableCreateStatement = a;
-                RowCount = b;
-                ColumnData = c;
-                ColumnCount = d;
-            }
         }
 
-        public override string Name => nameService.Get(this.Key);
-        public override TableGeneralViewModelTabKey Key { get; }
+        public override string Name => nameService.Get(Key);
+        public override TableGeneralViewModelTabKey Key => key;
 
         public ICommand EmptyTableCommand { get; }
         public ICommand ReindexTableCommand { get; }
 
-        public long RowCount { get; }
+        public long RowCount => generalModel.Get(key).RowCount;
 
-        public int ColumnCount { get; }
+        public int ColumnCount => generalModel.Get(key).ColumnCount;
 
-        public string TableCreateStatement { get; }
+        public string TableCreateStatement => generalModel.Get(key).CreateStatement;
 
-        public IReadOnlyCollection<Column> ColumnData { get; }
+        public IReadOnlyCollection<Column> ColumnData => generalModel.Get(key).Columns;
 
         public string TableName
         {

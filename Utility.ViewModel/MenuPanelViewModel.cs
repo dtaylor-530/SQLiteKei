@@ -1,5 +1,6 @@
 ﻿using Utility.Common;
 using Utility.Common.Contracts;
+using Utility.Entity;
 using Utility.ViewModel.Base;
 
 namespace Utility.ViewModel

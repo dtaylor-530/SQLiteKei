@@ -1,5 +1,5 @@
-﻿using Utility.Database;
-using Utility.SQLite.Helpers;
+﻿using Database.Entity;
+using Utility.Database;
 
 namespace SQLite.Common.Contracts
 {

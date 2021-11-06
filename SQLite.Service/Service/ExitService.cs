@@ -6,20 +6,20 @@ namespace SQLite.Service.Service
 {
     public class ExitService : IExitService
     {
-        private readonly ITreeService treeService;
-        private readonly TabsService tabsService;
+        private readonly ITreeModel treeService;
+        private readonly TabsRepository tabsRepository;
         private readonly SeriesRepository seriesRepository;
         private readonly SeriesPairRepository seriesPairRepository;
         private readonly IIsSelectedRepository isSelectedRepository;
 
-        public ExitService(ITreeService treeService,
-            TabsService tabsService,
+        public ExitService(ITreeModel treeModel,
+            TabsRepository tabsRepository,
             SeriesRepository seriesRepository,
             SeriesPairRepository seriesPairRepository,
             IIsSelectedRepository isSelectedRepository)
         {
-            this.treeService = treeService;
-            this.tabsService = tabsService;
+            this.treeService = treeModel;
+            this.tabsRepository = tabsRepository;
             this.seriesRepository = seriesRepository;
             this.seriesPairRepository = seriesPairRepository;
             this.isSelectedRepository = isSelectedRepository;
@@ -30,7 +30,7 @@ namespace SQLite.Service.Service
             await Task.Run(() =>
             {
                 treeService.SaveTree();
-                tabsService.SaveTabs();
+                tabsRepository.PersistAll();
                 seriesRepository.PersistAll();
                 seriesPairRepository.PersistAll();
                 isSelectedRepository.PersistAll();

@@ -1,6 +1,6 @@
-﻿using Utility.Database;
+﻿using Utility.Database.Common;
 
-namespace SQLite.Common.Contracts
+namespace Database.Common.Contracts
 {
     public interface ITableService
     {

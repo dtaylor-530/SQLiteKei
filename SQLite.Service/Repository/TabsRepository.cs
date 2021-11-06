@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using Utility;
 using Utility.Common.Base;
+using Utility.Entity;
 
 namespace SQLite.Service.Repository
 {

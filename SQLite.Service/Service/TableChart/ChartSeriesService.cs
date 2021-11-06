@@ -13,7 +13,7 @@ namespace SQLite.Service.Service
         private readonly ReplaySubject<TableSeriesPairs> subject = new(1);
         private readonly ReplaySubject<ChartSeries> chartSubject = new(1);
 
-        public ChartSeriesService(ColumnSeriesPairService columnSeriesPairService, ISelectedDatabaseService selectedItemService)
+        public ChartSeriesService(ColumnSeriesPairModel columnSeriesPairService, ISelectedDatabaseService selectedItemService)
         {
             columnSeriesPairService
                 .Select(a =>

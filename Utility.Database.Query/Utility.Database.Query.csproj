@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Database.Entity\Database.Entity.csproj" />
+    <ProjectReference Include="..\Utility.Database\Utility.Database.Common.csproj" />
+    <ProjectReference Include="..\Utility.SQLite\Utility.Database.SQLite.Common.csproj" />
+  </ItemGroup>
+
+</Project>

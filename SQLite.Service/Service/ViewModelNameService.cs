@@ -1,7 +1,7 @@
 ﻿using SQLite.Common;
-using Utility;
 using Utility.Common.Base;
 using Utility.Common.Contracts;
+using Utility.Entity;
 
 namespace SQLite.Service.Service
 {

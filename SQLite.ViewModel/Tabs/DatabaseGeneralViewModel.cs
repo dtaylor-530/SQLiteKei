@@ -1,11 +1,11 @@
 ﻿using SQLite.Common;
 using SQLite.Common.Contracts;
+using SQLite.ViewModel;
 using Utility.Common.Base;
 using Utility.Common.Contracts;
 using Utility.Database;
-using Utility.SQLite.Helpers;
 
-namespace SQLite.ViewModel;
+namespace Database.ViewModel;
 
 /// <summary>
 /// A ViewModel that is used in the main tab view to display data when a database is selected.

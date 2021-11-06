@@ -1,5 +1,5 @@
-﻿using Utility;
-using Utility.Common.Base;
+﻿using Utility.Common.Base;
+using Utility.Entity;
 
 namespace SQLite.Service.Mapping
 {

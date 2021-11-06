@@ -10,9 +10,9 @@ public class ViewService : IViewService
     private readonly IViewModelFactory viewModelFactory;
     private readonly ILocaliser localiser;
     private readonly IWindowService windowService;
-    private readonly ITreeService treeService;
+    private readonly ITreeModel treeService;
 
-    public ViewService(IViewModelFactory viewModelFactory, ILocaliser localiser, IWindowService windowService, ITreeService treeService)
+    public ViewService(IViewModelFactory viewModelFactory, ILocaliser localiser, IWindowService windowService, ITreeModel treeService)
     {
         this.viewModelFactory = viewModelFactory;
         this.localiser = localiser;
@@ -30,6 +30,6 @@ public class ViewService : IViewService
         var tableCreatorViewModel = viewModelFactory.Build(new TableCreatorViewModelKey());
         windowService.ShowWindow(new(localiser["WindowTitle_Preferences"], tableCreatorViewModel, ResizeMode.NoResize, Show.ShowDialog));
 
-        treeService.RefreshTree();
+        treeService.OnNext(new TreeItemChangeRequest(Refresh: new object()));
     }
 }

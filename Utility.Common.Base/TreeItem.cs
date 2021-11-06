@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
+using Utility.Entity;
 
 namespace Utility.Common.Base
 {
@@ -41,7 +42,7 @@ namespace Utility.Common.Base
         public bool Equals(TreeItem? other)
         {
             return other != null &&
-                   EqualityComparer<Utility.IKey>.Default.Equals(Key, other.Key) &&
+                   EqualityComparer<IKey>.Default.Equals(Key, other.Key) &&
                    Name == other.Name;
         }
 

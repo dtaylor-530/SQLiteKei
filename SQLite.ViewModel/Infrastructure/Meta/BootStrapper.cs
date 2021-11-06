@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Database.ViewModel;
 
 namespace SQLite.ViewModel.Meta
 {

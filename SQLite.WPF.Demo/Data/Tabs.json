@@ -1,28 +1,106 @@
 {
-  "{\r\n  \u0022Key\u0022: {\r\n    \u0022$type\u0022: \u0022Utility.Database.TableKey\\u00601[[SQLite.Common.Model.TableLeafItem, SQLite.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Utility.Database\u0022,\r\n    \u0022TableName\u0022: {\r\n      \u0022Name\u0022: \u0022PlayerStats\u0022\r\n    },\r\n    \u0022DatabasePath\u0022: {\r\n      \u0022Path\u0022: \u0022C:\\\\Users\\\\rytal\\\\Documents\\\\Visual Studio 2019\\\\Projects\\\\Football\\\\Cm93-master\\\\Cm93.UI\\\\bin\\\\Debug\\\\Cm93\\\\Cm93.sqlite\u0022\r\n    },\r\n    \u0022Type\u0022: \u0022SQLite.Common.Model.TableLeafItem, SQLite.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\u0022\r\n  },\r\n  \u0022Name\u0022: \u0022PlayerStats\u0022,\r\n  \u0022IsSelected\u0022: false,\r\n  \u0022IsLoaded\u0022: false\r\n}": [
+  "{\r\n  \u0022Key\u0022: {\r\n    \u0022$type\u0022: \u0022Database.Entity.TableKey\\u00601[[Database.Entity.TableLeafItem, Database.Entity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Database.Entity\u0022,\r\n    \u0022TableName\u0022: {\r\n      \u0022Name\u0022: \u0022Teams\u0022\r\n    },\r\n    \u0022DatabasePath\u0022: {\r\n      \u0022Path\u0022: \u0022C:\\\\Users\\\\rytal\\\\Documents\\\\Visual Studio 2019\\\\Projects\\\\Football\\\\Cm93-master\\\\Cm93.UI\\\\bin\\\\Debug\\\\Cm93\\\\Cm93.sqlite\u0022\r\n    },\r\n    \u0022Type\u0022: \u0022Database.Entity.TableLeafItem, Database.Entity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\u0022\r\n  },\r\n  \u0022Name\u0022: \u0022Teams\u0022,\r\n  \u0022IsSelected\u0022: false,\r\n  \u0022IsLoaded\u0022: false\r\n}": [
     {
-      "$type": "SQLite.Common.TableGeneralViewModelTabKey, SQLite.Common",
+      "$type": "SQLite.Common.TableGeneralViewModelTabKey, Database.Common",
       "TableName": {
-        "Name": "PlayerStats"
+        "Name": "Teams"
       },
       "DatabasePath": {
         "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
       },
-      "Type": "SQLite.Common.ITableGeneralViewModel, SQLite.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+      "Type": "SQLite.Common.ITableGeneralViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
     },
     {
-      "$type": "SQLite.Common.TableRecordsViewModelTabKey, SQLite.Common",
+      "$type": "SQLite.Common.TableRecordsViewModelTabKey, Database.Common",
       "TableName": {
-        "Name": "PlayerStats"
+        "Name": "Teams"
       },
       "DatabasePath": {
         "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
       },
-      "Type": "SQLite.Common.ITableRecordsViewModel, SQLite.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+      "Type": "SQLite.Common.ITableRecordsViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
     },
     {
-      "$type": "Utility.Key\u00601[[SQLite.Common.ITableChartViewModel, SQLite.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Utility",
-      "Type": "SQLite.Common.ITableChartViewModel, SQLite.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+      "$type": "Utility.Entity.Key\u00601[[SQLite.Common.ITableChartViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Utility.Entity",
+      "Type": "SQLite.Common.ITableChartViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    }
+  ],
+  "{\r\n  \u0022Key\u0022: {\r\n    \u0022$type\u0022: \u0022Database.Entity.TableKey\\u00601[[Database.Entity.TableLeafItem, Database.Entity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Database.Entity\u0022,\r\n    \u0022TableName\u0022: {\r\n      \u0022Name\u0022: \u0022TeamStates\u0022\r\n    },\r\n    \u0022DatabasePath\u0022: {\r\n      \u0022Path\u0022: \u0022C:\\\\Users\\\\rytal\\\\Documents\\\\Visual Studio 2019\\\\Projects\\\\Football\\\\Cm93-master\\\\Cm93.UI\\\\bin\\\\Debug\\\\Cm93\\\\Cm93.sqlite\u0022\r\n    },\r\n    \u0022Type\u0022: \u0022Database.Entity.TableLeafItem, Database.Entity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\u0022\r\n  },\r\n  \u0022Name\u0022: \u0022TeamStates\u0022,\r\n  \u0022IsSelected\u0022: false,\r\n  \u0022IsLoaded\u0022: false\r\n}": [
+    {
+      "$type": "SQLite.Common.TableGeneralViewModelTabKey, Database.Common",
+      "TableName": {
+        "Name": "TeamStates"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      },
+      "Type": "SQLite.Common.ITableGeneralViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "$type": "SQLite.Common.TableRecordsViewModelTabKey, Database.Common",
+      "TableName": {
+        "Name": "TeamStates"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      },
+      "Type": "SQLite.Common.ITableRecordsViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "$type": "Utility.Entity.Key\u00601[[SQLite.Common.ITableChartViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Utility.Entity",
+      "Type": "SQLite.Common.ITableChartViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    }
+  ],
+  "{\r\n  \u0022Key\u0022: {\r\n    \u0022$type\u0022: \u0022Database.Entity.TableKey\\u00601[[Database.Entity.TableLeafItem, Database.Entity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Database.Entity\u0022,\r\n    \u0022TableName\u0022: {\r\n      \u0022Name\u0022: \u0022Divisions\u0022\r\n    },\r\n    \u0022DatabasePath\u0022: {\r\n      \u0022Path\u0022: \u0022C:\\\\Users\\\\rytal\\\\Documents\\\\Visual Studio 2019\\\\Projects\\\\Football\\\\Cm93-master\\\\Cm93.UI\\\\bin\\\\Debug\\\\Cm93\\\\Cm93.sqlite\u0022\r\n    },\r\n    \u0022Type\u0022: \u0022Database.Entity.TableLeafItem, Database.Entity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\u0022\r\n  },\r\n  \u0022Name\u0022: \u0022Divisions\u0022,\r\n  \u0022IsSelected\u0022: false,\r\n  \u0022IsLoaded\u0022: false\r\n}": [
+    {
+      "$type": "SQLite.Common.TableGeneralViewModelTabKey, Database.Common",
+      "TableName": {
+        "Name": "Divisions"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      },
+      "Type": "SQLite.Common.ITableGeneralViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "$type": "SQLite.Common.TableRecordsViewModelTabKey, Database.Common",
+      "TableName": {
+        "Name": "Divisions"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      },
+      "Type": "SQLite.Common.ITableRecordsViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "$type": "Utility.Entity.Key\u00601[[SQLite.Common.ITableChartViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Utility.Entity",
+      "Type": "SQLite.Common.ITableChartViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    }
+  ],
+  "{\r\n  \u0022Key\u0022: {\r\n    \u0022$type\u0022: \u0022Database.Entity.TableKey\\u00601[[Database.Entity.TableLeafItem, Database.Entity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Database.Entity\u0022,\r\n    \u0022TableName\u0022: {\r\n      \u0022Name\u0022: \u0022Competitions\u0022\r\n    },\r\n    \u0022DatabasePath\u0022: {\r\n      \u0022Path\u0022: \u0022C:\\\\Users\\\\rytal\\\\Documents\\\\Visual Studio 2019\\\\Projects\\\\Football\\\\Cm93-master\\\\Cm93.UI\\\\bin\\\\Debug\\\\Cm93\\\\Cm93.sqlite\u0022\r\n    },\r\n    \u0022Type\u0022: \u0022Database.Entity.TableLeafItem, Database.Entity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\u0022\r\n  },\r\n  \u0022Name\u0022: \u0022Competitions\u0022,\r\n  \u0022IsSelected\u0022: false,\r\n  \u0022IsLoaded\u0022: false\r\n}": [
+    {
+      "$type": "SQLite.Common.TableGeneralViewModelTabKey, Database.Common",
+      "TableName": {
+        "Name": "Competitions"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      },
+      "Type": "SQLite.Common.ITableGeneralViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "$type": "SQLite.Common.TableRecordsViewModelTabKey, Database.Common",
+      "TableName": {
+        "Name": "Competitions"
+      },
+      "DatabasePath": {
+        "Path": "C:\\Users\\rytal\\Documents\\Visual Studio 2019\\Projects\\Football\\Cm93-master\\Cm93.UI\\bin\\Debug\\Cm93\\Cm93.sqlite"
+      },
+      "Type": "SQLite.Common.ITableRecordsViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "$type": "Utility.Entity.Key\u00601[[SQLite.Common.ITableChartViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Utility.Entity",
+      "Type": "SQLite.Common.ITableChartViewModel, Database.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
     }
   ]
 }

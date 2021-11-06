@@ -3,32 +3,33 @@ using SQLite.Common;
 using SQLite.Common.Contracts;
 using SQLite.Common.Model;
 using SQLite.Service.Service;
+using SQLite.ViewModel;
 using System.Reactive;
 using System.Reactive.Subjects;
 using Utility.Chart;
 using Utility.Common.Contracts;
 
-namespace SQLite.ViewModel
+namespace Database.ViewModel
 {
     public class TableChartViewModel : TableViewModel<ITableChartViewModel>, ITableChartViewModel
     {
         private readonly TableChartViewModelTabKey key;
         private readonly IViewModelNameService nameService;
-        private readonly IColumnModelService modelService;
+        private readonly IColumnModelService columnModelService;
         private readonly IColumnSeriesService columnSeriesService;
-        private readonly IColumnSeriesPairService seriesPairService;
+        private readonly IColumnSeriesPairModel seriesPairService;
         private readonly Subject<Unit> subject = new();
 
         public TableChartViewModel(
             TableChartViewModelTabKey key,
             IViewModelNameService nameService,
-            IColumnModelService modelService,
-            IColumnSeriesPairService seriesPairService,
+            IColumnModelService columnModelService,
+            IColumnSeriesPairModel seriesPairService,
             IColumnSeriesService columnSeriesService) : base(key)
         {
             this.key = key;
             this.nameService = nameService;
-            this.modelService = modelService;
+            this.columnModelService = columnModelService;
             this.seriesPairService = seriesPairService;
             this.columnSeriesService = columnSeriesService;
 
@@ -42,7 +43,7 @@ namespace SQLite.ViewModel
 
         public override string Name => nameService.Get(key);
 
-        public IReadOnlyCollection<ColumnModel> ColumnData => modelService.GetCollection(key);
+        public IReadOnlyCollection<ColumnModel> ColumnData => columnModelService.GetCollection(key);
 
         public IReadOnlyCollection<SeriesPair> ColumnSelections
         {

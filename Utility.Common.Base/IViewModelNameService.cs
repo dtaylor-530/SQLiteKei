@@ -1,4 +1,6 @@
-﻿namespace Utility.Common.Contracts
+﻿using Utility.Entity;
+
+namespace Utility.Common.Contracts
 {
     public interface IViewModelNameService
     {

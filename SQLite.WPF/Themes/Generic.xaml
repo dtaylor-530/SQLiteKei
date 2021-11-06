@@ -5,7 +5,7 @@
                     xmlns:local1="clr-namespace:SQLite.Views.UserControls">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/SQLite.WPF;component/Resources/UIThemes/Light/Light.xaml"/>
+        <ResourceDictionary Source="/Database.WPF;component/Resources/UIThemes/Light/Light.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!--<DataTemplate DataType="{x:Type vm:AboutViewModel}">

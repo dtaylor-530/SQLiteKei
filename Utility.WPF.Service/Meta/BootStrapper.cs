@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using SQLite.WPF.Infrastructure;
+using Database.WPF.Infrastructure;
 
 namespace Utility.WPF.Service.Meta
 {

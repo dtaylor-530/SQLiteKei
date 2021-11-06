@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SQLite.Data {
+namespace Database.Data {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

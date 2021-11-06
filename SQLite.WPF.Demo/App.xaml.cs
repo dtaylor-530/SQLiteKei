@@ -1,8 +1,9 @@
 ﻿using Autofac;
+using Database.Service.Meta;
+using Database.WPF.Infrastructure;
 using Splat;
 using Splat.Autofac;
 using SQLite.Views;
-using SQLite.WPF.Infrastructure;
 using System;
 using System.Threading;
 using System.Windows;
@@ -10,8 +11,12 @@ using System.Windows.Threading;
 using Utility.Common;
 using Utility.Common.Base;
 using static Utility.Common.Base.Log;
+using four = Utility.WPF.Service.Meta.BootStrapper;
+using one = Utility.Service.BootStrapper;
+using three = Utility.WPF.Meta.BootStrapper;
+using two = Utility.ViewModel.Meta.BootStrapper;
 
-namespace SQLite.WPF.Demo
+namespace Database.WPF.Demo
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -38,8 +43,8 @@ namespace SQLite.WPF.Demo
             base.OnStartup(e);
 
             // registeration can't take place in the constructor
-            Utility.WPF.Meta.BootStrapper.RegisterViews();
-            SQLite.WPF.Meta.BootStrapper.RegisterViews();
+            three.RegisterViews();
+            Database.WPF.Meta.BootStrapper.RegisterViews();
 
             Information();
 
@@ -77,13 +82,14 @@ namespace SQLite.WPF.Demo
         private ContainerBuilder Register(ContainerBuilder builder)
         {
             //SQLite.WPF.Meta.BootStrapper.Register(builder);
-            SQLite.Service.Meta.BootStrapper.Register(builder);
+            BootStrapper.Register(builder);
             SQLite.ViewModel.Meta.BootStrapper.Register(builder);
             SQLite.Data.Meta.BootStrapper.Register(builder);
+            SQLite.Utility.Meta.BootStrapper.Register(builder);
 
-            Utility.Service.BootStrapper.Register(builder);
-            Utility.ViewModel.Meta.BootStrapper.Register(builder);
-            Utility.WPF.Service.Meta.BootStrapper.Register(builder);
+            one.Register(builder);
+            two.Register(builder);
+            four.Register(builder);
             return builder;
         }
     }

@@ -1,6 +1,7 @@
 ﻿using ReactiveUI;
 using System.Reactive.Linq;
 using Utility.Common.Base;
+using Utility.Entity;
 using Utility.Service;
 
 namespace Utility.ViewModel.Base;

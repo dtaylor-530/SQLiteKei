@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace SQLite.WPF.Infrastructure
+namespace Database.WPF.Infrastructure
 {
 
     public class MessageBoxService : Utility.Common.Base.IMessageBoxService

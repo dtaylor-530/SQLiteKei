@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Data;
 
-namespace SQLite.WPF.Infrastructure
+namespace Database.WPF.Infrastructure
 {
     public class ListCollectionService : IListCollectionService
     {

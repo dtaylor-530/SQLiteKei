@@ -1,8 +1,9 @@
-﻿using ReactiveUI;
+﻿using Database.Entity;
+using Database.Service.Service;
+using ReactiveUI;
 using SQLite.Common;
-using SQLite.Common.Model;
 using SQLite.Service.Service;
-using SQLiteKei.DataAccess.QueryBuilders;
+using SQLite.Utility.Factory;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -10,7 +11,7 @@ using System.Windows.Input;
 using Utility.Common.Base;
 using Utility.ViewModel.Base;
 
-namespace SQLite.ViewModel
+namespace Database.ViewModel
 {
 
     public class TableCreatorViewModel : BaseViewModel<ITableCreatorViewModel>, ITableCreatorViewModel
@@ -26,8 +27,15 @@ namespace SQLite.ViewModel
         private readonly ICommand addForeignKeyCommand;
         private readonly ILocaliser localiser;
         private readonly IDatabaseService databaseService;
+        private readonly ISqlStatementBuilderService sqlStatementBuilderService;
+        private readonly IHandlerService tableHandlerFactory;
 
-        public TableCreatorViewModel(TableCreatorViewModelKey key, ILocaliser localiser, IDatabaseService databaseService) : base(key)
+        //private readonly ITableHandlerFactory tableHandlerFactory;
+        //private readonly IDatabaseHandlerFactory databaseHandlerFactory;
+
+        public TableCreatorViewModel(TableCreatorViewModelKey key, ILocaliser localiser, IDatabaseService databaseService,
+            ISqlStatementBuilderService sqlStatementBuilderService,
+            IHandlerService tableHandlerFactory) : base(key)
         {
             ColumnDefinitions.CollectionChanged += CollectionContentChanged;
             ForeignKeyDefinitions.CollectionChanged += CollectionContentChanged;
@@ -37,7 +45,30 @@ namespace SQLite.ViewModel
             createCommand = ReactiveCommand.Create(Create);
             this.localiser = localiser;
             this.databaseService = databaseService;
+            this.sqlStatementBuilderService = sqlStatementBuilderService;
+            this.tableHandlerFactory = tableHandlerFactory;
+            //this.tableHandlerFactory = tableHandlerFactory;
+            //this.databaseHandlerFactory = databaseHandlerFactory;
             //databases = treeService.TreeViewItems.Select(a => new DatabaseSelectItem(a.Key.DatabasePath)).ToArray();
+
+            void AddColumnDefinition()
+            {
+                ColumnDefinitions.Add(new ColumnDefinitionItem());
+            }
+
+            void AddForeignKeyDefinition()
+            {
+                //ForeignKeyDefinitionItem foreignKeyDefinition = selectedDatabase == null ?
+                //    new ForeignKeyDefinitionItem(tableHandlerFactory) :
+                //    new ForeignKeyDefinitionItem(tableHandlerFactory, selectedDatabase.Key);
+
+                //foreach (var column in ColumnDefinitions)
+                //{
+                //    foreignKeyDefinition.AvailableColumns.Add(column.ColumnName);
+                //}
+
+                //ForeignKeyDefinitions.Add(foreignKeyDefinition);
+            }
         }
 
         public ICommand CreateCommand => createCommand;
@@ -51,7 +82,7 @@ namespace SQLite.ViewModel
 
                 foreach (var foreignKey in ForeignKeyDefinitions)
                 {
-                    foreignKey.SelectedDatabasePath = selectedDatabase.Path;
+                    foreignKey.SelectedDatabasePath = selectedDatabase.Key;
                 }
             }
         }
@@ -131,37 +162,46 @@ namespace SQLite.ViewModel
         {
             StatusInfo = string.Empty;
 
-            try
+            var (a, b) = sqlStatementBuilderService.Create(new SqlStatementRoot(new Utility.Database.TableName(TableName), ColumnDefinitions, ForeignKeyDefinitions))
+                switch
             {
-                var builder = QueryBuilder.Create(tableName);
+                ({ } statement, null) => (true, statement),
+                (null, { Message: { } message }) => (false, message),
+                _ => throw new NotImplementedException(),
+            };
+            StatusInfo = b;
+            IsValidTableDefinition = a;
+            //try
+            //{
+            //    var builder = QueryBuilder.Create(tableName);
 
-                foreach (var definition in ColumnDefinitions)
-                {
-                    builder.AddColumn(definition.ColumnName,
-                        definition.DataType,
-                        definition.IsPrimary,
-                        definition.IsNotNull,
-                        definition.DefaultValue);
-                }
+            //    foreach (var definition in ColumnDefinitions)
+            //    {
+            //        builder.AddColumn(definition.ColumnName,
+            //            definition.DataType,
+            //            definition.IsPrimary,
+            //            definition.IsNotNull,
+            //            definition.DefaultValue);
+            //    }
 
-                foreach (var foreignKey in ForeignKeyDefinitions)
-                {
-                    if (!string.IsNullOrWhiteSpace(foreignKey.SelectedColumn)
-                       && !string.IsNullOrWhiteSpace(foreignKey.SelectedTable)
-                       && !string.IsNullOrWhiteSpace(foreignKey.SelectedReferencedColumn))
-                    {
-                        builder.AddForeignKey(foreignKey.SelectedColumn, foreignKey.SelectedTable, foreignKey.SelectedReferencedColumn);
-                    }
-                }
+            //    foreach (var foreignKey in ForeignKeyDefinitions)
+            //    {
+            //        if (!string.IsNullOrWhiteSpace(foreignKey.SelectedColumn)
+            //           && !string.IsNullOrWhiteSpace(foreignKey.SelectedTable)
+            //           && !string.IsNullOrWhiteSpace(foreignKey.SelectedReferencedColumn))
+            //        {
+            //            builder.AddForeignKey(foreignKey.SelectedColumn, foreignKey.SelectedTable, foreignKey.SelectedReferencedColumn);
+            //        }
+            //    }
 
-                SqlStatement = builder.Build();
-                IsValidTableDefinition = true;
-            }
-            catch (Exception ex)
-            {
-                StatusInfo = ex.Message;
-                IsValidTableDefinition = false;
-            }
+            //    SqlStatement = builder.Build();
+            //    IsValidTableDefinition = true;
+            //}
+            //catch (Exception ex)
+            //{
+            //    StatusInfo = ex.Message;
+            //    IsValidTableDefinition = false;
+            //}
         }
 
         private void UpdateAvailableColumnsForForeignKeys()
@@ -174,25 +214,6 @@ namespace SQLite.ViewModel
                     foreignKey.AvailableColumns.Add(column.ColumnName);
                 }
             }
-        }
-
-        private void AddColumnDefinition()
-        {
-            ColumnDefinitions.Add(new ColumnDefinitionItem());
-        }
-
-        public void AddForeignKeyDefinition()
-        {
-            ForeignKeyDefinitionItem foreignKeyDefinition = selectedDatabase == null ?
-                new ForeignKeyDefinitionItem(null) :
-                new ForeignKeyDefinitionItem(selectedDatabase.Path);
-
-            foreach (var column in ColumnDefinitions)
-            {
-                foreignKeyDefinition.AvailableColumns.Add(column.ColumnName);
-            }
-
-            ForeignKeyDefinitions.Add(foreignKeyDefinition);
         }
 
         private void Create()

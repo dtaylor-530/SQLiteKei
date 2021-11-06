@@ -1,5 +1,6 @@
 ﻿using SQLite.ViewModel;
 using Utility.Common.Contracts;
+using Utility.Entity;
 using Utility.ViewModel;
 
 namespace Utility.Common;

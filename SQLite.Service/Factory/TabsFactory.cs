@@ -1,8 +1,9 @@
-﻿using SQLite.Common;
+﻿using Database.Entity;
+using SQLite.Common;
 using SQLite.Common.Contracts;
-using Utility;
 using Utility.Common.Base;
-using Utility.Database;
+using Utility.Database.Common;
+using Utility.Entity;
 
 namespace SQLite.Service.Factory;
 

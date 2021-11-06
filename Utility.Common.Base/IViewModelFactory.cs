@@ -1,4 +1,6 @@
-﻿namespace Utility.Common.Base;
+﻿using Utility.Entity;
+
+namespace Utility.Common.Base;
 
 public interface IViewModelFactory
 {

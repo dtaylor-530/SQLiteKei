@@ -1,4 +1,5 @@
-﻿using Utility.Database;
+﻿using Database.Entity;
+using Utility.Database;
 using Utility.Service;
 using Utility.ViewModel.Base;
 

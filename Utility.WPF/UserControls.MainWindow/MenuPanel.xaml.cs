@@ -1,4 +1,4 @@
-﻿namespace SQLite.WPF.Views.UserControls.MainWindow
+﻿namespace Database.WPF.Views.UserControls.MainWindow
 {
     /// <summary>
     /// Interaction logic for MenuPanel.xaml
