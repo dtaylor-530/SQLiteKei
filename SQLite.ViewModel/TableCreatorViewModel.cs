@@ -187,9 +187,14 @@ namespace Database.ViewModel
                 return;
             }
 
-            StatusInfo = databaseService.CreateTable(sqlStatement) ?
+            databaseService
+                .CreateTable(sqlStatement)
+                .Subscribe(b =>
+            {
+                StatusInfo = b ?
                 localiser["TableCreator_TableCreateSuccess"] :
                 "SQL logic error or missing database\r\n";
+            });
         }
 
         public string Title => localiser["WindowTitle_TableCreator"];

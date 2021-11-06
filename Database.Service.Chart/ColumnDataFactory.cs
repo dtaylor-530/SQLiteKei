@@ -14,7 +14,7 @@ public class ColumnDataFactory
         this.tableHandlerFactory = tableHandlerFactory;
     }
 
-    public ColumnModel[] Create(ITableKey configuration)
+    public IObservable<ColumnModel[]> Create(ITableKey configuration)
     {
         return tableHandlerFactory.Table(configuration, dbHandler =>
         {

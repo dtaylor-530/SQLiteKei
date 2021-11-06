@@ -23,16 +23,16 @@ namespace SQLite.Service
             this.databaseHandlerFactory = databaseHandlerFactory;
         }
 
-        public DataTable SelectToDataTable(string selectQuery)
+        public IObservable<DataTable> SelectToDataTable(string selectQuery)
         {
             return databaseHandlerFactory.Database(DatabaseKey, handler => handler.ExecuteAndLoadDataTable(selectQuery));
         }
 
-        public IReadOnlyCollection<dynamic> SelectAsRows(string selectQuery)
+        public IObservable<IReadOnlyCollection<dynamic>> SelectAsRows(string selectQuery)
         {
             return databaseHandlerFactory.Database(DatabaseKey, handler => handler.ExecuteDynamicQuery(selectQuery));
         }
-        public IReadOnlyCollection<T> SelectAsRows<T>(string selectQuery)
+        public IObservable<IReadOnlyCollection<T>> SelectAsRows<T>(string selectQuery)
         {
             return databaseHandlerFactory.Database(DatabaseKey, handler => handler.ExecuteQuery<T>(selectQuery));
         }

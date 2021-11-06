@@ -1,6 +1,7 @@
 ﻿using Database.Entity;
 using SQLite.Utility.Factory;
 using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 using Utility.Common.Base;
 using Utility.Entity;
 using Utility.SQLite.Database;
@@ -27,25 +28,29 @@ public class TreeViewMapper : ITreeViewMapper
     /// </summary>
     /// <param name="databasePath">The database path.</param>
     /// <returns></returns>
-    public TreeItem Map(Key key)
+    public IObservable<TreeItem> Map(Key key)
     {
         if (key is not DatabaseKey { DatabasePath: { } path } dkey)
         {
             throw new Exception("sdfopopopofsd");
         }
 
-        var databaseItem = handlerFactory.Database(dkey, handler =>
-        {
-            var databaseItem = new DatabaseBranchItem(
-                dkey,
-                Path.GetFileNameWithoutExtension(handler.Path.Path),
-                new ObservableCollection<DatabaseTreeItem>(FolderItems(localiser, handler, dkey)));
-            return databaseItem;
-        });
+        return handlerFactory.Database(dkey, handler =>
+       {
+           var databaseItem = new DatabaseBranchItem(
+               dkey,
+               Path.GetFileNameWithoutExtension(handler.Path.Path),
+               new ObservableCollection<DatabaseTreeItem>(FolderItems(localiser, handler, dkey)));
+           return databaseItem;
+       })
+            .Select(databaseItem =>
+            {
+                Info("Loaded database " + databaseItem.Name + ".");
+                return databaseItem;
+            });
 
-        Info("Loaded database " + databaseItem.Name + ".");
 
-        return databaseItem;
+
 
         static FolderBranchItem[] FolderItems(ILocaliser localiser, IDatabaseHandler dbHandler, DatabaseKey databaseKey) => new FolderBranchItem[]
         {

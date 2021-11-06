@@ -90,9 +90,14 @@ namespace Database.ViewModel
             Info("Executing select query from SelectQuery window.\n" + selectQuery);
             try
             {
-                var resultTable = selectedDatabaseService.SelectToDataTable(selectQuery);
-                listCollectionService.SetSource(resultTable);
-                statusService.OnNext(string.Format("Rows returned: {0}", resultTable.Rows.Count));
+                selectedDatabaseService
+                    .SelectToDataTable(selectQuery)
+                    .Subscribe(resultTable =>
+                    {
+                        listCollectionService.SetSource(resultTable);
+                        statusService.OnNext(string.Format("Rows returned: {0}", resultTable.Rows.Count));
+                    });
+
             }
             catch (Exception ex)
             {

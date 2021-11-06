@@ -1,4 +1,5 @@
 ﻿using SQLite.Utility.Factory;
+using System.Reactive.Linq;
 using Utility.Database.Common;
 using Utility.Database.SQLite.Common.Abstract;
 
@@ -15,11 +16,11 @@ public class TableGeneralModel : ITableGeneralModel
 
     }
 
-    public TableGeneralInformation Get(ITableKey tableKey)
+    public IObservable<TableGeneralInformation> Get(ITableKey tableKey)
     {
         if (dictionary.ContainsKey(tableKey))
         {
-            return dictionary[tableKey];
+            return Observable.Return(dictionary[tableKey]);
         }
 
         return tableHandlerFactory.Table(tableKey, handler =>

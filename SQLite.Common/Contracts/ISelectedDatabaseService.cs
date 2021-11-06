@@ -4,8 +4,8 @@ namespace Database.Common.Contracts
 {
     public interface ISelectedDatabaseService
     {
-        IReadOnlyCollection<dynamic> SelectAsRows(string selectQuery);
-        IReadOnlyCollection<T> SelectAsRows<T>(string selectQuery);
-        DataTable SelectToDataTable(string selectQuery);
+        IObservable<IReadOnlyCollection<dynamic>> SelectAsRows(string selectQuery);
+        IObservable<IReadOnlyCollection<T>> SelectAsRows<T>(string selectQuery);
+        IObservable<DataTable> SelectToDataTable(string selectQuery);
     }
 }

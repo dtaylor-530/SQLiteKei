@@ -45,7 +45,14 @@ namespace Database.ViewModel
             this.localiser = localiser;
             //connectionPath = key.DatabasePath;
             //tableName = key.TableName;
-            Selects = new(selectQueryService.ToSelectItems(key));
+            Selects = new();
+            selectQueryService.ToSelectItems(key)
+                .Subscribe(a =>
+                {
+                    foreach (var b in a)
+                        Selects.Add(b);
+                });
+
             Initialize();
             AddOrderStatementCommand = ReactiveCommand.Create(() => selectQueryService.ToOrderItem(key));
         }

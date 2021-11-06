@@ -22,7 +22,7 @@ namespace Database.Service.Service
             this.handlerService = handlerService;
         }
 
-        public SelectItem[] ToSelectItems(ITableKey tableKey)
+        public IObservable<SelectItem[]> ToSelectItems(ITableKey tableKey)
         {
             return handlerService.Table(tableKey, tableHandler =>
             {
@@ -33,7 +33,7 @@ namespace Database.Service.Service
 
         }
 
-        public OrderItem ToOrderItem(ITableKey tableKey)
+        public IObservable<OrderItem> ToOrderItem(ITableKey tableKey)
         {
 
             return handlerService.Table(tableKey, tableHandler =>

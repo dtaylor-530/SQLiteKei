@@ -41,7 +41,7 @@ namespace SQLite.Service.Repository
                 return Array.Empty<SeriesPair>();
             }
 
-            return dictionary.Value.GetValueOrDefault(JsonSerializer.Serialize(configuration)) ?? new List<SeriesPair>();
+            return dictionary.Value.GetValueOrDefault(JsonSerializer.Serialize(configuration, settings)) ?? new List<SeriesPair>();
         }
 
         public void PersistAll()

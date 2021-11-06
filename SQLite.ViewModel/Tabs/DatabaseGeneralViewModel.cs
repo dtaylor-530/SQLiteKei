@@ -1,6 +1,9 @@
-﻿using SQLite.Common;
+﻿using ReactiveUI;
+using SQLite.Common;
 using SQLite.Common.Contracts;
 using SQLite.ViewModel;
+using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 using Utility.Common.Base;
 using Utility.Common.Contracts;
 using Utility.Database;
@@ -14,8 +17,10 @@ public class DatabaseGeneralViewModel : DatabaseViewModel<IDatabaseGeneralViewMo
 {
     private readonly IViewModelNameService nameService;
     private readonly ILocaliser localiser;
-    private readonly Lazy<IReadOnlyCollection<TableInformation>> tableData;
-    DatabaseGeneralViewModelTabKey key;
+    private readonly ITableInformationsService tableInformationsService;
+    //private readonly Lazy<IReadOnlyCollection<TableInformation>> tableData;
+    private readonly DatabaseGeneralViewModelTabKey key;
+    private ObservableCollection<TableInformation> tableOverviewData;
 
     public DatabaseGeneralViewModel(
         DatabaseGeneralViewModelTabKey key,
@@ -27,7 +32,8 @@ public class DatabaseGeneralViewModel : DatabaseViewModel<IDatabaseGeneralViewMo
         this.key = key;
         this.nameService = nameService;
         this.localiser = localiser;
-        tableData = new(() => tableInformationsService.Get(key));
+        this.tableInformationsService = tableInformationsService;
+        //tableData = new(() =>);
     }
 
     public override string Name => nameService.Get(key);
@@ -46,7 +52,29 @@ public class DatabaseGeneralViewModel : DatabaseViewModel<IDatabaseGeneralViewMo
 
     public long RowCount => TableOverviewData.Sum(a => a.RowCount);
 
-    public IReadOnlyCollection<TableInformation> TableOverviewData => tableData.Value;
+    public IReadOnlyCollection<TableInformation> TableOverviewData
+    {
+        get
+        {
+            if (tableOverviewData == null)
+            {
+                tableInformationsService
+                    .Get(key)
+                    .Subscribe(a =>
+                    {
+                        (tableOverviewData ??= new()).Clear();
+                        a.Subscribe(c =>
+                        {
+                            tableOverviewData.Add(c);
+                        });
+                        this.RaisePropertyChanged(nameof(TableOverviewData));
+                    });
+                return Array.Empty<TableInformation>();
+            }
+            else
+                return tableOverviewData;
+        }
+    }
 
     public string DatabaseNameKey => localiser["DatabaseGeneralTab_DatabaseName"];
     public string DatabasePathKey => localiser["DatabaseGeneralTab_DatabasePath"];

@@ -6,7 +6,7 @@ namespace Database.Service.Service
     public interface ISelectQueryService
     {
         string SelectQuery(ITableKey tableKey, IReadOnlyCollection<SelectItem> selects, IReadOnlyCollection<OrderItem> orders);
-        OrderItem ToOrderItem(ITableKey tableKey);
-        SelectItem[] ToSelectItems(ITableKey tableKey);
+        IObservable<OrderItem> ToOrderItem(ITableKey tableKey);
+        IObservable<SelectItem[]> ToSelectItems(ITableKey tableKey);
     }
 }

@@ -7,7 +7,7 @@ namespace SQLite.Service.Service
         void CloseDatabase();
         void CloseDatabase(IKey key);
         void CreateNewDatabase();
-        bool CreateTable(string sqlStatement);
+        IObservable<bool> CreateTable(string sqlStatement);
         void DeleteDatabase();
         void OpenDatabase();
         void OpenDatabase(Key key);

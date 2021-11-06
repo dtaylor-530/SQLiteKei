@@ -17,9 +17,19 @@ namespace SQLite.Service.Service
         public ChartSeriesService(ColumnSeriesPairModel columnSeriesPairService, ISelectedDatabaseService selectedItemService)
         {
             columnSeriesPairService
-                .Select(a =>
+                .SelectMany(a =>
                 {
-                    return new ChartSeries(a.Key, LineSeriesConverter.Execute(a.Collection, selectedItemService, a.Key.TableName).ToArray());
+                    return LineSeriesConverter.Execute(a.Collection, selectedItemService, a.Key.TableName).ToObservable()
+                     .SelectMany(xx => xx)
+                     .Scan(new List<Series>(), (xx, b) =>
+                     {
+                         xx.Add(b);
+                         return xx;
+                     })
+                     .Select(ad =>
+                     {
+                         return new ChartSeries(a.Key, ad);
+                     });
 
                 }).Subscribe(chartSubject);
 
@@ -48,15 +58,20 @@ namespace SQLite.Service.Service
 
     static class LineSeriesConverter
     {
-        public static IEnumerable<Series> Execute(IReadOnlyCollection<SeriesPair> columnSelections, ISelectedDatabaseService treeService, string tableName)
+        public static IEnumerable<IObservable<Series>> Execute(IReadOnlyCollection<SeriesPair> columnSelections, ISelectedDatabaseService treeService, string tableName)
         {
             foreach (var xy in columnSelections)
             {
-                var rows = treeService.SelectAsRows($"Select {xy.ColumnX}, {xy.ColumnY} from {tableName}");
-                var lineSeries = new Series(xy.ColumnX, xy.ColumnY, rows
-                    .Cast<IDictionary<string, object>>()
-                    .Select(r => new DataPoint(Convert.ToDouble(r[xy.ColumnX]), Convert.ToDouble(r[xy.ColumnY]))).ToArray());
-                yield return lineSeries;
+                yield return treeService.SelectAsRows($"Select {xy.ColumnX}, {xy.ColumnY} from {tableName}")
+                     .Select(rows =>
+                     {
+                         var da = rows
+                         .Cast<IDictionary<string, object>>()
+                         .Select(r => new DataPoint(Convert.ToDouble(r[xy.ColumnX]), Convert.ToDouble(r[xy.ColumnY])))
+                         .ToArray();
+
+                         return new Series(xy.ColumnX, xy.ColumnY, da);
+                     });
             }
         }
 

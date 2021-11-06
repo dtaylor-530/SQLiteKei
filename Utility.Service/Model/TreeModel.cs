@@ -1,8 +1,7 @@
-﻿using DynamicData;
-using ReactiveUI;
+﻿using ReactiveUI;
 using SQLite.Service.Mapping;
 using System.Collections.ObjectModel;
-using System.Data;
+using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Utility.Common.Base;
 using Utility.Entity;
@@ -16,17 +15,18 @@ namespace Utility.Service
         private readonly ITreeViewMapper treeViewMapper;
         private readonly ReplaySubject<SelectedTreeItem> subject = new(1);
         private readonly ReplaySubject<TreeItemChangeRequest> replaySubject = new(1);
-        private Lazy<ObservableCollection<TreeItem>> lazyTreeViewItems;
-        private ObservableCollection<TreeItem> treeViewItems => lazyTreeViewItems.Value;
+        //private Lazy<ObservableCollection<TreeItem>> lazyTreeViewItems;
+        private ObservableCollection<TreeItem> treeViewItems;// => lazyTreeViewItems.Value;
         private TreeItem selectedItem;
 
         public TreeModel(ITreeRepository treeRepository, ITreeViewMapper treeViewMapper)
         {
             this.treeRepository = treeRepository;
             this.treeViewMapper = treeViewMapper;
-            lazyTreeViewItems = new(() => new ObservableCollection<TreeItem>(treeRepository.Load()));
-
+            //lazyTreeViewItems = new(() => new ObservableCollection<TreeItem>(treeRepository.Load()));
+            var sync = SynchronizationContext.Current;
             replaySubject
+                .ObserveOn(sync)
                 .Subscribe(a =>
                 {
                     if (a.Adds != null)
@@ -46,7 +46,21 @@ namespace Utility.Service
                 });
         }
 
-        public IReadOnlyCollection<TreeItem> TreeViewItems => treeViewItems;
+        public IReadOnlyCollection<TreeItem> TreeViewItems
+        {
+            get
+            {
+                if (treeViewItems == null)
+                    treeRepository.Load()
+                            .Subscribe(a =>
+                            {
+                                treeViewItems = new(a);
+                                this.RaisePropertyChanged(nameof(TreeViewItems));
+                            });
+
+                return treeViewItems ?? new(Array.Empty<TreeItem>());
+            }
+        }
 
         public TreeItem SelectedItem
         {
@@ -61,9 +75,14 @@ namespace Utility.Service
         {
             Info("Refreshing the database tree.");
             treeViewItems.Clear();
-            treeViewItems.AddRange(TreeViewItems.Select(a => RecreateItems(a.Key)));
 
-            TreeItem RecreateItems(Key key)
+            TreeViewItems
+                .DistinctBy(a => a.Key)
+                .ToObservable()
+                .SelectMany(a => RecreateItems(a.Key))
+                .Subscribe(treeViewItems.Add);
+
+            IObservable<TreeItem> RecreateItems(Key key)
             {
                 return treeViewMapper.Map(key);
 

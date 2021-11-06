@@ -5,6 +5,6 @@ namespace SQLite.Common.Contracts
 {
     public interface ITableInformationsService
     {
-        IReadOnlyCollection<TableInformation> Get(DatabaseKey key);
+        IObservable<IObservable<TableInformation>> Get(DatabaseKey key);
     }
 }

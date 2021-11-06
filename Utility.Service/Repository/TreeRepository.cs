@@ -1,4 +1,5 @@
 ﻿using SQLite.Service.Mapping;
+using System.Reactive.Linq;
 using System.Text.Json;
 using Utility.Common.Base;
 using Utility.Entity;
@@ -24,32 +25,37 @@ namespace Utility.Service
                 items.Add(res);
         }
 
-        public IReadOnlyCollection<TreeItem> Load()
+        public IObservable<IReadOnlyCollection<TreeItem>> Load()
         {
             var targetPath = GetSaveLocationPath();
 
             if (!File.Exists(targetPath))
             {
-                return Array.Empty<TreeItem>();
+                return Observable.Return(Array.Empty<TreeItem>());
             }
 
-            var resultCollection = new List<TreeItem>();
 
             using (var streamReader = new StreamReader(targetPath))
                 try
                 {
-                    resultCollection.AddRange(DatabaseItems(treeViewMapper, streamReader));
+                    return DatabaseItems(treeViewMapper, streamReader)
+                        .ToObservable()
+                        .SelectMany(a => a)
+                        .Select(a =>
+                        {
+                            items.Add(a);
+                            return items;
+                        });
                 }
                 catch (Exception ex)
                 {
                     Error("Could not load database tree.", ex);
                 }
-            foreach (var res in resultCollection)
-                items.Add(res);
 
-            return resultCollection;
 
-            static IEnumerable<TreeItem> DatabaseItems(ITreeViewMapper mapper, StreamReader streamReader)
+            return Observable.Return(Array.Empty<TreeItem>());
+
+            static IEnumerable<IObservable<TreeItem>> DatabaseItems(ITreeViewMapper mapper, StreamReader streamReader)
             {
                 Info("Restoring recently used databases...");
 
@@ -59,19 +65,13 @@ namespace Utility.Service
 
                 foreach (var key in databaseKeys)
                 {
-                    TreeItem? item = null;
-                    try
-                    {
 
-                        item = mapper.Map(key);
-                    }
-                    catch
-                    {
-                        Info("Could not restore database file at " + key + "\nThe file might have been moved or deleted outside of SQLK.");
-                    }
 
-                    if (item != null)
-                        yield return item;
+                    yield return mapper.Map(key);
+
+                    //  Info("Could not restore database file at " + key + "\nThe file might have been moved or deleted outside of SQLK.");
+
+
                 }
             }
         }

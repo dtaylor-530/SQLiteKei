@@ -5,6 +5,6 @@ namespace SQLite.Service.Mapping
 {
     public interface ITreeViewMapper
     {
-        TreeItem Map(Key map);
+        IObservable<TreeItem> Map(Key map);
     }
 }

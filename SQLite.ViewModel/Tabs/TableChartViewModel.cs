@@ -19,6 +19,7 @@ namespace Database.ViewModel
         private readonly IColumnSeriesService columnSeriesService;
         private readonly IColumnSeriesPairModel seriesPairService;
         private readonly Subject<Unit> subject = new();
+        private IReadOnlyCollection<ColumnModel> columnData;
 
         public TableChartViewModel(
             TableChartViewModelTabKey key,
@@ -43,7 +44,22 @@ namespace Database.ViewModel
 
         public override string Name => nameService.Get(key);
 
-        public IReadOnlyCollection<ColumnModel> ColumnData => columnModelService.GetCollection(key);
+        public IReadOnlyCollection<ColumnModel> ColumnData
+        {
+            get
+            {
+                if (columnData == null)
+                    columnModelService
+                        .GetCollection(key)
+                        .Subscribe(a =>
+                    {
+                        columnData = a;
+                        this.RaisePropertyChanged(nameof(ColumnData));
+                    });
+
+                return columnData ?? Array.Empty<ColumnModel>();
+            }
+        }
 
         public IReadOnlyCollection<SeriesPair> ColumnSelections
         {

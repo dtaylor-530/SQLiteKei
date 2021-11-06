@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using Utility.Common.Base;
 using Utility.Common.Contracts;
 using Utility.Entity;
@@ -22,9 +23,9 @@ namespace Utility.WPF.Demo.Infrastructure
 
     public class TreeViewMapper : ITreeViewMapper
     {
-        public TreeItem Map(Key map)
+        public IObservable<TreeItem> Map(Key map)
         {
-            return new UtilityLeafItem(map, "Main");
+            return Observable.Return(new UtilityLeafItem(map, "Main"));
         }
     }
 

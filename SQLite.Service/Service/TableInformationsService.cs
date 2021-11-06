@@ -1,6 +1,7 @@
 ﻿using Database.Entity;
 using SQLite.Common.Contracts;
 using SQLite.Utility.Factory;
+using System.Reactive.Linq;
 using Utility.Common.Base;
 using Utility.Database;
 
@@ -17,7 +18,7 @@ public class TableInformationsService : ITableInformationsService
         this.handlerService = handlerService;
     }
 
-    public IReadOnlyCollection<TableInformation> Get(DatabaseKey key)
+    public IObservable<IObservable<TableInformation>> Get(DatabaseKey key)
     {
         return handlerService.Database(key, handler =>
         {
@@ -28,7 +29,11 @@ public class TableInformationsService : ITableInformationsService
                     return map.Map<TableInformation>(handler);
                 });
             });
-        }).ToArray();
+        }).Select(a =>
+            {
+                return a.ToObservable().SelectMany(a => a);
+            })
+        ;
         // return ConnectionHelper.TablesInformation(key.DatabasePath);
 
         //return map.Map<DatabasePath, IReadOnlyCollection<TableInformation>>(key.DatabasePath);

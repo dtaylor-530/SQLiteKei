@@ -2,6 +2,7 @@
 using SQLite.Common.Contracts;
 using SQLite.Service.Mapping;
 using SQLite.Utility.Factory;
+using System.Reactive.Linq;
 using Utility.Common.Base;
 using Utility.Database;
 using Utility.Entity;
@@ -43,10 +44,12 @@ namespace SQLite.Service.Service
             if (treeModel.TreeViewItems.Any(x => x.Key.Equals(key)))
                 throw new Exception("d__434344fs7nbdfsd");
 
-            TreeItem databaseItem = mapper.Map(key);
-            treeModel.OnNext(new(Adds: new[] { databaseItem }));
-            Info("Opened database '" + databaseItem.Name + "'.");
-
+            mapper.Map(key)
+                .Subscribe(databaseItem =>
+                {
+                    treeModel.OnNext(new(Adds: new[] { databaseItem }));
+                    Info("Opened database '" + databaseItem.Name + "'.");
+                });
         }
 
         public void CloseDatabase(IKey key)
@@ -108,7 +111,7 @@ namespace SQLite.Service.Service
             }
         }
 
-        public bool CreateTable(string sqlStatement)
+        public IObservable<bool> CreateTable(string sqlStatement)
         {
             //StatusInfo = string.Empty;
 
@@ -139,7 +142,7 @@ namespace SQLite.Service.Service
                     return false;
                 });
             }
-            return false;
+            return Observable.Return(false);
         }
 
         DatabaseKey CurrentDatabaseKey => (treeModel.SelectedItem.Key as DatabaseKey) ?? throw new Exception("Evfsd dsfd");

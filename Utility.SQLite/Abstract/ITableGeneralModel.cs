@@ -5,6 +5,6 @@ namespace Database.Service.Model
 {
     public interface ITableGeneralModel
     {
-        TableGeneralInformation Get(ITableKey tableKey);
+        IObservable<TableGeneralInformation> Get(ITableKey tableKey);
     }
 }

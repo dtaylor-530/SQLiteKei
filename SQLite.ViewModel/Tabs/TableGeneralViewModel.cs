@@ -6,6 +6,7 @@ using SQLite.ViewModel;
 using System.Windows.Input;
 using Utility.Common.Base;
 using Utility.Common.Contracts;
+using Utility.Database.SQLite.Common.Abstract;
 using Utility.Service;
 using Utility.SQLite.Models;
 
@@ -15,6 +16,7 @@ namespace Database.ViewModel
     {
         private TableGeneralViewModelTabKey key;
         private string tableName;
+        private TableGeneralInformation? tableInformation;
         private readonly ILocaliser localiser;
         private readonly IViewModelNameService nameService;
         private readonly ITableService tableService;
@@ -45,13 +47,32 @@ namespace Database.ViewModel
         public ICommand EmptyTableCommand { get; }
         public ICommand ReindexTableCommand { get; }
 
-        public long RowCount => generalModel.Get(key).RowCount;
+        public long RowCount => TableInformation.RowCount;
 
-        public int ColumnCount => generalModel.Get(key).ColumnCount;
+        public int ColumnCount => TableInformation.ColumnCount;
 
-        public string TableCreateStatement => generalModel.Get(key).CreateStatement;
+        public string TableCreateStatement => TableInformation.CreateStatement;
 
-        public IReadOnlyCollection<Column> ColumnData => generalModel.Get(key).Columns;
+        public IReadOnlyCollection<Column> ColumnData => TableInformation.Columns;
+
+        private TableGeneralInformation TableInformation
+        {
+            get
+            {
+                if (tableInformation.HasValue == false)
+                {
+                    generalModel.Get(key)
+                        .Subscribe(a =>
+                        {
+                            tableInformation = a;
+                            this.RaisePropertyChanged(null);
+                        });
+                    return default;
+                }
+                else
+                    return tableInformation.Value;
+            }
+        }
 
         public string TableName
         {

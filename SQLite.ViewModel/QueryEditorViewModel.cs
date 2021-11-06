@@ -87,7 +87,7 @@ namespace Database.ViewModel
 
             void ExecuteSql(string sqlStatement)
             {
-                StatusInfo = tableHandlerFactory.Database(selectedDatabase.Key, handler =>
+                tableHandlerFactory.Database(selectedDatabase.Key, handler =>
                {
                    try
                    {
@@ -107,7 +107,11 @@ namespace Database.ViewModel
                    {
                        return ex.Message.Replace("SQL logic error or missing database\r\n", "SQL-Error - ");
                    }
-               });
+               })
+                    .Subscribe(a =>
+                    {
+                        StatusInfo = a;
+                    });
             }
         }
     }

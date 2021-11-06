@@ -6,7 +6,7 @@ namespace SQLite.Utility.Factory
 {
     public interface IHandlerService
     {
-        T Database<T>(IDatabaseKey databaseKey, Func<IDatabaseHandler, T> action);
-        T Table<T>(ITableKey tableKey, Func<ITableHandler, T> action);
+        IObservable<T> Database<T>(IDatabaseKey databaseKey, Func<IDatabaseHandler, T> action);
+        IObservable<T> Table<T>(ITableKey tableKey, Func<ITableHandler, T> action);
     }
 }
