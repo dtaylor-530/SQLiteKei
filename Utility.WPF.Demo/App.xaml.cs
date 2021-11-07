@@ -1,8 +1,6 @@
 ﻿using Autofac;
 using Splat;
 using Splat.Autofac;
-using System;
-using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using Utility.Common;
@@ -28,7 +26,7 @@ namespace Utility.WPF.Demo
             var builder = new ContainerBuilder();
             builder.RegisterType<ThemeSource>().AsImplementedInterfaces();
             builder.RegisterType<MainMenuModel>().AsImplementedInterfaces();
-            builder.RegisterType<MenuPanelService>().AsImplementedInterfaces();
+            builder.RegisterType<MainToolBarModel>().AsImplementedInterfaces();
             builder.RegisterType<TreeViewMapper>().AsImplementedInterfaces();
             builder.RegisterType<TabsModel>().AsImplementedInterfaces();
             Register(builder).UseAutofacDependencyResolver();
@@ -52,8 +50,6 @@ namespace Utility.WPF.Demo
             three.RegisterViews();
             //Database.WPF.Meta.BootStrapper.RegisterViews();
 
-            Information();
-
             Locator.Current.GetService<ThemeService>()?.ApplyCurrentUserTheme();
 
             var dc = Locator.Current.GetService<IViewModelFactory>().Build(new MainWindowViewModelKey());
@@ -64,35 +60,8 @@ namespace Utility.WPF.Demo
             }.Show();
         }
 
-        private static void Information()
-        {
-            string assemblyVersion = System.Reflection.Assembly.GetExecutingAssembly()
-                                           .GetName()
-                                           .Version
-                                           .ToString();
-
-            Info("================= GENERAL INFO =================");
-            Info("SQLite Kei " + assemblyVersion);
-            Info("Running on " + Environment.OSVersion);
-            Info("Application language is " + Thread.CurrentThread.CurrentUICulture);
-            Info("================================================");
-        }
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            base.OnExit(e);
-
-            Info("============= APPLICATION SHUTDOWN =============");
-        }
-
         private ContainerBuilder Register(ContainerBuilder builder)
         {
-            //SQLite.WPF.Meta.BootStrapper.Register(builder);
-            //BootStrapper.Register(builder);
-            //SQLite.ViewModel.Meta.BootStrapper.Register(builder);
-            //SQLite.Data.Meta.BootStrapper.Register(builder);
-            //SQLite.Utility.Meta.BootStrapper.Register(builder);
-
             one.Register(builder);
             two.Register(builder);
             four.Register(builder);

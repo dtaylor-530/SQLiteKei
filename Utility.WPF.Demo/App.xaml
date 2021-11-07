@@ -4,10 +4,22 @@
              xmlns:local="clr-namespace:Utility.WPF.Demo.Infrastructure">
     <Application.Resources>
         <ResourceDictionary>
-            <DataTemplate DataType="{x:Type local:UtilityLeafItem}" >
+
+            <!--https://stackoverflow.com/questions/4813488/datatemplate-in-app-xaml-is-not-getting-picked-up-without-any-styles-->
+            <Style TargetType="{x:Type Rectangle}" />
+
+            <HierarchicalDataTemplate DataType="{x:Type local:UtilityLeafItem}" >
                 <DockPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </DockPanel>
+            </HierarchicalDataTemplate>    
+            
+            <DataTemplate DataType="{x:Type local:TabViewModel}" >
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}" FontSize="32"/>
                     </StackPanel>
                 </DockPanel>
             </DataTemplate>
