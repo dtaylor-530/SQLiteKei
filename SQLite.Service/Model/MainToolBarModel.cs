@@ -6,14 +6,14 @@ using Utility.Entity;
 
 namespace SQLite.Service.Service;
 
-public class MenuPanelModel : IMenuPanelService
+public class MainToolBarModel : IMainToolBarModel
 {
     private readonly DatabaseService databaseService;
     private readonly IViewService viewService;
     private readonly ITreeModel treeService;
     private readonly ILocaliser localiser;
 
-    public MenuPanelModel(DatabaseService databaseService, IViewService viewService, ITreeModel treeService, ILocaliser localiser)
+    public MainToolBarModel(DatabaseService databaseService, IViewService viewService, ITreeModel treeService, ILocaliser localiser)
     {
         this.databaseService = databaseService;
         this.viewService = viewService;

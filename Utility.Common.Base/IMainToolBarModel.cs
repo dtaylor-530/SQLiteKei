@@ -2,7 +2,7 @@
 
 namespace Utility.Common.Contracts
 {
-    public interface IMenuPanelService
+    public interface IMainToolBarModel
     {
         IReadOnlyCollection<PanelObject> Collection { get; }
     }

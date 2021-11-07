@@ -1,8 +1,8 @@
 ﻿using Database.Entity;
-using SQLite.Utility.Factory;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using Utility.Common.Base;
+using Utility.Database.SQLite.Common.Abstract;
 using Utility.Entity;
 using Utility.SQLite.Database;
 using static Utility.Common.Base.Log;

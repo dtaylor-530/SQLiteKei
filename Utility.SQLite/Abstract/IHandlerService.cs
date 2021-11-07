@@ -1,8 +1,7 @@
 ﻿using Utility.Database.Common;
-using Utility.Database.SQLite.Common.Abstract;
 using Utility.SQLite.Database;
 
-namespace SQLite.Utility.Factory
+namespace Utility.Database.SQLite.Common.Abstract
 {
     public interface IHandlerService
     {

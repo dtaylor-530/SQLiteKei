@@ -1,4 +1,5 @@
-﻿using DynamicData;
+﻿using Database.Service.Chart;
+using DynamicData;
 using SQLite.Service.Repository;
 using System.Reactive;
 using System.Reactive.Linq;

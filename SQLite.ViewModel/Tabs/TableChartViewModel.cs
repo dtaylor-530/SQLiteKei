@@ -1,6 +1,6 @@
-﻿using ReactiveUI;
+﻿using Database.Common.Contracts;
+using ReactiveUI;
 using SQLite.Common;
-using SQLite.Common.Contracts;
 using SQLite.Common.Model;
 using SQLite.Service.Service;
 using SQLite.ViewModel;
@@ -15,7 +15,7 @@ namespace Database.ViewModel
     {
         private readonly TableChartViewModelTabKey key;
         private readonly IViewModelNameService nameService;
-        private readonly IColumnModelService columnModelService;
+        private readonly IColumnModel columnModelService;
         private readonly IColumnSeriesService columnSeriesService;
         private readonly IColumnSeriesPairModel seriesPairService;
         private readonly Subject<Unit> subject = new();
@@ -24,7 +24,7 @@ namespace Database.ViewModel
         public TableChartViewModel(
             TableChartViewModelTabKey key,
             IViewModelNameService nameService,
-            IColumnModelService columnModelService,
+            IColumnModel columnModelService,
             IColumnSeriesPairModel seriesPairService,
             IColumnSeriesService columnSeriesService) : base(key)
         {

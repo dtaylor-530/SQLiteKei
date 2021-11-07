@@ -3,12 +3,12 @@ using Database.Service.Service;
 using ReactiveUI;
 using SQLite.Common;
 using SQLite.Service.Service;
-using SQLite.Utility.Factory;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Input;
 using Utility.Common.Base;
+using Utility.Database.SQLite.Common.Abstract;
 using Utility.ViewModel.Base;
 
 namespace Database.ViewModel

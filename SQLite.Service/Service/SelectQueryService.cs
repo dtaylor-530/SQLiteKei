@@ -1,10 +1,10 @@
 ﻿using Database.Entity;
-using SQLite.Utility.Factory;
 using SQLiteKei.DataAccess.QueryBuilders;
 using SQLiteKei.DataAccess.QueryBuilders.Base;
 using SQLiteKei.DataAccess.QueryBuilders.Where;
 using Utility.Common.Base;
 using Utility.Database.Common;
+using Utility.Database.SQLite.Common.Abstract;
 
 namespace Database.Service.Service
 {

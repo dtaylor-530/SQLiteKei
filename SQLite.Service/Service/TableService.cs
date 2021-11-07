@@ -1,8 +1,8 @@
 ﻿using Database.Common.Contracts;
-using SQLite.Utility.Factory;
 using Utility.Common.Base;
 using Utility.Common.Contracts;
 using Utility.Database.Common;
+using Utility.Database.SQLite.Common.Abstract;
 using static Utility.Common.Base.Log;
 
 namespace SQLite.Service.Service

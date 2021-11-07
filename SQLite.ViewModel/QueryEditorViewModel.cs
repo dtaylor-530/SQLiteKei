@@ -1,9 +1,9 @@
 ﻿using Database.Entity;
 using ReactiveUI;
-using SQLite.Utility.Factory;
 using System.Data;
 using System.Windows.Input;
 using Utility.Common.Base;
+using Utility.Database.SQLite.Common.Abstract;
 
 namespace Database.ViewModel
 {

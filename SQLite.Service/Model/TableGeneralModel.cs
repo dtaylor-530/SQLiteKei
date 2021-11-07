@@ -1,5 +1,4 @@
-﻿using SQLite.Utility.Factory;
-using System.Reactive.Linq;
+﻿using System.Reactive.Linq;
 using Utility.Database.Common;
 using Utility.Database.SQLite.Common.Abstract;
 
@@ -28,13 +27,4 @@ public class TableGeneralModel : ITableGeneralModel
             return dictionary[tableKey] = handler.General;
         });
     }
-
-    //using (var dbHandler = new TableHandler(key.DatabasePath, TableName))
-    //    {
-    //        (string a, long b, Column[] c, int d) = dbHandler.General;
-    //        TableCreateStatement = a;
-    //        RowCount = b;
-    //        ColumnData = c;
-    //        ColumnCount = d;
-    //    }
 }

@@ -1,10 +1,10 @@
 ﻿using Database.Entity;
 using SQLite.Common.Contracts;
 using SQLite.Service.Mapping;
-using SQLite.Utility.Factory;
 using System.Reactive.Linq;
 using Utility.Common.Base;
 using Utility.Database;
+using Utility.Database.SQLite.Common.Abstract;
 using Utility.Entity;
 using static Utility.Common.Base.Log;
 
@@ -27,8 +27,7 @@ namespace SQLite.Service.Service
             ILocaliser localiser,
             IMessageBoxService messageBoxService,
             IFileDialogService dialogService,
-            IHandlerService databaseHandlerFactory
-            )
+            IHandlerService databaseHandlerFactory)
         {
             this.map = map;
             this.treeModel = treeModel;

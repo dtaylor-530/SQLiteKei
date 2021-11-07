@@ -1,9 +1,9 @@
 ﻿using Database.Entity;
 using SQLite.Common.Contracts;
-using SQLite.Utility.Factory;
 using System.Reactive.Linq;
 using Utility.Common.Base;
 using Utility.Database;
+using Utility.Database.SQLite.Common.Abstract;
 
 namespace SQLite.Service.Service;
 
@@ -32,10 +32,6 @@ public class TableInformationsService : ITableInformationsService
         }).Select(a =>
             {
                 return a.ToObservable().SelectMany(a => a);
-            })
-        ;
-        // return ConnectionHelper.TablesInformation(key.DatabasePath);
-
-        //return map.Map<DatabasePath, IReadOnlyCollection<TableInformation>>(key.DatabasePath);
+            });
     }
 }

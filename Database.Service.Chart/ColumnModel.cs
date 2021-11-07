@@ -1,5 +1,4 @@
 ﻿using Database.Service.Chart;
-using SQLite.Common.Model;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Utility.Database.Common;
@@ -7,22 +6,22 @@ using Utility.Entity;
 
 namespace SQLite.Service.Service
 {
-    public class ColumnModelModel : IColumnModelService
+    public class ColumnModel : IColumnModel
     {
-        private Dictionary<IKey, IReadOnlyCollection<ColumnModel>> collection = new();
+        private Dictionary<IKey, IReadOnlyCollection<Common.Model.ColumnModel>> collection = new();
         private readonly ColumnDataFactory factory;
 
-        public ColumnModelModel(ColumnDataFactory factory)
+        public ColumnModel(ColumnDataFactory factory)
         {
             this.factory = factory;
         }
 
-        public IObservable<IReadOnlyCollection<ColumnModel>> GetCollection(ITableKey tableKey)
+        public IObservable<IReadOnlyCollection<Common.Model.ColumnModel>> GetCollection(ITableKey tableKey)
         {
             collection[tableKey] = collection.GetValueOrDefault(tableKey);
             if (collection[tableKey] == null)
             {
-                Subject<IReadOnlyCollection<ColumnModel>> subject = new();
+                Subject<IReadOnlyCollection<Common.Model.ColumnModel>> subject = new();
 
                 factory
                     .Create(tableKey)

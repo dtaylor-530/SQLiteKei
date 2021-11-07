@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
@@ -11,9 +12,10 @@ namespace Utility.WPF.Common.Converter
         {
             if (value is string uriString)
             {
-                if (System.IO.File.Exists(uriString) == false)
+                var file = new FileInfo(uriString);
+                if (file.Exists == false)
                 {
-                    throw new Exception("dfs222 ff");
+                    throw new Exception($"file, {file.FullName}, does not exist");
                 }
                 Uri imageUri = new Uri(System.IO.Path.GetFullPath(uriString), UriKind.Absolute);
                 BitmapImage imageBitmap = new BitmapImage(imageUri);

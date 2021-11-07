@@ -1,7 +1,6 @@
 ﻿using SQLite.Common.Model;
-using SQLite.Utility.Factory;
-using System.Reactive.Linq;
 using Utility.Database.Common;
+using Utility.Database.SQLite.Common.Abstract;
 
 namespace Database.Service.Chart;
 

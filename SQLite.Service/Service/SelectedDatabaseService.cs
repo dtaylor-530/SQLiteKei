@@ -1,8 +1,8 @@
 ﻿using Database.Common.Contracts;
 using Database.Entity;
-using SQLite.Utility.Factory;
 using System.Data;
 using Utility.Common.Base;
+using Utility.Database.SQLite.Common.Abstract;
 
 namespace SQLite.Service
 {
@@ -10,8 +10,6 @@ namespace SQLite.Service
     {
         private SelectedTreeItem selectedTreeItem;
         private readonly IHandlerService databaseHandlerFactory;
-
-        // private DatabasePath CurrentDatabasePath => ((selectedTreeItem.TreeItem.Key as DatabaseKey) ?? throw new Exception("Evfsd dsfd")).DatabasePath;
         private DatabaseKey DatabaseKey => (selectedTreeItem.TreeItem.Key as DatabaseKey) ?? throw new Exception("Evfsd dsfd");
 
         public SelectedDatabaseService(ITreeItemChanges treeItemChanges, IHandlerService databaseHandlerFactory)

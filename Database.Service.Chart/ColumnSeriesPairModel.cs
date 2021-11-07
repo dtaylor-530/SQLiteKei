@@ -1,4 +1,5 @@
-﻿using SQLite.Common.Contracts;
+﻿using Database.Common.Contracts;
+using SQLite.Common.Contracts;
 using SQLite.Service.Repository;
 using System.Collections.ObjectModel;
 using System.Reactive.Subjects;

@@ -1,11 +1,12 @@
 ﻿using Database.Common.Contracts;
 using OxyPlot;
 using SQLite.Common.Contracts;
+using SQLite.Service.Service;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Utility.Chart;
 
-namespace SQLite.Service.Service
+namespace Database.Service.Chart
 {
 
     public class ChartSeriesService : IChartSeriesService
@@ -62,7 +63,8 @@ namespace SQLite.Service.Service
         {
             foreach (var xy in columnSelections)
             {
-                yield return treeService.SelectAsRows($"Select {xy.ColumnX}, {xy.ColumnY} from {tableName}")
+                yield return treeService
+                    .SelectAsRows($"Select {xy.ColumnX}, {xy.ColumnY} from {tableName}")
                      .Select(rows =>
                      {
                          var da = rows

@@ -32,7 +32,6 @@ namespace Database.WPF.Demo
         {
             Fatal("An unhandled exception was thrown and a message is shown to the user.", e.Exception);
             new UnhandledExceptionWindow().ShowDialog();
-            var dc = Locator.Current.GetService<IViewModelFactory>().Build(new MainWindowViewModelKey());
             e.Handled = true;
             Current.Shutdown();
         }
@@ -54,14 +53,12 @@ namespace Database.WPF.Demo
 
             static void StartView()
             {
-
-                var dc = Locator.Current.GetService<IViewModelFactory>().Build(new MainWindowViewModelKey());
+                var context = Locator.Current.GetService<IViewModelFactory>()?.Build(new MainWindowViewModelKey()) ?? throw new System.Exception("DSsfsdf");
 
                 new MainWindow
                 {
-                    DataContext = dc
+                    DataContext = context
                 }.Show();
-
             }
         }
 

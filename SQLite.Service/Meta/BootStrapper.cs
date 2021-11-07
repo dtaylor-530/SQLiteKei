@@ -31,7 +31,7 @@ namespace Database.Service.Meta
                 typeof(MenuWindowService),
                 typeof(DatabaseService),
                 typeof(MainMenuModel),
-                typeof(MenuPanelModel),
+                typeof(MainToolBarModel),
                 typeof(SelectedDatabaseService),
                 typeof(TableInformationsService),
                 typeof(SelectQueryService),

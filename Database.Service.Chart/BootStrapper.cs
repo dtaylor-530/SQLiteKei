@@ -14,7 +14,7 @@ public class BootStrapper
                 typeof(ColumnSeriesModel),
                 typeof(ColumnSeriesPairModel),
                 typeof(ChartSeriesService),
-                typeof(ColumnModelModel),
+                typeof(ColumnModel),
                 typeof(SeriesRepository),
                 typeof(SeriesPairRepository),
                 typeof(ColumnDataFactory),

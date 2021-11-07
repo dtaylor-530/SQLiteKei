@@ -25,11 +25,11 @@ public class ViewService : IViewService
         var preferences = viewModelFactory.Build(new PreferencesViewModelKey());
         windowService.ShowWindow(new(localiser["WindowTitle_Preferences"], preferences, ResizeMode.NoResize, Show.ShowDialog));
     }
+
     public void OpenTableCreator()
     {
         var tableCreatorViewModel = viewModelFactory.Build(new TableCreatorViewModelKey());
         windowService.ShowWindow(new(localiser["WindowTitle_Preferences"], tableCreatorViewModel, ResizeMode.NoResize, Show.ShowDialog));
-
         treeService.OnNext(new TreeItemChangeRequest(Refresh: new object()));
     }
 }

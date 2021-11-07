@@ -1,14 +1,9 @@
-﻿using Utility.Chart;
+﻿using SQLite.Common.Contracts;
+using Utility.Chart;
 using Utility.Database.Common;
-using Utility.Entity;
 
-namespace SQLite.Common.Contracts
+namespace Database.Common.Contracts
 {
-
-    public record ChartSeries(IKey Key, IReadOnlyCollection<Series> Collection);
-
-    public record TableSeriesPairs(ITableKey Key, IReadOnlyCollection<SeriesPair> Collection);
-
     public interface IChartSeriesService : IObservable<ChartSeries> { }
 
     public interface IColumnSeriesPairModel : IObservable<TableSeriesPairs>
@@ -18,5 +13,4 @@ namespace SQLite.Common.Contracts
     }
 
     public interface ISeriesPairChanges : IObservable<TableSeriesPairs> { }
-
 }

@@ -7,20 +7,20 @@ namespace Utility.ViewModel;
 
 public class TreeViewModel : BaseViewModel<ITreeViewModel>, ITreeViewModel
 {
-    private readonly ITreeModel treeService;
+    private readonly ITreeModel treeModel;
 
     public TreeViewModel(TreeViewModelKey treeViewModelKey, ITreeModel treeModel) : base(treeViewModelKey)
     {
-        this.treeService = treeModel;
+        this.treeModel = treeModel;
         treeModel.Subscribe(a => this.RaisePropertyChanged(nameof(SelectedItem)));
     }
 
-    public IReadOnlyCollection<TreeItem> TreeViewItems => treeService.TreeViewItems;
+    public IReadOnlyCollection<TreeItem> TreeViewItems => treeModel.TreeViewItems;
 
     public TreeItem SelectedItem
     {
-        get => treeService.SelectedItem;
-        set => treeService.SelectedItem = value;
+        get => treeModel.SelectedItem;
+        set => treeModel.SelectedItem = value;
     }
     public override string? Name { get; }
 }

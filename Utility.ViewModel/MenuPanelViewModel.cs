@@ -8,9 +8,9 @@ namespace Utility.ViewModel
 
     public class MenuPanelViewModel : BaseViewModel<IMenuPanelViewModel>, IMenuPanelViewModel
     {
-        private readonly IMenuPanelService menuPanelService;
+        private readonly IMainToolBarModel menuPanelService;
 
-        public MenuPanelViewModel(MenuPanelViewModelKey key, IMenuPanelService menuPanelService) : base(key)
+        public MenuPanelViewModel(MenuPanelViewModelKey key, IMainToolBarModel menuPanelService) : base(key)
         {
             this.menuPanelService = menuPanelService;
         }
