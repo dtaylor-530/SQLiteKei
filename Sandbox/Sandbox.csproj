@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Utility.WPF.Chart\Utility.Chart.WPF.csproj" />
+    <ProjectReference Include="..\Utility.Chart.WPF\Utility.Chart.WPF.csproj" />
   </ItemGroup>
 
 </Project>

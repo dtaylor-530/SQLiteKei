@@ -4,12 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sandbox"
-        xmlns:chart="clr-namespace:Utility.WPF.Chart;assembly=Utility.WPF.Chart"
+        xmlns:chart1="clr-namespace:Utility.Chart.WPF;assembly=Utility.Chart.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <UniformGrid>
-        <chart:ColumnSelectionsGrid x:Name="ColumnSelectionsGrid" ></chart:ColumnSelectionsGrid>
-        <chart:DynamicSelectionChart x:Name="DynamicChart" ></chart:DynamicSelectionChart>
+        <chart1:ColumnSelectionsGrid x:Name="ColumnSelectionsGrid" ></chart1:ColumnSelectionsGrid>
+        <chart1:DynamicSelectionChart x:Name="DynamicChart" ></chart1:DynamicSelectionChart>
         <DataGrid ItemsSource="{Binding ElementName=ColumnSelectionsGrid, Path=ColumnSelections}"></DataGrid>
     </UniformGrid>
 
