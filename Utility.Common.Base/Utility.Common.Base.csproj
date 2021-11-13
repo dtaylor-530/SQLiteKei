@@ -6,7 +6,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Utility\Utility.Entity.csproj" />
+		<ProjectReference Include="..\Utility.Entity\Utility.Entity.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="log4net" Version="2.0.12" />

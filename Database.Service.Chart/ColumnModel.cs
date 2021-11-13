@@ -8,7 +8,7 @@ namespace SQLite.Service.Service
 {
     public class ColumnModel : IColumnModel
     {
-        private Dictionary<IKey, IReadOnlyCollection<Common.Model.ColumnModel>> collection = new();
+        private Dictionary<IKey, IReadOnlyCollection<Database.Entity.ColumnModel>> collection = new();
         private readonly ColumnDataFactory factory;
 
         public ColumnModel(ColumnDataFactory factory)
@@ -16,12 +16,12 @@ namespace SQLite.Service.Service
             this.factory = factory;
         }
 
-        public IObservable<IReadOnlyCollection<Common.Model.ColumnModel>> GetCollection(ITableKey tableKey)
+        public IObservable<IReadOnlyCollection<Database.Entity.ColumnModel>> GetCollection(ITableKey tableKey)
         {
             collection[tableKey] = collection.GetValueOrDefault(tableKey);
             if (collection[tableKey] == null)
             {
-                Subject<IReadOnlyCollection<Common.Model.ColumnModel>> subject = new();
+                Subject<IReadOnlyCollection<Database.Entity.ColumnModel>> subject = new();
 
                 factory
                     .Create(tableKey)

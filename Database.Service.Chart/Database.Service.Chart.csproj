@@ -9,8 +9,9 @@
 	<PackageReference Include="AutoMapper" Version="10.1.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SQLite.Common\Database.Common.csproj" />
-    <ProjectReference Include="..\Utility.SQLite\Utility.Database.SQLite.Common.csproj" />
+    <ProjectReference Include="..\Database.Common\Database.Common.csproj" />
+    <ProjectReference Include="..\Utility.Database.SQLite.Common\Utility.Database.SQLite.Common.csproj" />
+    <ProjectReference Include="..\Utility.Entity\Utility.Entity.csproj" />
   </ItemGroup>
 
 </Project>

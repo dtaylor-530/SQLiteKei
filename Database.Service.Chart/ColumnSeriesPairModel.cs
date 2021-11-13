@@ -1,9 +1,8 @@
-﻿using Database.Common.Contracts;
-using SQLite.Common.Contracts;
-using SQLite.Service.Repository;
+﻿using SQLite.Service.Repository;
 using System.Collections.ObjectModel;
 using System.Reactive.Subjects;
-using Utility.Chart;
+using Utility.Chart.Common;
+using Utility.Chart.Entity;
 using Utility.Database.Common;
 using Utility.Entity;
 
@@ -41,7 +40,6 @@ namespace SQLite.Service.Service
 
             subject.OnNext(new(key, collection[key]));
             repository.Save(key, pairs.ToList());
-
         }
 
         public IDisposable Subscribe(IObserver<TableSeriesPairs> observer)

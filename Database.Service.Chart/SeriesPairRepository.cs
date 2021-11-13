@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using Utility.Chart;
+using Utility.Chart.Entity;
 using Utility.Common.Base;
 using Utility.Entity;
 

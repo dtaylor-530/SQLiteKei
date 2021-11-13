@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+	  <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OxyPlot.Core" Version="2.1.0" />
+    <PackageReference Include="ReactiveUI" Version="16.2.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Utility.Chart.Entity\Utility.Chart.Entity.csproj" />
+    <ProjectReference Include="..\Utility.Database.Common\Utility.Database.Common.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+	<ProjectReference Include="..\Database.Common\Database.Common.csproj" />
+	<ProjectReference Include="..\Utility.Database.Query\Utility.Database.Query.csproj" />
+	<ProjectReference Include="..\Utility.Database.Common\Utility.Database.Common.csproj" />
+	<ProjectReference Include="..\Utility.Utility\Utility.Utility.csproj" />
+	<ProjectReference Include="..\Utility.Entity\Utility.Entity.csproj" />
+  </ItemGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="Splat.Autofac" Version="9.2.5" />
+		<PackageReference Include="AutoMapper" Version="10.1.1" />
+	</ItemGroup>
+
+</Project>

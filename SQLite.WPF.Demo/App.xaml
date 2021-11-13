@@ -4,7 +4,7 @@
              xmlns:s="clr-namespace:Database.Entity;assembly=Database.Entity"
              xmlns:sys="clr-namespace:System;assembly=netstandard" 
              xmlns:converter="clr-namespace:Utility.WPF.Common.Converter;assembly=Utility.WPF.Common" 
-             xmlns:chart="clr-namespace:Utility.WPF.Chart;assembly=Utility.WPF.Chart">
+             >
 
     <Application.Resources>
         <ResourceDictionary>

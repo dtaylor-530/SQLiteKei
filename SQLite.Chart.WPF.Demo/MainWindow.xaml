@@ -1,0 +1,21 @@
+﻿<Window x:Class="SQLite.Chart.WPF.Demo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:chart1="clr-namespace:Utility.Chart.WPF;assembly=Utility.Chart.WPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <UniformGrid Columns="1">
+
+        <chart1:ColumnSelectionsGrid x:Name="ColumnSelectionsGrid"                                  
+                                     Columns="{Binding Columns, Mode=OneTime}"
+                                    />
+
+        <chart1:DynamicDataDisplayChart Margin="20"
+                                 x:Name="DynamicDataChart"
+                                 Series="{Binding Series, Mode=OneTime}"/>
+    
+    </UniformGrid>
+</Window>

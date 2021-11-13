@@ -1,4 +1,0 @@
-﻿namespace SQLite.Utility.Converter
-{
-
-}

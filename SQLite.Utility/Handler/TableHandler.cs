@@ -5,8 +5,8 @@ using SQLiteKei.DataAccess.QueryBuilders;
 using System.Data;
 using System.Data.SQLite;
 using Utility.Database;
+using Utility.Database.Common.Models;
 using Utility.Database.SQLite.Common.Abstract;
-using Utility.SQLite.Models;
 
 namespace Utility.SQLite.Database;
 
@@ -42,7 +42,7 @@ public class TableHandler : DisposableDbHandler, ITableHandler
     /// Returns information about all tables in the current database.
     /// </summary>
     /// <returns></returns>
-    public IReadOnlyCollection<Column> Columns => ColumnMapping.Columns(this.DataTable).ToArray();
+    public IReadOnlyCollection<Column> Columns => ColumnMapping.Columns(this.DataTable, TableName).ToArray();
 
     public TableGeneralInformation General
     {
@@ -190,20 +190,21 @@ public class TableHandler : DisposableDbHandler, ITableHandler
 
     static class ColumnMapping
     {
-        public static Column Map(DataRow row) => new Column
-        {
-            Id = Convert.ToInt32(row.ItemArray[0]),
-            Name = (string)row.ItemArray[1],
-            DataType = (string)row.ItemArray[2],
-            IsNotNullable = Convert.ToBoolean(row.ItemArray[3]),
-            DefaultValue = row.ItemArray[4],
-            IsPrimary = Convert.ToBoolean(row.ItemArray[5])
-        };
-
-        public static IEnumerable<Column> Columns(DataTable resultTable)
+        public static IEnumerable<Column> Columns(DataTable resultTable, string tableName)
         {
             foreach (DataRow row in resultTable.Rows)
-                yield return Map(row);
+                yield return Map(row, tableName);
+
+            static Column Map(DataRow row, string tableName) => new Column
+            {
+                Id = Convert.ToInt32(row.ItemArray[0]),
+                Name = (string)row.ItemArray[1],
+                DataType = (string)row.ItemArray[2],
+                IsNotNullable = Convert.ToBoolean(row.ItemArray[3]),
+                DefaultValue = row.ItemArray[4],
+                IsPrimary = Convert.ToBoolean(row.ItemArray[5]),
+                TableName = tableName
+            };
         }
     }
 

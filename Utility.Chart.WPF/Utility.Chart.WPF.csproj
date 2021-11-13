@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DynamicDataDisplayReloaded" Version="0.9.3" />
+    <PackageReference Include="fasterflect" Version="3.0.0" />
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-beta.80" />
+    <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
+    <PackageReference Include="ReactiveUI.WPF" Version="16.3.10" />
+    <PackageReference Include="SciChart" Version="6.5.0.13710-beta" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Utility.Chart.Entity\Utility.Chart.Entity.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,4 @@
+﻿namespace SQLite.Common.Contracts
+{
+
+}

@@ -12,7 +12,7 @@
 
   <ItemGroup>
 	<ProjectReference Include="..\Utility.Common.Base\Utility.Common.Base.csproj" />
-	<ProjectReference Include="..\Utility\Utility.Entity.csproj" />
+	<ProjectReference Include="..\Utility.Entity\Utility.Entity.csproj" />
   </ItemGroup>
 
 </Project>

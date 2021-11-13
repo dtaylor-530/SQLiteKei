@@ -27,7 +27,7 @@ namespace Sandbox
         public MainWindow()
         {
             InitializeComponent();
-            ColumnSelectionsGrid.ColumnDetails = new Column[] { new Column("First"), new Column("Second"), new Column("Name"), new Column("Id"), };
+            ColumnSelectionsGrid.Columns = new Column[] { new Column("First"), new Column("Second"), new Column("Name"), new Column("Id"), };
             ColumnSelectionsGrid.ColumnPropertyKey = nameof(Column.Name);
 
             this.ColumnSelectionsGrid.ColumnsSelectionChanged += ColumnSelectionsGrid_ColumnsSelectionChanged;
